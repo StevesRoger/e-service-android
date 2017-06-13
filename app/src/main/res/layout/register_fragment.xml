@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/register_imgAd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:src="@drawable/coca_col_ad" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/register_imgAd">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp">
+
+                <TextView
+                    android:id="@+id/txtInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/string_information"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="25dp" />
+
+                <TableLayout
+                    android:id="@+id/table_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/txtInfo">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblGroomName"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_groom_name" />
+
+                            <EditText
+                                android:id="@+id/txtGroomName"
+                                style="@style/EditTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/lblGroomName"
+                                android:ems="17"
+                                android:hint="@string/string_groom_name"
+                                android:inputType="text">
+
+                                <requestFocus />
+                            </EditText>
+
+                        </RelativeLayout>
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblDadGroomName"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_dad_groom_name" />
+
+                            <EditText
+                                android:id="@+id/txtDadGroomName"
+                                style="@style/EditTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/lblDadGroomName"
+                                android:ems="17"
+                                android:hint="@string/string_dad_groom_name"
+                                android:inputType="text" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblMomGroomName"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_mom_groom_name" />
+
+                            <EditText
+                                android:id="@+id/txtMomGroomName"
+                                style="@style/EditTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/lblMomGroomName"
+                                android:ems="17"
+                                android:hint="@string/string_mom_groom_name"
+                                android:inputType="text" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblBrideName"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_bride_name" />
+
+                            <EditText
+                                android:id="@+id/txtBrideName"
+                                style="@style/EditTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/lblBrideName"
+                                android:ems="17"
+                                android:hint="@string/string_bride_name"
+                                android:inputType="text" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblDadBrideName"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_dad_bride_name" />
+
+                            <EditText
+                                android:id="@+id/txtDadBrideName"
+                                style="@style/EditTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/lblDadBrideName"
+                                android:ems="17"
+                                android:hint="@string/string_dad_bride_name"
+                                android:inputType="text" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblMomBrideName"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_mom_bride_name" />
+
+                            <EditText
+                                android:id="@+id/txtMomBrideName"
+                                style="@style/EditTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/lblMomBrideName"
+                                android:ems="17"
+                                android:hint="@string/string_mom_bride_name"
+                                android:inputType="text" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblWeddingDate"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_wedding_date" />
+
+                            <EditText
+                                android:id="@+id/txtDate"
+                                style="@style/EditTextStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/lblWeddingDate"
+                                android:ems="10"
+                                android:inputType="date" />
+
+                            <ImageButton
+                                android:id="@+id/imgDate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@+id/txtDate"
+                                android:layout_toRightOf="@+id/txtDate"
+                                android:cropToPadding="true"
+                                android:src="@drawable/ic_register" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblAddress"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_wedding_address" />
+
+                            <EditText
+                                android:id="@+id/txtVillage"
+                                style="@style/EditTextStyle"
+                                android:layout_width="115dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/lblAddress"
+                                android:layout_marginLeft="5dp"
+                                android:hint="@string/string_village" />
+
+                            <EditText
+                                android:id="@+id/txtCommune"
+                                style="@style/EditTextStyle"
+                                android:layout_width="115dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/lblAddress"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toRightOf="@+id/txtVillage"
+                                android:hint="@string/string_commune" />
+
+                            <EditText
+                                android:id="@+id/txtDistrict"
+                                style="@style/EditTextStyle"
+                                android:layout_width="115dp"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/lblAddress"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toRightOf="@+id/txtCommune"
+                                android:hint="@string/string_district" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblPhone1"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_phone1" />
+
+                            <EditText
+                                android:id="@+id/txtPhone1"
+                                style="@style/EditTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/lblPhone1"
+                                android:layout_marginLeft="5dp"
+                                android:ems="17"
+                                android:hint="@string/string_phone1"
+                                android:inputType="phone" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblPhone2"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_phone2" />
+
+                            <EditText
+                                android:id="@+id/txtPhone2"
+                                style="@style/EditTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/lblPhone2"
+                                android:layout_marginLeft="5dp"
+                                android:ems="17"
+                                android:hint="@string/string_phone2"
+                                android:inputType="phone" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblEmail"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_email" />
+
+                            <EditText
+                                android:id="@+id/txtEmail"
+                                style="@style/EditTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/lblEmail"
+                                android:layout_marginLeft="5dp"
+                                android:ems="17"
+                                android:hint="@string/string_email"
+                                android:inputType="textEmailAddress" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblFacebook"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_facebook" />
+
+                            <EditText
+                                android:id="@+id/txtFacebook"
+                                style="@style/EditTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/lblFacebook"
+                                android:layout_marginLeft="5dp"
+                                android:ems="17"
+                                android:hint="@string/string_facebook"
+                                android:inputType="text" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <TextView
+                                android:id="@+id/lblOther"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_other" />
+
+                            <EditText
+                                android:id="@+id/txtOther"
+                                style="@style/EditTextStyle"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@+id/lblOther"
+                                android:layout_marginLeft="5dp"
+                                android:ems="17"
+                                android:hint="@string/string_other"
+                                android:inputType="text" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="5dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <Button
+                                android:id="@+id/btnChoose"
+                                style="@style/CustomStyleButton"
+                                android:layout_width="wrap_content"
+                                android:padding="2dp"
+                                android:layout_height="40dp"
+                                android:background="@color/colorPrimary"
+                                android:text="@string/choose_image"
+                                android:textAllCaps="false"
+                                android:textColor="@color/colorWhite" />
+
+                        </RelativeLayout>
+
+                    </TableRow>
+
+                </TableLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_below="@+id/table_layout">
+
+                    <HorizontalScrollView
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center_vertical"
+                        android:scrollbars="none">
+
+                        <LinearLayout
+                            android:id="@+id/imgGallery"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="horizontal">
+
+                        </LinearLayout>
+
+                    </HorizontalScrollView>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+    </RelativeLayout>
+
+</FrameLayout>

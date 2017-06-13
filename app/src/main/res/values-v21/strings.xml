@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">E-Service</string>
+    <string name="wedding_fragment">សំបុត្រការ</string>
+    <string name="ceremony_fragment">សំបុត្របណ្យ</string>
+    <string name="design_fragment">សំបុត្រច្នៃ</string>
+    <string name="string_code">លេខកូដស៏</string>
+    <string name="string_color">ពណ៏</string>
+    <string name="string_size">ទំហំ</string>
+    <string name="string_price">តម្លៃ</string>
+    <string name="string_register">ចុះឈ្មោះ</string>
+    <string name="string_information">បំពេញពត៏មាន</string>
+    <string name="string_groom_name">កូនប្រុសឈ្មោះ</string>
+    <string name="string_dad_groom_name">ឪពុកកូនប្រុសឈ្មោះ</string>
+    <string name="string_mom_groom_name">ម្តាយកូនប្រុសឈ្មោះ</string>
+    <string name="string_bride_name">កូនស្រីឈ្មោះ</string>
+    <string name="string_dad_bride_name">ឪពុកកូនស្រីឈ្មោះ</string>
+    <string name="string_mom_bride_name">ម្តាយកូនស្រីឈ្មោះ</string>
+    <string name="string_day">ថ្ងៃ</string>
+    <string name="string_th">ទី</string>
+    <string name="string_month">ខែ</string>
+    <string name="string_year">ឆ្នាំ</string>
+    <string name="string_phone1">លេខទូរស័ព្ទ១</string>
+    <string name="string_phone2">លេខទូរស័ព្ទ២</string>
+    <string name="string_phone3">លេខទូរស័ព្ទ៣</string>
+    <string name="string_email">អ៊ីម៉ែល</string>
+    <string name="string_facebook">Facebook</string>
+    <string name="string_other">ផ្សេងៗ</string>
+    <string name="string_wedding_date">ថ្ងៃរៀបអាពាហ៍ពិពាហ៍</string>
+    <string name="string_wedding_address">អាសយដ្ឋាន</string>
+    <string name="string_village">ភូមិ</string>
+    <string name="string_commune">ឃុំ</string>
+    <string name="string_district">ស្រុក</string>
+    <string name="choose_image">ជ្រើសរើស រូបភាព</string>
+</resources>
