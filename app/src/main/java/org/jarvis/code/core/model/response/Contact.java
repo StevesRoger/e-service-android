@@ -1,12 +1,17 @@
-package org.jarvis.code.core.model;
+package org.jarvis.code.core.model.response;
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import org.jarvis.code.core.model.response.base.AbstractResponse;
+
+import java.io.Serializable;
 
 /**
  * Created by KimChheng on 5/30/2017.
  */
 
-public class Contact {
+public class Contact implements Serializable{
 
     @SerializedName("PHONE1")
     private String phone1;

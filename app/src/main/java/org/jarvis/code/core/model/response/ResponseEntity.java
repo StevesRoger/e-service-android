@@ -1,6 +1,8 @@
-package org.jarvis.code.core.model;
+package org.jarvis.code.core.model.response;
 
 import com.google.gson.annotations.SerializedName;
+
+import org.jarvis.code.core.model.response.base.AbstractResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +11,7 @@ import java.util.List;
  * Created by KimChheng on 5/29/2017.
  */
 
-public class ResponseEntity<T extends AbstractEntity> {
+public class ResponseEntity<T> {
 
     @SerializedName("MESSAGE")
     private String message;

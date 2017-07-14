@@ -2,7 +2,7 @@ package org.jarvis.code.core.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.os.Handler;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,11 +18,11 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
+import org.jarvis.code.core.component.GalleryDialog;
 import org.jarvis.code.core.fragment.RegisterFragment;
-import org.jarvis.code.core.model.Product;
+import org.jarvis.code.core.model.response.Product;
 import org.jarvis.code.util.Constant;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,27 +32,22 @@ import java.util.List;
 public class WeddingAdapter extends RecyclerView.Adapter {
 
     private final int VIEW_ITEM = 0;
-    private final int VIEW_LOADING = 1;
+    private final int VIEW_PROMOTE = 1;
+    private final int VIEW_LOADING = 2;
 
     private List<Product> data;
     private Context context;
 
     private int visibleThreshold = 5;
-    private int firstVisibleItem, visibleItemCount, totalItemCount;
-    private boolean isMoreLoading = false;
+    private int lastVisibleItem, totalItemCount;
+    private boolean loading;
 
     private OnLoadMoreListener onLoadMoreListener;
-    private LinearLayoutManager mLinearLayoutManager;
+    private static String imgUrl = Constant.BASE_URL + "mobile/product/view/";
 
-    private String imgUrl = Constant.BASE_URL + "mobile/product/view/";
-
-    public WeddingAdapter(Context context) {
-        this.data = new ArrayList<>();
+    public WeddingAdapter(Context context, List<Product> products) {
+        this.data = products;
         this.context = context;
-    }
-
-    public void setLinearLayoutManager(LinearLayoutManager linearLayoutManager) {
-        this.mLinearLayoutManager = linearLayoutManager;
     }
 
     public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
@@ -60,21 +55,26 @@ public class WeddingAdapter extends RecyclerView.Adapter {
     }
 
     public void setRecyclerView(RecyclerView recyclerView) {
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                visibleItemCount = recyclerView.getChildCount();
-                totalItemCount = mLinearLayoutManager.getItemCount();
-                firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
-                if (!isMoreLoading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                    if (onLoadMoreListener != null) {
-                        onLoadMoreListener.onLoadMore();
-                    }
-                    isMoreLoading = true;
-                }
-            }
-        });
+        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+            final LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView
+                    .getLayoutManager();
+            recyclerView
+                    .addOnScrollListener(new RecyclerView.OnScrollListener() {
+                        @Override
+                        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                            super.onScrolled(recyclerView, dx, dy);
+                            totalItemCount = linearLayoutManager.getItemCount();
+                            lastVisibleItem = linearLayoutManager
+                                    .findLastVisibleItemPosition();
+                            if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
+                                if (onLoadMoreListener != null) {
+                                    onLoadMoreListener.onLoadMore();
+                                }
+                                loading = true;
+                            }
+                        }
+                    });
+        }
     }
 
     @Override
@@ -93,14 +93,19 @@ public class WeddingAdapter extends RecyclerView.Adapter {
         if (holder instanceof ProductViewHolder) {
             Product product = (Product) data.get(position);
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
+            productViewHolder.product = product;
             productViewHolder.lblCode.setText(context.getResources().getString(R.string.string_code) + ":" + product.getCode());
             productViewHolder.lblColor.setText(context.getResources().getString(R.string.string_color) + ":" + product.getColor());
             productViewHolder.lblSize.setText(context.getResources().getString(R.string.string_size) + ":" + product.getSize());
             productViewHolder.lblPrice.setText(context.getResources().getString(R.string.string_price) + ":" + product.getPrice());
             Picasso.with(context).load(imgUrl + product.getImages().get(0))
+                    .fit()
+                    .centerCrop()
                     .placeholder(R.drawable.progress_animation)
                     .error(R.drawable.no_image_available)
                     .into(productViewHolder.image);
+        } else {
+            ((LoadingViewHolder) holder).progressBar.setIndeterminate(true);
         }
 
     }
@@ -116,39 +121,17 @@ public class WeddingAdapter extends RecyclerView.Adapter {
     }
 
     public void addAll(List<Product> products) {
-        data.clear();
         data.addAll(products);
         notifyDataSetChanged();
     }
 
-    public void addItemMore(List<Product> lst) {
-        data.addAll(lst);
-        notifyItemRangeChanged(0, data.size());
+    public void add(Product product) {
+        data.add(product);
+        notifyItemInserted(data.size());
     }
 
-    public void setMoreLoading(boolean isMoreLoading) {
-        this.isMoreLoading = isMoreLoading;
-    }
-
-    public void setProgressMore(final boolean isProgress) {
-        if (isProgress) {
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    data.add(null);
-                    notifyItemInserted(data.size() - 1);
-                }
-            });
-        } else {
-            data.remove(data.size() - 1);
-            notifyItemRemoved(data.size());
-        }
-    }
-
-    public void clear() {
-        int size = data.size();
-        data.clear();
-        notifyItemRangeRemoved(0, size);
+    public void setLoaded() {
+        loading = false;
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -159,6 +142,7 @@ public class WeddingAdapter extends RecyclerView.Adapter {
         public TextView lblColor;
         public TextView lblRegister;
         public ImageView image;
+        public Product product;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -169,19 +153,34 @@ public class WeddingAdapter extends RecyclerView.Adapter {
             lblRegister = (TextView) itemView.findViewById(R.id.lblRegister);
             lblRegister.setPaintFlags(lblRegister.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
             image = (ImageView) itemView.findViewById(R.id.imgViewProduct);
-            //image.setOnClickListener(this);
+            image.setOnClickListener(this);
             lblRegister.setOnClickListener(this);
             lblRegister.setOnLongClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            RegisterFragment registerFragment = new RegisterFragment();
             FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container, registerFragment)
-                    .addToBackStack("registerFragment")
-                    .commit();
+            switch (view.getId()) {
+                case R.id.lblRegister:
+                    Bundle bundles = new Bundle();
+                    bundles.putSerializable("product", product);
+                    RegisterFragment registerFragment = new RegisterFragment();
+                    registerFragment.setArguments(bundles);
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.container, registerFragment)
+                            .addToBackStack("registerFragment")
+                            .commit();
+                    break;
+                case R.id.imgViewProduct:
+                    GalleryDialog galleryDialog = new GalleryDialog();
+                    galleryDialog.setProduct(product);
+                    galleryDialog.show(fragmentManager.beginTransaction(), "Image Gallery");
+                    //galleryDialog.setCancelable(false);
+                    break;
+                default:
+                    break;
+            }
         }
 
         @Override

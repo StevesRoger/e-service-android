@@ -9,11 +9,15 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import org.jarvis.code.R;
+
+import java.io.File;
 
 /**
  * Created by KimChheng on 6/8/2017.
@@ -24,6 +28,7 @@ public class ImageCross extends FrameLayout implements View.OnClickListener {
     private View root;
     private ImageView photo;
     private ImageButton close;
+    private File file;
 
     public ImageCross(@NonNull Context context) {
         this(context, null);
@@ -47,7 +52,7 @@ public class ImageCross extends FrameLayout implements View.OnClickListener {
         View customView = null;
 
         if (inflater != null)
-            customView = inflater.inflate(R.layout.item_gallery_image, this);
+            customView = inflater.inflate(R.layout.image_upload, this);
 
         if (customView == null)
             return;
@@ -67,6 +72,18 @@ public class ImageCross extends FrameLayout implements View.OnClickListener {
         return photo;
     }
 
+    public View getBtnClose() {
+        return close;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
     public void setPhoto(Bitmap bitmap) {
         if (photo != null)
             photo.setImageBitmap(bitmap);
@@ -82,12 +99,20 @@ public class ImageCross extends FrameLayout implements View.OnClickListener {
             photo.setImageURI(uri);
     }
 
-    public View getBtnClose() {
-        return close;
-    }
-
     @Override
     public void onClick(View view) {
-        root.setVisibility(View.GONE);
+        this.setVisibility(View.GONE);
+        ViewParent viewParent = root.getParent().getParent();
+        if (viewParent instanceof LinearLayout) {
+            final LinearLayout linearLayout = (LinearLayout) viewParent;
+
+            linearLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    linearLayout.removeView(ImageCross.this);
+                }
+            });
+        }
     }
+
 }

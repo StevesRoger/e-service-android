@@ -8,4 +8,5 @@
     <color name="colorBlack">@android:color/black</color>
     <color name="colorLightBlack">#48484c</color>
     <color name="colorWhite">@android:color/white</color>
+    <color name="colorStork">#acacac</color>
 </resources>

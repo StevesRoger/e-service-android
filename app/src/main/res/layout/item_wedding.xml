@@ -91,15 +91,20 @@
                         android:text="@string/string_price"
                         android:textColor="@android:color/black" />
 
-                    <TextView
-                        android:id="@+id/lblRegister"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/string_register"
-                        android:textColor="@color/colorAccent" />
                 </TableRow>
 
             </TableLayout>
+
+            <TextView
+                android:id="@+id/lblRegister"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/text_panel"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:textSize="8pt"
+                android:text="@string/string_register"
+                android:textColor="@color/colorAccent" />
 
         </RelativeLayout>
 

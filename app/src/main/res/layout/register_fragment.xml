@@ -9,16 +9,27 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/register_imgAd"
+            android:id="@+id/registerImgAd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:src="@drawable/coca_col_ad" />
 
+        <ImageButton
+            android:id="@+id/imgBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="40dp"
+            android:alpha=".5"
+            android:background="@null"
+            android:src="@drawable/ic_back" />
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/register_imgAd">
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/registerImgAd">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -66,10 +77,7 @@
                                 android:layout_below="@+id/lblGroomName"
                                 android:ems="17"
                                 android:hint="@string/string_groom_name"
-                                android:inputType="text">
-
-                                <requestFocus />
-                            </EditText>
+                                android:inputType="text"/>
 
                         </RelativeLayout>
                     </TableRow>
@@ -247,7 +255,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_below="@id/lblWeddingDate"
                                 android:ems="10"
-                                android:inputType="date" />
+                                android:hint="@string/string_date_hint"
+                                android:inputType="text" />
 
                             <ImageButton
                                 android:id="@+id/imgDate"
@@ -255,8 +264,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_alignBottom="@+id/txtDate"
                                 android:layout_toRightOf="@+id/txtDate"
-                                android:cropToPadding="true"
-                                android:src="@drawable/ic_register" />
+                                android:background="@null"
+                                android:src="@drawable/ic_date" />
 
                         </RelativeLayout>
 
@@ -321,22 +330,22 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/lblPhone1"
+                                android:id="@+id/lblHome"
                                 style="@style/LabelStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/string_phone1" />
+                                android:text="@string/string_home" />
 
                             <EditText
-                                android:id="@+id/txtPhone1"
+                                android:id="@+id/txtHome"
                                 style="@style/EditTextStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/lblPhone1"
+                                android:layout_below="@+id/lblHome"
                                 android:layout_marginLeft="5dp"
                                 android:ems="17"
-                                android:hint="@string/string_phone1"
-                                android:inputType="phone" />
+                                android:hint="@string/string_home"
+                                android:inputType="text" />
 
                         </RelativeLayout>
 
@@ -352,22 +361,22 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/lblPhone2"
+                                android:id="@+id/lblPhone"
                                 style="@style/LabelStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/string_phone2" />
+                                android:text="@string/string_phone" />
 
                             <EditText
-                                android:id="@+id/txtPhone2"
+                                android:id="@+id/txtPhone"
                                 style="@style/EditTextStyle"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_below="@+id/lblPhone2"
+                                android:layout_below="@+id/lblPhone"
                                 android:layout_marginLeft="5dp"
                                 android:ems="17"
-                                android:hint="@string/string_phone2"
-                                android:inputType="phone" />
+                                android:hint="@string/string_phone"
+                                android:inputType="text" />
 
                         </RelativeLayout>
 
@@ -466,47 +475,50 @@
 
                     </TableRow>
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:padding="5dp">
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
-                            <Button
-                                android:id="@+id/btnChoose"
-                                style="@style/CustomStyleButton"
-                                android:layout_width="wrap_content"
-                                android:padding="2dp"
-                                android:layout_height="40dp"
-                                android:background="@color/colorPrimary"
-                                android:text="@string/choose_image"
-                                android:textAllCaps="false"
-                                android:textColor="@color/colorWhite" />
-
-                        </RelativeLayout>
-
-                    </TableRow>
-
                 </TableLayout>
+
+                <LinearLayout
+                    android:id="@+id/button_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_below="@+id/table_layout">
+
+                    <ImageButton
+                        android:id="@+id/btnChoose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/button_choose"
+                        android:background="@null"/>
+
+                    <Button
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:background="#0b79ce"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginLeft="48dp"
+                        android:text="@string/submit"
+                        android:textColor="@color/colorWhite" />
+
+                </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
-                    android:layout_below="@+id/table_layout">
+                    android:layout_below="@+id/button_layout">
 
                     <HorizontalScrollView
-                        android:layout_width="wrap_content"
-                        android:layout_height="100dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:scrollbars="none">
 
                         <LinearLayout
                             android:id="@+id/imgGallery"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:orientation="horizontal">
 

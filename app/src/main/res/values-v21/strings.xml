@@ -20,9 +20,8 @@
     <string name="string_th">ទី</string>
     <string name="string_month">ខែ</string>
     <string name="string_year">ឆ្នាំ</string>
-    <string name="string_phone1">លេខទូរស័ព្ទ១</string>
-    <string name="string_phone2">លេខទូរស័ព្ទ២</string>
-    <string name="string_phone3">លេខទូរស័ព្ទ៣</string>
+    <string name="string_home">ផ្ទះ</string>
+    <string name="string_phone">លេខទូរស័ព្ទ</string>
     <string name="string_email">អ៊ីម៉ែល</string>
     <string name="string_facebook">Facebook</string>
     <string name="string_other">ផ្សេងៗ</string>
@@ -32,4 +31,7 @@
     <string name="string_commune">ឃុំ</string>
     <string name="string_district">ស្រុក</string>
     <string name="choose_image">ជ្រើសរើស រូបភាព</string>
+    <string name="string_date_hint">Sun/16/Aug/2017</string>
+    <string name="submit">Submit</string>
+    <string name="string_empty_kh">មិនអាចទទេ</string>
 </resources>

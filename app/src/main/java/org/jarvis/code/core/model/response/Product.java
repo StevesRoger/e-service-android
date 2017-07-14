@@ -1,6 +1,8 @@
-package org.jarvis.code.core.model;
+package org.jarvis.code.core.model.response;
 
 import com.google.gson.annotations.SerializedName;
+
+import org.jarvis.code.core.model.response.base.AbstractResponse;
 
 import java.util.List;
 
@@ -8,7 +10,7 @@ import java.util.List;
  * Created by KimChheng on 5/29/2017.
  */
 
-public class Product extends AbstractEntity {
+public class Product extends AbstractResponse {
 
     private static final long serialVersionUID = 1L;
     @SerializedName("CODE")
