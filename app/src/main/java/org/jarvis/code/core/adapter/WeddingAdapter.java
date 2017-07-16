@@ -43,7 +43,7 @@ public class WeddingAdapter extends RecyclerView.Adapter {
     private boolean loading;
 
     private OnLoadMoreListener onLoadMoreListener;
-    private static String imgUrl = Constant.BASE_URL + "mobile/product/view/";
+    private static String imgUrl = Constant.BASE_URL + "mobile/image/view/";
 
     public WeddingAdapter(Context context, List<Product> products) {
         this.data = products;
@@ -98,7 +98,7 @@ public class WeddingAdapter extends RecyclerView.Adapter {
             productViewHolder.lblColor.setText(context.getResources().getString(R.string.string_color) + ":" + product.getColor());
             productViewHolder.lblSize.setText(context.getResources().getString(R.string.string_size) + ":" + product.getSize());
             productViewHolder.lblPrice.setText(context.getResources().getString(R.string.string_price) + ":" + product.getPrice());
-            Picasso.with(context).load(imgUrl + product.getImages().get(0))
+            Picasso.with(context).load(imgUrl + product.getImages().get(0).getId())
                     .fit()
                     .centerCrop()
                     .placeholder(R.drawable.progress_animation)

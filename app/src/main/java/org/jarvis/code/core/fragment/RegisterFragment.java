@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ import org.jarvis.code.core.model.response.Product;
 import org.jarvis.code.core.model.response.ResponseEntity;
 import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.FileUtil;
+import org.jarvis.code.util.ImageAnimate;
 import org.jarvis.code.util.RestApiFactory;
 import org.jarvis.code.util.StringUtil;
 import org.jarvis.code.util.ValidateUtil;
@@ -72,6 +74,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private WeddingApi weddingApi;
     private DatePickerFragment dialogFragment;
     private List<String> validControl;
+    private int adImages[] = {R.drawable.coca_col_ad,
+            R.drawable.hi_tea_ad, R.drawable.samsung_ad, R.drawable.v_printing_ad};
+    private ImageView adImage;
 
     private Uri uri;
     private File file;
@@ -117,7 +122,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(this);
         gallery = (LinearLayout) view.findViewById(R.id.imgGallery);
+        adImage = (ImageView) view.findViewById(R.id.registerImgAd);
         requiredField(view);
+        ImageAnimate.animate(adImage,adImages,0,true);
         return view;
     }
 

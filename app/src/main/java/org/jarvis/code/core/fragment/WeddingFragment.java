@@ -44,7 +44,6 @@ public class WeddingFragment extends Fragment implements Callback<ResponseEntity
     private TextView txtMessage;
     private static final int LIMIT = 5;
     private int offset = 1;
-    private boolean last = false;
 
     public WeddingFragment() {
     }
@@ -73,9 +72,9 @@ public class WeddingFragment extends Fragment implements Callback<ResponseEntity
         recyclerView.setAdapter(adapter);
         adapter.setRecyclerView(recyclerView);
         adapter.setOnLoadMoreListener(this);
-        if (!products.isEmpty()) {
-            progressBar.setIndeterminate(false);
-            progressBar.setVisibility(View.GONE);
+        if (products.isEmpty()) {
+            progressBar.setIndeterminate(true);
+            progressBar.setVisibility(View.VISIBLE);
         }
         return view;
     }

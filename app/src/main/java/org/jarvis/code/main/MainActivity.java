@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.jarvis.code.R;
@@ -19,12 +20,22 @@ import org.jarvis.code.core.fragment.CeremonyFragment;
 import org.jarvis.code.core.fragment.DesignFragment;
 import org.jarvis.code.core.fragment.WeddingFragment;
 import org.jarvis.code.util.Constant;
+import org.jarvis.code.util.ImageAnimate;
+
+import java.util.Random;
+import java.util.concurrent.ScheduledExecutorService;
 
 public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter;
+    private ImageView adImage;
+    private int adImages[] = {R.drawable.coca_col_ad,
+            R.drawable.hi_tea_ad, R.drawable.samsung_ad, R.drawable.v_printing_ad};
+    private Random random = new Random();
+    private ScheduledExecutorService scheduleTaskExecutor;
+    private int resId = R.drawable.samsung_ad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         setContentView(R.layout.activity_main);
         checkRunTimePermission();
         init();
+        ImageAnimate.animate(adImage,adImages,0,true);
+        //scheduleTaskAD();
     }
 
     private void init() {
@@ -43,6 +56,23 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+        adImage = (ImageView) findViewById(R.id.imgAd);
+    }
+
+    private void scheduleTaskAD() {
+        /*scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
+        scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                resId = random.nextInt(adImages.length);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adImage.setImageResource(adImages[resId]);
+                    }
+                });
+            }
+        }, 0, 15, TimeUnit.SECONDS);*/
     }
 
     private void checkRunTimePermission() {

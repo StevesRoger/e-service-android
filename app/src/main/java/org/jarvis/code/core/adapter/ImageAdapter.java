@@ -32,9 +32,9 @@ import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 
 public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
 
-    private static String imgUrl = Constant.BASE_URL + "mobile/product/view/";
+    private static String imgUrl = Constant.BASE_URL + "mobile/image/view/";
     private Product product;
-    private List<Integer> images;
+    private List<Product.Image> images;
     private Context context;
     private LayoutInflater layoutInflater;
     private DialogFragment dialogFragment;
@@ -66,7 +66,7 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
         ImageView imageBack = (ImageView) view.findViewById(R.id.imageBack);
         imageBack.setOnClickListener(this);
         ImageViewTouch imageView = (ImageViewTouch) view.findViewById(R.id.imageView);
-        Picasso.with(context).load(imgUrl + images.get(position))
+        Picasso.with(context).load(imgUrl + images.get(position).getId())
                 .fit()
                 //.resize(6000, 2000)
                 //.onlyScaleDown()
