@@ -4,11 +4,12 @@
     <string name="wedding_fragment">សំបុត្រការ</string>
     <string name="ceremony_fragment">សំបុត្របណ្យ</string>
     <string name="design_fragment">សំបុត្រច្នៃ</string>
-    <string name="string_code">លេខកូដស៏</string>
-    <string name="string_color">ពណ៏</string>
-    <string name="string_size">ទំហំ</string>
-    <string name="string_price">តម្លៃ</string>
-    <string name="string_register">ចុះឈ្មោះ</string>
+    <string name="string_code">លេខកូដស៏ :</string>
+    <string name="string_color">ពណ៏ :</string>
+    <string name="string_size">ទំហំ :</string>
+    <string name="string_price">តម្លៃចាប់ពី :</string>
+    <string name="string_contact">ទំនាក់ទំនង :</string>
+    <string name="string_register">សូមចុះឈ្មោះ និងបំពេញពត័មាន</string>
     <string name="string_information">បំពេញពត៏មាន</string>
     <string name="string_groom_name">កូនប្រុសឈ្មោះ</string>
     <string name="string_dad_groom_name">ឪពុកកូនប្រុសឈ្មោះ</string>
@@ -34,4 +35,5 @@
     <string name="string_date_hint">Sun/16/Aug/2017</string>
     <string name="submit">Submit</string>
     <string name="string_empty_kh">មិនអាចទទេ</string>
+    <string name="string_search_hint">ស្វែងរកផលិតផល</string>
 </resources>

@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private ViewPager viewPager;
     private ViewPagerAdapter viewPagerAdapter;
     private ImageView adImage;
+    private SearchView searchView;
     private int adImages[] = {R.drawable.coca_col_ad,
             R.drawable.hi_tea_ad, R.drawable.samsung_ad, R.drawable.v_printing_ad};
     private Random random = new Random();
@@ -43,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         setContentView(R.layout.activity_main);
         checkRunTimePermission();
         init();
-        ImageAnimate.animate(adImage,adImages,0,true);
+        ImageAnimate.animate(adImage, adImages, 0, true);
         //scheduleTaskAD();
     }
 
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         adImage = (ImageView) findViewById(R.id.imgAd);
+        searchView = (SearchView) findViewById(R.id.search_view);
+        searchView.setQueryHint(getResources().getString(R.string.string_search_hint));
     }
 
     private void scheduleTaskAD() {

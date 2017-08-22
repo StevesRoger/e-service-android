@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName;
 
 import org.jarvis.code.core.model.response.base.AbstractResponse;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -25,7 +24,7 @@ public class Product extends AbstractResponse {
     @SerializedName("CONTACT")
     private Contact contact;
     @SerializedName("IMAGES")
-    private List<Image> images;
+    private List<Integer> images;
 
     public String getCode() {
         return code;
@@ -60,32 +59,18 @@ public class Product extends AbstractResponse {
     }
 
     public Contact getContact() {
-        return contact;
+        return contact != null ? contact : new Contact();
     }
 
     public void setContact(Contact contact) {
         this.contact = contact;
     }
 
-    public List<Image> getImages() {
+    public List<Integer> getImages() {
         return images;
     }
 
-    public void setImages(List<Image> images) {
+    public void setImages(List<Integer> images) {
         this.images = images;
-    }
-
-    public static class Image implements Serializable{
-
-        @SerializedName("IMG_ID")
-        private int id;
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
     }
 }

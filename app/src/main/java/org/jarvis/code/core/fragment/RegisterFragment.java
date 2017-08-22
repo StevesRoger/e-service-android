@@ -124,7 +124,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         gallery = (LinearLayout) view.findViewById(R.id.imgGallery);
         adImage = (ImageView) view.findViewById(R.id.registerImgAd);
         requiredField(view);
-        ImageAnimate.animate(adImage,adImages,0,true);
+        ImageAnimate.animate(adImage, adImages, 0, true);
         return view;
     }
 
@@ -149,20 +149,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.e(Constant.TAG, e.getMessage());
-                   /* AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle(e.getMessage().toString().trim());
-                    StringBuilder sb = new StringBuilder();
-                    for (String msg : validControl)
-                        sb.append(msg).append("\r\n");
-                    builder.setMessage(sb.toString().trim())
-                            .setCancelable(false)
-                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    validControl.clear();
-                                }
-                            });
-                    AlertDialog alert = builder.create();
-                    alert.show();*/
                     StringBuilder sb = new StringBuilder();
                     for (String msg : validControl)
                         sb.append(msg).append("\r\n");
@@ -219,6 +205,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 (TextView) view.findViewById(R.id.lblAddress));
         ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_phone),
                 (TextView) view.findViewById(R.id.lblPhone));
+        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_email),
+                (TextView) view.findViewById(R.id.lblEmail));
+        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_facebook),
+                (TextView) view.findViewById(R.id.lblFacebook));
 
     }
 
@@ -245,6 +235,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             validControl.add(txtDistrict.getHint().toString().trim());
         if (ValidateUtil.isEmpty(txtPhone))
             validControl.add(txtPhone.getHint().toString().trim());
+        if (ValidateUtil.isEmpty(txtEmail))
+            validControl.add(txtEmail.getHint().toString().trim());
+        if (ValidateUtil.isEmpty(txtFb))
+            validControl.add(txtFb.getHint().toString().trim());
         if (!validControl.isEmpty())
             throw new Exception("There are invalid fields.");
     }

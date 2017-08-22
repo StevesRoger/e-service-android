@@ -44,20 +44,35 @@
                 android:layout_below="@+id/imgAd"
                 android:background="@color/colorPrimary">
 
-                <android.support.v7.widget.SearchView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/search_view"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/imgVPrinting"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/tab_layout" />
-
+                    android:src="@drawable/v_printing_icon"
+                    android:layout_alignParentLeft="true"
+                    android:background="@android:color/transparent"
+                    />
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"
-                    android:layout_width="270dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:layout_toEndOf="@+id/imgVPrinting"
                     app:tabGravity="fill"
                     app:tabMode="fixed"
+                    app:tabIndicatorColor="@color/colorPrimary"
+                    app:tabIndicatorHeight="3dp"
                     app:tabSelectedTextColor="@android:color/white"
                     app:tabTextColor="@android:color/white" />
+
+                <android.support.v7.widget.SearchView
+                   xmlns:android="http://schemas.android.com/apk/res/android"
+                   android:id="@+id/search_view"
+                   android:layout_width="match_parent"
+                   android:layout_height="40dp"
+                   android:background="@drawable/search_view"
+                   android:layout_below="@+id/tab_layout"/>
+
             </RelativeLayout>
 
             <android.support.v4.view.ViewPager

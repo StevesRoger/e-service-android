@@ -1,9 +1,6 @@
 package org.jarvis.code.core.model.response;
 
-import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import org.jarvis.code.core.model.response.base.AbstractResponse;
 
 import java.io.Serializable;
 
@@ -11,18 +8,18 @@ import java.io.Serializable;
  * Created by KimChheng on 5/30/2017.
  */
 
-public class Contact implements Serializable{
+public class Contact implements Serializable {
 
     @SerializedName("PHONE1")
-    private String phone1;
+    private String phone1 = "";
     @SerializedName("PHONE2")
-    private String phone2;
+    private String phone2 = "";
     @SerializedName("PHONE3")
-    private String phone3;
+    private String phone3 = "";
     @SerializedName("EMAIL")
-    private String email;
+    private String email = "";
     @SerializedName("FACEBOOK")
-    private String facebook;
+    private String facebook = "";
 
     public String getPhone1() {
         return phone1;
