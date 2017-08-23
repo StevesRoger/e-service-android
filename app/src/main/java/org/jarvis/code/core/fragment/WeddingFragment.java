@@ -15,8 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jarvis.code.R;
-import org.jarvis.code.api.WeddingApi;
-import org.jarvis.code.core.adapter.WeddingAdapter;
+import org.jarvis.code.api.RequestService;
+import org.jarvis.code.core.adapter.ProductAdapter;
 import org.jarvis.code.core.model.response.Product;
 import org.jarvis.code.core.model.response.ResponseEntity;
 import org.jarvis.code.util.Constant;
@@ -33,14 +33,14 @@ import retrofit2.Response;
  * Created by KimChheng on 6/4/2017.
  */
 
-public class WeddingFragment extends Fragment implements Callback<ResponseEntity<Product>>, WeddingAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+public class WeddingFragment extends Fragment implements Callback<ResponseEntity<Product>>, ProductAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
-    private WeddingAdapter adapter;
+    private ProductAdapter adapter;
     private List<Product> products;
-    private WeddingApi weddingApi;
+    private RequestService requestService;
     private TextView lblMessage;
     private static final int LIMIT = 3;
     private int offset = 1;
@@ -52,10 +52,10 @@ public class WeddingFragment extends Fragment implements Callback<ResponseEntity
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         products = new ArrayList<>();
-        adapter = new WeddingAdapter(getContext(), products);
+        adapter = new ProductAdapter(getContext(), products);
         adapter.setOnLoadMoreListener(this);
-        weddingApi = RestApiFactory.build(WeddingApi.class);
-        weddingApi.fetchProducts(1, LIMIT).enqueue(this);
+        requestService = RestApiFactory.build(RequestService.class);
+        requestService.fetchProducts(1, LIMIT, "WED").enqueue(this);
 
     }
 
@@ -65,6 +65,7 @@ public class WeddingFragment extends Fragment implements Callback<ResponseEntity
         if (!products.isEmpty())
             progressBar.setVisibility(View.GONE);
         adapter.setRecyclerView(recyclerView);
+        Log.i(Constant.TAG, "WeddingFragment.onViewCreated");
     }
 
     @Nullable
@@ -117,7 +118,7 @@ public class WeddingFragment extends Fragment implements Callback<ResponseEntity
             if (offset == 1) offset++;
             products.add(null);
             adapter.notifyItemInserted(products.size() - 1);
-            weddingApi.fetchProducts(offset, LIMIT).enqueue(new Callback<ResponseEntity<Product>>() {
+            requestService.fetchProducts(offset, LIMIT, "WED").enqueue(new Callback<ResponseEntity<Product>>() {
                 @Override
                 public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
                     if (response.code() == 200) {
@@ -147,7 +148,7 @@ public class WeddingFragment extends Fragment implements Callback<ResponseEntity
 
     @Override
     public void onRefresh() {
-        weddingApi.fetchProducts(1, LIMIT).enqueue(new Callback<ResponseEntity<Product>>() {
+        requestService.fetchProducts(1, LIMIT, "WED").enqueue(new Callback<ResponseEntity<Product>>() {
             @Override
             public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
                 if (response.code() == 200) {

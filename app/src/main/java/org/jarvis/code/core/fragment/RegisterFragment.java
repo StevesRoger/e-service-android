@@ -27,7 +27,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import org.jarvis.code.R;
-import org.jarvis.code.api.WeddingApi;
+import org.jarvis.code.api.RequestService;
 import org.jarvis.code.core.component.DatePickerFragment;
 import org.jarvis.code.core.component.ImageCross;
 import org.jarvis.code.core.model.request.Customer;
@@ -43,6 +43,7 @@ import org.jarvis.code.util.ValidateUtil;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.MediaType;
@@ -71,7 +72,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private EditText txtEmail, txtFb, txtOther;
     private Button btnSubmit;
     private LinearLayout gallery;
-    private WeddingApi weddingApi;
+    private RequestService requestService;
     private DatePickerFragment dialogFragment;
     private List<String> validControl;
     private int adImages[] = {R.drawable.coca_col_ad,
@@ -88,7 +89,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        weddingApi = RestApiFactory.build(WeddingApi.class);
+        requestService = RestApiFactory.build(RequestService.class);
         dialogFragment = new DatePickerFragment();
         validControl = new ArrayList<>();
     }
@@ -180,6 +181,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         customer.setAddress(address);
         customer.setHome(txtHome.getText().toString().trim());
         customer.setPhone(txtPhone.getText().toString().trim());
+        customer.setFb(txtFb.getText().toString().trim());
         customer.setOther(txtOther.getText().toString().trim());
         customer.setProductId(product.getId());
         return customer;
@@ -277,23 +279,23 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                     RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
                     requestFiles[i] = MultipartBody.Part.createFormData("files", file.getName(), requestBody);
                 }
-                weddingApi.submitCustomer(requestJson, requestFiles).enqueue(new Callback<ResponseEntity<String>>() {
+                requestService.submitCustomer(requestJson, requestFiles).enqueue(new Callback<ResponseEntity<Map<String, Object>>>() {
                     @Override
-                    public void onResponse(Call<ResponseEntity<String>> call, Response<ResponseEntity<String>> response) {
+                    public void onResponse(Call<ResponseEntity<Map<String, Object>>> call, Response<ResponseEntity<Map<String, Object>>> response) {
                         if (response.code() == 200) {
                             progressDialog.dismiss();
                             new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
                                     .setTitleText("Submit success!")
                                     // .findViewById(R.id.confirm_button).setVisibility(View.GONE)
                                     .show();
-                            ResponseEntity<String> responseEntity = response.body();
+                            ResponseEntity<Map<String, Object>> responseEntity = response.body();
                             Log.i(Constant.TAG, responseEntity.getMessage());
                             Toast.makeText(getContext(), responseEntity.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseEntity<String>> call, Throwable t) {
+                    public void onFailure(Call<ResponseEntity<Map<String, Object>>> call, Throwable t) {
                         progressDialog.dismiss();
                         new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
                                 .setTitleText("Oops...")

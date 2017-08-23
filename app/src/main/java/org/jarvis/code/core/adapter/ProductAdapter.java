@@ -17,7 +17,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.component.GalleryDialog;
+import org.jarvis.code.core.component.DialogView;
 import org.jarvis.code.core.fragment.RegisterFragment;
 import org.jarvis.code.core.model.response.Product;
 import org.jarvis.code.util.Constant;
@@ -28,7 +28,7 @@ import java.util.List;
  * Created by KimChheng on 6/2/2017.
  */
 
-public class WeddingAdapter extends RecyclerView.Adapter {
+public class ProductAdapter extends RecyclerView.Adapter {
 
     private final int VIEW_ITEM = 0;
     private final int VIEW_PROMOTE = 1;
@@ -44,7 +44,7 @@ public class WeddingAdapter extends RecyclerView.Adapter {
     private OnLoadMoreListener onLoadMoreListener;
     private static String imgUrl = Constant.BASE_URL + "mobile/image/view/";
 
-    public WeddingAdapter(Context context, List<Product> products) {
+    public ProductAdapter(Context context, List<Product> products) {
         this.data = products;
         this.context = context;
     }
@@ -77,7 +77,7 @@ public class WeddingAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_wedding, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
             return new ProductViewHolder(view);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progressbar, parent, false);
@@ -171,10 +171,10 @@ public class WeddingAdapter extends RecyclerView.Adapter {
                         .addToBackStack("registerFragment")
                         .commit();
             } else {
-                GalleryDialog galleryDialog = new GalleryDialog();
-                galleryDialog.setProduct(product);
-                galleryDialog.show(fragmentManager.beginTransaction(), "Image Gallery");
-                //galleryDialog.setCancelable(false);
+                DialogView dialogView = new DialogView();
+                dialogView.setProduct(product);
+                dialogView.show(fragmentManager.beginTransaction(), "Image Gallery");
+                //dialogView.setCancelable(false);
             }
         }
 

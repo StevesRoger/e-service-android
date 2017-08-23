@@ -19,11 +19,11 @@ import org.jarvis.code.core.model.response.Product;
  * Created by KimChheng on 6/19/2017.
  */
 
-public class GalleryDialog extends DialogFragment {
+public class DialogView extends DialogFragment {
 
     private Product product;
 
-    public GalleryDialog() {
+    public DialogView() {
 
     }
 
@@ -50,7 +50,7 @@ public class GalleryDialog extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.popup_view, container, false);
+        View view = inflater.inflate(R.layout.dialog_view, container, false);
         ImageViewTouchViewPager viewPager = (ImageViewTouchViewPager) view.findViewById(R.id.imagePager);
         boolean isLandscape = false;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {

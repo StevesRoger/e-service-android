@@ -3,6 +3,8 @@ package org.jarvis.code.api;
 import org.jarvis.code.core.model.response.Product;
 import org.jarvis.code.core.model.response.ResponseEntity;
 
+import java.util.Map;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -15,13 +17,13 @@ import retrofit2.http.Query;
  * Created by KimChheng on 5/28/2017.
  */
 
-public interface WeddingApi {
+public interface RequestService {
 
     @POST("mobile/product/fetch")
-    Call<ResponseEntity<Product>> fetchProducts(@Query("offset") int offset, @Query("limit") int limit);
+    Call<ResponseEntity<Product>> fetchProducts(@Query("offset") int offset, @Query("limit") int limit, @Query("type") String type);
 
     @Multipart
     @POST("mobile/customer/submit")
-    Call<ResponseEntity<String>> submitCustomer(@Part("json") RequestBody json, @Part MultipartBody.Part[] files);
+    Call<ResponseEntity<Map<String,Object>>> submitCustomer(@Part("json") RequestBody json, @Part MultipartBody.Part[] files);
 
 }

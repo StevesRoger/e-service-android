@@ -8,7 +8,7 @@ import org.jarvis.code.core.model.request.base.AbstractRequest;
  * Created by KimChheng on 6/16/2017.
  */
 
-public class Customer extends AbstractRequest{
+public class Customer extends AbstractRequest {
     @SerializedName("GROOM_NAME")
     private String groomName;
     @SerializedName("GROOM_DAD_NAME")
@@ -29,6 +29,10 @@ public class Customer extends AbstractRequest{
     private String date;
     @SerializedName("PHONE")
     private String phone;
+    @SerializedName("FACEBOOK")
+    private String fb;
+    @SerializedName("MAP")
+    private String map;
     @SerializedName("OTHER")
     private String other;
     @SerializedName("PRODUCT_ID")
@@ -37,7 +41,7 @@ public class Customer extends AbstractRequest{
     public Customer() {
     }
 
-    public Customer(String groomName, String groomDadName, String groomMomName, String brideName, String brideDadName, String brideMomName, String home, String address, String date, String phone, String other, int productId) {
+    public Customer(String groomName, String groomDadName, String groomMomName, String brideName, String brideDadName, String brideMomName, String home, String address, String date, String phone, String fb, String map, String other, int productId) {
         this.groomName = groomName;
         this.groomDadName = groomDadName;
         this.groomMomName = groomMomName;
@@ -48,6 +52,8 @@ public class Customer extends AbstractRequest{
         this.address = address;
         this.date = date;
         this.phone = phone;
+        this.fb = fb;
+        this.map = map;
         this.other = other;
         this.productId = productId;
     }
@@ -130,6 +136,22 @@ public class Customer extends AbstractRequest{
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getFb() {
+        return fb;
+    }
+
+    public void setFb(String fb) {
+        this.fb = fb;
+    }
+
+    public String getMap() {
+        return map;
+    }
+
+    public void setMap(String map) {
+        this.map = map;
     }
 
     public String getOther() {
