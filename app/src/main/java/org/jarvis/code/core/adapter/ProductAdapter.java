@@ -30,18 +30,13 @@ import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter {
 
-    private final int VIEW_ITEM = 0;
+    private final int VIEW_PRODUCT = 0;
     private final int VIEW_PROMOTE = 1;
     private final int VIEW_LOADING = 2;
 
     private List<Product> data;
     private Context context;
 
-    private int visibleThreshold = 3;
-    private int lastVisibleItem, totalItemCount;
-    private boolean loading;
-
-    private OnLoadMoreListener onLoadMoreListener;
     private static String imgUrl = Constant.BASE_URL + "mobile/image/view/";
 
     public ProductAdapter(Context context, List<Product> products) {
@@ -49,34 +44,9 @@ public class ProductAdapter extends RecyclerView.Adapter {
         this.context = context;
     }
 
-    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
-        this.onLoadMoreListener = onLoadMoreListener;
-    }
-
-    public void setRecyclerView(RecyclerView recyclerView) {
-        if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
-            final LinearLayoutManager linearLayoutManager =
-                    (LinearLayoutManager) recyclerView.getLayoutManager();
-            recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                @Override
-                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                    super.onScrolled(recyclerView, dx, dy);
-                    totalItemCount = linearLayoutManager.getItemCount();
-                    lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                    if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-                        if (onLoadMoreListener != null) {
-                            onLoadMoreListener.onLoadMore();
-                        }
-                        loading = true;
-                    }
-                }
-            });
-        }
-    }
-
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        if (viewType == VIEW_ITEM) {
+        if (viewType == VIEW_PRODUCT) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
             return new ProductViewHolder(view);
         } else {
@@ -115,7 +85,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        return data.get(position) != null ? VIEW_ITEM : VIEW_LOADING;
+        return data.get(position) != null ? VIEW_PRODUCT : VIEW_LOADING;
     }
 
     public void addAll(List<Product> products) {
@@ -126,10 +96,6 @@ public class ProductAdapter extends RecyclerView.Adapter {
     public void add(Product product) {
         data.add(product);
         notifyItemInserted(data.size());
-    }
-
-    public void setLoaded() {
-        loading = false;
     }
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -195,8 +161,5 @@ public class ProductAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public interface OnLoadMoreListener {
-        void onLoadMore();
-    }
 
 }

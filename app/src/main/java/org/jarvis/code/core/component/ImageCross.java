@@ -29,6 +29,7 @@ public class ImageCross extends FrameLayout implements View.OnClickListener {
     private ImageView photo;
     private ImageButton close;
     private File file;
+    private String type;
 
     public ImageCross(@NonNull Context context) {
         this(context, null);
@@ -97,6 +98,14 @@ public class ImageCross extends FrameLayout implements View.OnClickListener {
     public void setPhoto(Uri uri) {
         if (photo != null)
             photo.setImageURI(uri);
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

@@ -16,9 +16,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         tools:layout_constraintBottom_creator="1"
         tools:layout_constraintLeft_creator="1"
         tools:layout_constraintRight_creator="1"
@@ -42,36 +44,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imgAd"
-                android:background="@color/colorPrimary">
+                android:background="@color/colorAccent">
 
                 <ImageView
                     android:id="@+id/imgVPrinting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/v_printing_icon"
                     android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="3dp"
                     android:background="@android:color/transparent"
-                    />
+                    android:src="@drawable/v_printing_icon" />
+
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
                     android:layout_toEndOf="@+id/imgVPrinting"
+                    android:background="@color/colorAccent"
                     app:tabGravity="fill"
-                    app:tabMode="fixed"
-                    app:tabIndicatorColor="@color/colorPrimary"
+                    app:tabIndicatorColor="@color/colorDarkBlue"
                     app:tabIndicatorHeight="3dp"
+                    app:tabMode="fixed"
                     app:tabSelectedTextColor="@android:color/white"
                     app:tabTextColor="@android:color/white" />
 
-                <android.support.v7.widget.SearchView
-                   xmlns:android="http://schemas.android.com/apk/res/android"
-                   android:id="@+id/search_view"
-                   android:layout_width="match_parent"
-                   android:layout_height="40dp"
-                   android:background="@drawable/search_view"
-                   android:layout_below="@+id/tab_layout"/>
+                <android.support.v7.widget.SearchView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/search_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_below="@+id/tab_layout"
+                    android:background="@drawable/search_view" />
 
             </RelativeLayout>
 

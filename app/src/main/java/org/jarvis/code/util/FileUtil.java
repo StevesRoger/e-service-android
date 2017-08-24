@@ -10,7 +10,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.util.Log;
+import android.webkit.MimeTypeMap;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -149,4 +151,17 @@ public final class FileUtil {
 
     }
 
+    @NonNull
+   public static String getMimeType(@NonNull File file) {
+        String type = null;
+        final String url = file.toString();
+        final String extension = MimeTypeMap.getFileExtensionFromUrl(url);
+        if (extension != null) {
+            type = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension.toLowerCase());
+        }
+        if (type == null) {
+            type = "image/*"; // fallback type. You might set it to */*
+        }
+        return type;
+    }
 }

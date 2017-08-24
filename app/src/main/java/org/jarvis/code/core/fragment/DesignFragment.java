@@ -16,11 +16,12 @@ import android.widget.Toast;
 
 import org.jarvis.code.R;
 import org.jarvis.code.api.RequestService;
+import org.jarvis.code.core.adapter.LoadMoreHandler;
 import org.jarvis.code.core.adapter.ProductAdapter;
 import org.jarvis.code.core.model.response.Product;
 import org.jarvis.code.core.model.response.ResponseEntity;
 import org.jarvis.code.util.Constant;
-import org.jarvis.code.util.RestApiFactory;
+import org.jarvis.code.util.RequestFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,17 +34,22 @@ import retrofit2.Response;
  * Created by KimChheng on 6/4/2017.
  */
 
-public class DesignFragment extends Fragment implements Callback<ResponseEntity<Product>>, ProductAdapter.OnLoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+public class DesignFragment extends Fragment implements Callback<ResponseEntity<Product>>, LoadMoreHandler.LoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
-    private ProductAdapter adapter;
-    private List<Product> products;
+
     private RequestService requestService;
     private TextView lblMessage;
+
+    private ProductAdapter adapter;
+    private List<Product> products;
+    private LoadMoreHandler loadMoreHandler;
+
     private static final int LIMIT = 3;
     private int offset = 1;
+    private boolean onLoad = true;
 
     public DesignFragment() {
     }
@@ -53,8 +59,7 @@ public class DesignFragment extends Fragment implements Callback<ResponseEntity<
         super.onCreate(savedInstanceState);
         products = new ArrayList<>();
         adapter = new ProductAdapter(getContext(), products);
-        adapter.setOnLoadMoreListener(this);
-        requestService = RestApiFactory.build(RequestService.class);
+        requestService = RequestFactory.build(RequestService.class);
         requestService.fetchProducts(1, LIMIT, "DES").enqueue(this);
     }
 
@@ -63,8 +68,9 @@ public class DesignFragment extends Fragment implements Callback<ResponseEntity<
         super.onViewCreated(view, savedInstanceState);
         if (!products.isEmpty())
             progressBar.setVisibility(View.GONE);
-        adapter.setRecyclerView(recyclerView);
-        Log.i(Constant.TAG, "DesignFragment.onViewCreated");
+        if (loadMoreHandler == null)
+            recyclerView.addOnScrollListener(loadMoreHandler = new LoadMoreHandler(this, recyclerView));
+        Log.i(Constant.TAG, "WeddingFragment.onViewCreated");
     }
 
     @Nullable
@@ -78,7 +84,7 @@ public class DesignFragment extends Fragment implements Callback<ResponseEntity<
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         lblMessage = (TextView) view.findViewById(R.id.txtMessage);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewWedding);
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewProduct);
         recyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -88,92 +94,88 @@ public class DesignFragment extends Fragment implements Callback<ResponseEntity<
     }
 
     @Override
-    public void onRefresh() {
-        requestService.fetchProducts(1, LIMIT, "DES").enqueue(new Callback<ResponseEntity<Product>>() {
-            @Override
-            public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
-                if (response.code() == 200) {
-                    products.clear();
-                    adapter.addAll(response.body().getData());
-                    progressBar.setVisibility(View.GONE);
-                    lblMessage.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    swipeRefreshLayout.setRefreshing(false);
-                    adapter.setLoaded();
-                    offset = 1;
-                    if (products.isEmpty()) {
-                        lblMessage.setText("There is no product from server!");
-                        lblMessage.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseEntity<Product>> call, Throwable t) {
-                Log.e(Constant.TAG, t.getMessage());
-                progressBar.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.GONE);
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
-    @Override
-    public void onLoadMore() {
-        if (products.size() > 2) {
-            if (offset == 1) offset++;
-            products.add(null);
-            adapter.notifyItemInserted(products.size() - 1);
-            requestService.fetchProducts(offset, LIMIT, "DES").enqueue(new Callback<ResponseEntity<Product>>() {
-                @Override
-                public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
-                    if (response.code() == 200) {
-                        products.remove(products.size() - 1);
-                        adapter.notifyItemRemoved(products.size());
-                        List<Product> list = response.body().getData();
-                        if (!list.isEmpty()) {
-                            for (Product product : list)
-                                adapter.add(product);
-                            offset++;
-                            adapter.setLoaded();
-                        }
-
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<ResponseEntity<Product>> call, Throwable t) {
-                    Log.e(Constant.TAG, t.getMessage());
-                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                    products.remove(products.size() - 1);
-                    adapter.notifyItemRemoved(products.size());
-                }
-            });
-        }
-    }
-
-    @Override
     public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
-        if (response.code() == 200) {
-            ResponseEntity<Product> responseEntity = response.body();
-            Log.i(Constant.TAG, responseEntity.getData().toString());
-            adapter.addAll(responseEntity.getData());
-            progressBar.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-            offset = 2;
-            if (products.isEmpty()) {
-                lblMessage.setText("There is no product from server!");
-                lblMessage.setVisibility(View.VISIBLE);
-            }
-        }
+        if (onLoad)
+            onLoadSuccess(call, response);
+        else
+            onLoadMoreSuccess(call, response);
     }
 
     @Override
     public void onFailure(Call<ResponseEntity<Product>> call, Throwable t) {
+        if (onLoad)
+            onLoadFailure(call, t);
+        else
+            onLoadMoreFailure(call, t);
+    }
+
+
+    private void onLoadSuccess(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
+        if (response.code() == 200) {
+            ResponseEntity<Product> responseEntity = response.body();
+            Log.i(Constant.TAG, responseEntity.getData().toString());
+            products.clear();
+            adapter.addAll(responseEntity.getData());
+            progressBar.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+            swipeRefreshLayout.setRefreshing(false);
+            loadMoreHandler.loaded();
+            offset = 1;
+            if (products.isEmpty() && lblMessage.getVisibility() == View.GONE) {
+                lblMessage.setText("There is no product from server!");
+                lblMessage.setVisibility(View.VISIBLE);
+            } else
+                lblMessage.setVisibility(View.GONE);
+        }
+        onLoad = false;
+    }
+
+    private void onLoadFailure(Call<ResponseEntity<Product>> call, Throwable t) {
         Log.e(Constant.TAG, t.getMessage());
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
         Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+        onLoad = false;
     }
+
+    private void onLoadMoreSuccess(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
+        if (response.code() == 200) {
+            products.remove(products.size() - 1);
+            adapter.notifyItemRemoved(products.size());
+            List<Product> list = response.body().getData();
+            if (!list.isEmpty()) {
+                for (Product product : list)
+                    adapter.add(product);
+                offset++;
+                loadMoreHandler.loaded();
+            }
+        }
+    }
+
+    private void onLoadMoreFailure(Call<ResponseEntity<Product>> call, Throwable t) {
+        Log.e(Constant.TAG, t.getMessage());
+        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+        products.remove(products.size() - 1);
+        adapter.notifyItemRemoved(products.size());
+    }
+
+    @Override
+    public void onLoadMore() {
+        if (offset == 1) offset++;
+        products.add(null);
+        recyclerView.post(new Runnable() {
+            public void run() {
+                adapter.notifyItemInserted(products.size() - 1);
+            }
+        });
+        requestService.fetchProducts(offset, LIMIT, "DES").enqueue(this);
+    }
+
+    @Override
+    public void onRefresh() {
+        onLoad = true;
+        requestService.fetchProducts(1, LIMIT, "DES").enqueue(this);
+    }
+
 }

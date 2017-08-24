@@ -27,6 +27,8 @@ public class Customer extends AbstractRequest {
     private String address;
     @SerializedName("DATE")
     private String date;
+    @SerializedName("EMAIL")
+    private String email;
     @SerializedName("PHONE")
     private String phone;
     @SerializedName("FACEBOOK")
@@ -39,23 +41,6 @@ public class Customer extends AbstractRequest {
     private int productId;
 
     public Customer() {
-    }
-
-    public Customer(String groomName, String groomDadName, String groomMomName, String brideName, String brideDadName, String brideMomName, String home, String address, String date, String phone, String fb, String map, String other, int productId) {
-        this.groomName = groomName;
-        this.groomDadName = groomDadName;
-        this.groomMomName = groomMomName;
-        this.brideName = brideName;
-        this.brideDadName = brideDadName;
-        this.brideMomName = brideMomName;
-        this.home = home;
-        this.address = address;
-        this.date = date;
-        this.phone = phone;
-        this.fb = fb;
-        this.map = map;
-        this.other = other;
-        this.productId = productId;
     }
 
     public String getGroomName() {
@@ -136,6 +121,14 @@ public class Customer extends AbstractRequest {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getFb() {

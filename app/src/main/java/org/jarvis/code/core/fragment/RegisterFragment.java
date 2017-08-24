@@ -36,7 +36,7 @@ import org.jarvis.code.core.model.response.ResponseEntity;
 import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.FileUtil;
 import org.jarvis.code.util.ImageAnimate;
-import org.jarvis.code.util.RestApiFactory;
+import org.jarvis.code.util.RequestFactory;
 import org.jarvis.code.util.StringUtil;
 import org.jarvis.code.util.ValidateUtil;
 
@@ -89,7 +89,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestService = RestApiFactory.build(RequestService.class);
+        requestService = RequestFactory.build(RequestService.class);
         dialogFragment = new DatePickerFragment();
         validControl = new ArrayList<>();
     }
@@ -181,6 +181,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         customer.setAddress(address);
         customer.setHome(txtHome.getText().toString().trim());
         customer.setPhone(txtPhone.getText().toString().trim());
+        customer.setEmail(txtEmail.getText().toString().trim());
         customer.setFb(txtFb.getText().toString().trim());
         customer.setOther(txtOther.getText().toString().trim());
         customer.setProductId(product.getId());
@@ -276,7 +277,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 for (int i = 0; i < gallery.getChildCount(); i++) {
                     ImageCross imageCross = (ImageCross) gallery.getChildAt(i);
                     File file = imageCross.getFile();
-                    RequestBody requestBody = RequestBody.create(MediaType.parse("application/octet-stream"), file);
+                    RequestBody requestBody = RequestBody.create(MediaType.parse(imageCross.getType()), file);
                     requestFiles[i] = MultipartBody.Part.createFormData("files", file.getName(), requestBody);
                 }
                 requestService.submitCustomer(requestJson, requestFiles).enqueue(new Callback<ResponseEntity<Map<String, Object>>>() {
@@ -320,7 +321,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         if (resultCode == Activity.RESULT_OK && requestCode == 1) {
             try {
                 Bitmap bitmap = null;
-                if (data == null) {
+                if (data.getData() == null) {
                     if (file != null && uri != null)
                         FileUtil.reduceImageSize(getContext(), uri, file);
                 } else {
@@ -337,6 +338,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 ImageCross imageCross = new ImageCross(getContext());
                 imageCross.setPhoto(bitmap);
                 imageCross.setFile(file);
+                imageCross.setType(FileUtil.getMimeType(file));
                 gallery.addView(imageCross);
             } catch (Exception e) {
                 e.printStackTrace();

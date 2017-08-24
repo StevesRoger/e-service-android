@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">V-Printing</string>
     <string name="wedding_fragment">សំបុត្រការ</string>
-    <string name="ceremony_fragment">សំបុត្របណ្យ</string>
+    <string name="ceremony_fragment">សំបុត្របុណ្យ</string>
     <string name="design_fragment">សំបុត្រច្នៃ</string>
     <string name="string_code">លេខកូដស៏ :</string>
     <string name="string_color">ពណ៏ :</string>

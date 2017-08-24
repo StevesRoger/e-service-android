@@ -26,7 +26,7 @@ public final class ValidateUtil {
     }
 
     public static boolean isValid(EditText text) {
-        return !isEmpty(text) && text.getText().toString().trim().matches("^[a-zA-Z]+(( )+[a-zA-z]+)*$");
+        return !isEmpty(text) && text.getText().toString().trim().matches("[a-zA-Z \\u0080-\\u9fff]*+");
     }
 
     public static boolean isEmpty(EditText text) {

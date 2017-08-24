@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="icon_product_width">145dp</dimen>
-    <dimen name="icon_product_height">131dp</dimen>
+    <dimen name="icon_product_height">100dp</dimen>
     <dimen name="button_register_width">170dp</dimen>
     <dimen name="button_register_height">32dp</dimen>
     <dimen name="image_view_height">250dp</dimen>
