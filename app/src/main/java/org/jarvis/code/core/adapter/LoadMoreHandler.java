@@ -12,36 +12,37 @@ import org.jarvis.code.util.Constant;
 
 public class LoadMoreHandler extends RecyclerView.OnScrollListener {
 
-    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
     private LoadMoreListener loadMoreListener;
-
-    private int visibleThreshold = 3;
-    private int lastVisibleItem, totalItemCount;
-    private boolean loading;
+    private boolean isLoading = true;
+    private int visibleItemCount, totalItemCount, pastVisiblesItems;
 
     public LoadMoreHandler(LoadMoreListener loadMoreListener, RecyclerView recyclerView) {
         this.loadMoreListener = loadMoreListener;
-        this.recyclerView = recyclerView;
+        this.linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
     }
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
-        LinearLayoutManager linearLayoutManager =
-                (LinearLayoutManager) recyclerView.getLayoutManager();
-        totalItemCount = linearLayoutManager.getItemCount();
-        lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-        if (!loading && totalItemCount <= (lastVisibleItem + visibleThreshold)) {
-            if (loadMoreListener != null) {
-                loadMoreListener.onLoadMore();
-                Log.i(Constant.TAG, "LoadMoreHandler.onLoadMore");
+        if (dy > 0) {
+            visibleItemCount = linearLayoutManager.getChildCount();
+            totalItemCount = linearLayoutManager.getItemCount();
+            pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
+            if (isLoading && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                if (loadMoreListener != null) {
+                    loadMoreListener.onLoadMore();
+                }
+                isLoading = false;
             }
-            loading = true;
+            Log.i(Constant.TAG, "Scrolling up");
+        } else {
+            Log.i(Constant.TAG, "Scrolling down");
         }
     }
 
     public void loaded() {
-        loading = false;
+        isLoading = true;
     }
 
     public interface LoadMoreListener {

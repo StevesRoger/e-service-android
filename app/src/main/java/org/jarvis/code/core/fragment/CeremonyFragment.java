@@ -49,7 +49,6 @@ public class CeremonyFragment extends Fragment implements Callback<ResponseEntit
 
     private static final int LIMIT = 3;
     private int offset = 1;
-    private boolean onLoad = true;
 
     public CeremonyFragment() {
 
@@ -69,8 +68,7 @@ public class CeremonyFragment extends Fragment implements Callback<ResponseEntit
         super.onViewCreated(view, savedInstanceState);
         if (!products.isEmpty())
             progressBar.setVisibility(View.GONE);
-        if (loadMoreHandler == null)
-            recyclerView.addOnScrollListener(loadMoreHandler = new LoadMoreHandler(this, recyclerView));
+        recyclerView.addOnScrollListener(loadMoreHandler = new LoadMoreHandler(this, recyclerView));
         Log.i(Constant.TAG, "WeddingFragment.onViewCreated");
     }
 
@@ -96,31 +94,15 @@ public class CeremonyFragment extends Fragment implements Callback<ResponseEntit
 
     @Override
     public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
-        if (onLoad)
-            onLoadSuccess(call, response);
-        else
-            onLoadMoreSuccess(call, response);
-    }
-
-    @Override
-    public void onFailure(Call<ResponseEntity<Product>> call, Throwable t) {
-        if (onLoad)
-            onLoadFailure(call, t);
-        else
-            onLoadMoreFailure(call, t);
-    }
-
-
-    private void onLoadSuccess(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
         if (response.code() == 200) {
             ResponseEntity<Product> responseEntity = response.body();
             Log.i(Constant.TAG, responseEntity.getData().toString());
+            loadMoreHandler.loaded();
             products.clear();
             adapter.addAll(responseEntity.getData());
             progressBar.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setRefreshing(false);
-            loadMoreHandler.loaded();
             offset = 1;
             if (products.isEmpty() && lblMessage.getVisibility() == View.GONE) {
                 lblMessage.setText("There is no product from server!");
@@ -128,16 +110,42 @@ public class CeremonyFragment extends Fragment implements Callback<ResponseEntit
             } else
                 lblMessage.setVisibility(View.GONE);
         }
-        onLoad = false;
     }
 
-    private void onLoadFailure(Call<ResponseEntity<Product>> call, Throwable t) {
+    @Override
+    public void onFailure(Call<ResponseEntity<Product>> call, Throwable t) {
         Log.e(Constant.TAG, t.getMessage());
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
         Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-        onLoad = false;
+    }
+
+    @Override
+    public void onLoadMore() {
+        if (offset == 1) offset++;
+        products.add(null);
+        recyclerView.post(new Runnable() {
+            public void run() {
+                adapter.notifyItemInserted(products.size() - 1);
+                requestService.fetchProducts(offset, LIMIT, "CER").enqueue(new Callback<ResponseEntity<Product>>() {
+                    @Override
+                    public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
+                        onLoadMoreSuccess(call, response);
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseEntity<Product>> call, Throwable t) {
+                        onLoadMoreFailure(call, t);
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    public void onRefresh() {
+        requestService.fetchProducts(1, LIMIT, "CER").enqueue(this);
     }
 
     private void onLoadMoreSuccess(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
@@ -159,24 +167,6 @@ public class CeremonyFragment extends Fragment implements Callback<ResponseEntit
         Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
         products.remove(products.size() - 1);
         adapter.notifyItemRemoved(products.size());
-    }
-
-    @Override
-    public void onLoadMore() {
-        if (offset == 1) offset++;
-        products.add(null);
-        recyclerView.post(new Runnable() {
-            public void run() {
-                adapter.notifyItemInserted(products.size() - 1);
-            }
-        });
-        requestService.fetchProducts(offset, LIMIT, "CER").enqueue(this);
-    }
-
-    @Override
-    public void onRefresh() {
-        onLoad = true;
-        requestService.fetchProducts(1, LIMIT, "CER").enqueue(this);
     }
 
 }
