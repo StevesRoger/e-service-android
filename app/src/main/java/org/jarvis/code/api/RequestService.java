@@ -1,6 +1,7 @@
 package org.jarvis.code.api;
 
 import org.jarvis.code.core.model.response.Product;
+import org.jarvis.code.core.model.response.Promotion;
 import org.jarvis.code.core.model.response.ResponseEntity;
 
 import java.util.Map;
@@ -24,6 +25,9 @@ public interface RequestService {
 
     @Multipart
     @POST("mobile/customer/submit")
-    Call<ResponseEntity<Map<String,Object>>> submitCustomer(@Part("json") RequestBody json, @Part MultipartBody.Part[] files);
+    Call<ResponseEntity<Map<String, Object>>> submitCustomer(@Part("json") RequestBody json, @Part MultipartBody.Part[] files);
+
+    @POST("mobile/promotion/fetch")
+    Call<ResponseEntity<Promotion>> fetchPromotions(@Query("offset") int offset, @Query("limit") int limit);
 
 }

@@ -1,5 +1,6 @@
 package org.jarvis.code.core.fragment;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,9 +17,11 @@ import android.widget.Toast;
 
 import org.jarvis.code.R;
 import org.jarvis.code.api.RequestService;
+import org.jarvis.code.core.adapter.FilterProductSearch;
 import org.jarvis.code.core.adapter.LoadMoreHandler;
 import org.jarvis.code.core.adapter.ProductAdapter;
 import org.jarvis.code.core.model.response.Product;
+import org.jarvis.code.core.model.response.Promotion;
 import org.jarvis.code.core.model.response.ResponseEntity;
 import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.RequestFactory;
@@ -34,7 +37,7 @@ import retrofit2.Response;
  * Created by KimChheng on 6/4/2017.
  */
 
-public class CeremonyFragment extends Fragment implements Callback<ResponseEntity<Product>>, LoadMoreHandler.LoadMoreListener, SwipeRefreshLayout.OnRefreshListener {
+public class CeremonyFragment extends Fragment implements Callback<ResponseEntity<Product>>, LoadMoreHandler.LoadMoreListener, SwipeRefreshLayout.OnRefreshListener ,FilterProductSearch.FilterProduct{
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -47,8 +50,9 @@ public class CeremonyFragment extends Fragment implements Callback<ResponseEntit
     private List<Product> products;
     private LoadMoreHandler loadMoreHandler;
 
-    private static final int LIMIT = 3;
+    private static final int LIMIT = 5;
     private int offset = 1;
+    private int promotion = 5;
 
     public CeremonyFragment() {
 
@@ -98,12 +102,14 @@ public class CeremonyFragment extends Fragment implements Callback<ResponseEntit
             ResponseEntity<Product> responseEntity = response.body();
             Log.i(Constant.TAG, responseEntity.getData().toString());
             loadMoreHandler.loaded();
-            products.clear();
+            adapter.clear();
             adapter.addAll(responseEntity.getData());
+            adapter.notifyDataSetChanged();
             progressBar.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
             swipeRefreshLayout.setRefreshing(false);
             offset = 1;
+            promotion = 5;
             if (products.isEmpty() && lblMessage.getVisibility() == View.GONE) {
                 lblMessage.setText("There is no product from server!");
                 lblMessage.setVisibility(View.VISIBLE);
@@ -124,7 +130,7 @@ public class CeremonyFragment extends Fragment implements Callback<ResponseEntit
     @Override
     public void onLoadMore() {
         if (offset == 1) offset++;
-        products.add(null);
+        adapter.add(null);
         recyclerView.post(new Runnable() {
             public void run() {
                 adapter.notifyItemInserted(products.size() - 1);
@@ -150,14 +156,17 @@ public class CeremonyFragment extends Fragment implements Callback<ResponseEntit
 
     private void onLoadMoreSuccess(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
         if (response.code() == 200) {
-            products.remove(products.size() - 1);
+            adapter.remove(products.size() - 1);
             adapter.notifyItemRemoved(products.size());
             List<Product> list = response.body().getData();
             if (!list.isEmpty()) {
                 for (Product product : list)
                     adapter.add(product);
+                adapter.notifyDataSetChanged();
                 offset++;
                 loadMoreHandler.loaded();
+                if (products.size() >= 5)
+                    getPromotion(products.get(promotion));
             }
         }
     }
@@ -165,8 +174,35 @@ public class CeremonyFragment extends Fragment implements Callback<ResponseEntit
     private void onLoadMoreFailure(Call<ResponseEntity<Product>> call, Throwable t) {
         Log.e(Constant.TAG, t.getMessage());
         Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-        products.remove(products.size() - 1);
+        adapter.remove(products.size() - 1);
         adapter.notifyItemRemoved(products.size());
     }
 
+    private void getPromotion(final Product product) {
+        final int offset = promotion / 5;
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    Response<ResponseEntity<Promotion>> response = requestService.fetchPromotions(offset, 1).execute();
+                    if (response.code() == 200) {
+                        ResponseEntity<Promotion> body = response.body();
+                        if (body != null && !body.getData().isEmpty()) {
+                            product.setPromotion(body.getData().get(0));
+                            promotion = promotion + 5;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e(Constant.TAG, e.getMessage());
+                }
+                return null;
+            }
+        }.execute();
+    }
+
+    @Override
+    public void search(String text) {
+        adapter.getFilter().filter(text);
+    }
 }

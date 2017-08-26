@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.jarvis.code.R;
+import org.jarvis.code.core.adapter.FilterProductSearch;
 import org.jarvis.code.core.adapter.ViewPagerAdapter;
 import org.jarvis.code.core.fragment.CeremonyFragment;
 import org.jarvis.code.core.fragment.DesignFragment;
@@ -61,6 +62,19 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         adImage = (ImageView) findViewById(R.id.imgAd);
         searchView = (SearchView) findViewById(R.id.search_view);
         searchView.setQueryHint(getResources().getString(R.string.string_search_hint));
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                FilterProductSearch.FilterProduct filterProduct = (FilterProductSearch.FilterProduct) viewPagerAdapter.getItem(viewPager.getCurrentItem());
+                filterProduct.search(newText);
+                return false;
+            }
+        });
     }
 
     private void scheduleTaskAD() {

@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -22,26 +23,29 @@ import org.jarvis.code.core.fragment.RegisterFragment;
 import org.jarvis.code.core.model.response.Product;
 import org.jarvis.code.util.Constant;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by KimChheng on 6/2/2017.
  */
 
-public class ProductAdapter extends RecyclerView.Adapter {
+public class ProductAdapter extends RecyclerView.Adapter implements Filterable {
 
     private final int VIEW_PRODUCT = 0;
-    private final int VIEW_PROMOTE = 1;
+    private final int VIEW_PROMOTION = 1;
     private final int VIEW_LOADING = 2;
 
-    private List<Product> data;
+    private List<Product> originalList;
+    private List<Product> copyList;
     private Context context;
 
     private static String imgUrl = Constant.BASE_URL + "mobile/image/view/";
 
     public ProductAdapter(Context context, List<Product> products) {
-        this.data = products;
+        this.originalList = products;
         this.context = context;
+        this.copyList = new ArrayList<>();
     }
 
     @Override
@@ -49,6 +53,9 @@ public class ProductAdapter extends RecyclerView.Adapter {
         if (viewType == VIEW_PRODUCT) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
             return new ProductViewHolder(view);
+        } else if (viewType == VIEW_PROMOTION) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_promotion, parent, false);
+            return new PromotionViewHolder(view);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progressbar, parent, false);
             return new LoadingViewHolder(view);
@@ -58,7 +65,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ProductViewHolder) {
-            Product product = (Product) data.get(position);
+            Product product = (Product) originalList.get(position);
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             productViewHolder.product = product;
             productViewHolder.lblCode.setText(context.getResources().getString(R.string.string_code) + product.getCode());
@@ -72,6 +79,15 @@ public class ProductAdapter extends RecyclerView.Adapter {
                     .placeholder(R.drawable.progress_animation)
                     .error(R.drawable.no_image_available)
                     .into(productViewHolder.image);
+        } else if (holder instanceof PromotionViewHolder) {
+            Product product = (Product) originalList.get(position);
+            PromotionViewHolder promotionViewHolder = (PromotionViewHolder) holder;
+            Picasso.with(context).load(imgUrl + product.getPromotion().getImages().get(0))
+                    .fit()
+                    .centerCrop()
+                    .placeholder(R.drawable.progress_animation)
+                    .error(R.drawable.no_image_available)
+                    .into(promotionViewHolder.image);
         } else {
             ((LoadingViewHolder) holder).progressBar.setIndeterminate(true);
         }
@@ -80,25 +96,56 @@ public class ProductAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return data == null ? 0 : data.size();
+        return originalList == null ? 0 : originalList.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        return data.get(position) != null ? VIEW_PRODUCT : VIEW_LOADING;
+        Product product = originalList.get(position);
+        if (product != null) {
+            if (product.getPromotion() != null)
+                return VIEW_PROMOTION;
+            else
+                return VIEW_PRODUCT;
+        } else
+            return VIEW_LOADING;
     }
 
     public void addAll(List<Product> products) {
-        data.addAll(products);
-        notifyDataSetChanged();
+        originalList.addAll(products);
+        copyList.addAll(products);
     }
 
     public void add(Product product) {
-        data.add(product);
-        notifyItemInserted(data.size());
+        originalList.add(product);
+        copyList.add(product);
     }
 
-    public static class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public void remove(int index) {
+        originalList.remove(index);
+        copyList.remove(index);
+    }
+
+    public void clear() {
+        originalList.clear();
+        copyList.clear();
+    }
+
+    public List<Product> getOriginalList() {
+        return originalList;
+    }
+
+    public List<Product> getCopyList() {
+        return copyList;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new FilterProductSearch(this, originalList);
+    }
+
+
+    public static class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView lblCode;
         public TextView lblPrice;
@@ -119,7 +166,6 @@ public class ProductAdapter extends RecyclerView.Adapter {
             btnRegister = (AppCompatButton) itemView.findViewById(R.id.btnRegister);
             image = (ImageView) itemView.findViewById(R.id.imgViewProduct);
             btnRegister.setOnClickListener(this);
-            btnRegister.setOnLongClickListener(this);
             itemView.setOnClickListener(this);
             itemView.setOnClickListener(this);
         }
@@ -143,11 +189,15 @@ public class ProductAdapter extends RecyclerView.Adapter {
                 //dialogView.setCancelable(false);
             }
         }
+    }
 
-        @Override
-        public boolean onLongClick(View view) {
-            //Toast.makeText(view.getContext(), "position = " + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-            return false;
+    public static class PromotionViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView image;
+
+        public PromotionViewHolder(View itemView) {
+            super(itemView);
+            image = (ImageView) itemView.findViewById(R.id.imgViewPromotion);
         }
     }
 

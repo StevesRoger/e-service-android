@@ -16,7 +16,7 @@ public class Product extends AbstractResponse {
     @SerializedName("CODE")
     private String code;
     @SerializedName("SIZE")
-    private Integer size;
+    private String size;
     @SerializedName("PRICE")
     private String price;
     @SerializedName("COLOR")
@@ -25,6 +25,7 @@ public class Product extends AbstractResponse {
     private Contact contact;
     @SerializedName("IMAGES")
     private List<Integer> images;
+    private transient Promotion promotion;
 
     public String getCode() {
         return code;
@@ -34,11 +35,11 @@ public class Product extends AbstractResponse {
         this.code = code;
     }
 
-    public Integer getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(Integer size) {
+    public void setSize(String size) {
         this.size = size;
     }
 
@@ -72,5 +73,13 @@ public class Product extends AbstractResponse {
 
     public void setImages(List<Integer> images) {
         this.images = images;
+    }
+
+    public Promotion getPromotion() {
+        return promotion;
+    }
+
+    public void setPromotion(Promotion promotion) {
+        this.promotion = promotion;
     }
 }
