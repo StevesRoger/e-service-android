@@ -48,12 +48,12 @@
 
                 <ImageView
                     android:id="@+id/imgVPrinting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="3dp"
                     android:background="@android:color/transparent"
-                    android:src="@drawable/v_printing_icon" />
+                    android:src="@drawable/ic_v_printing" />
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"
