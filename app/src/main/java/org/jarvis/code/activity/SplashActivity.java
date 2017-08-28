@@ -1,4 +1,4 @@
-package org.jarvis.code.main;
+package org.jarvis.code.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

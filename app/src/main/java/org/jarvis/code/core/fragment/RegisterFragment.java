@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import org.jarvis.code.R;
+import org.jarvis.code.activity.MapsActivity;
 import org.jarvis.code.api.RequestService;
 import org.jarvis.code.core.component.DatePickerFragment;
 import org.jarvis.code.core.component.ImageCross;
@@ -66,7 +67,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private EditText txtDadBrideName;
     private EditText txtMomBrideName;
     private EditText txtDate;
-    private ImageButton datePicker, imgBack, imgChoose;
+    private ImageButton datePicker, imgBack, imgMap, imgChoose;
     private EditText txtVillage, txtCommune, txtDistrict;
     private EditText txtHome, txtPhone;
     private EditText txtEmail, txtFb, txtOther;
@@ -107,8 +108,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         txtDate = (EditText) view.findViewById(R.id.txtDate);
         datePicker = (ImageButton) view.findViewById(R.id.imgDate);
         datePicker.setOnClickListener(this);
-        imgBack = (ImageButton) view.findViewById(R.id.imgBack);
-        imgBack.setOnClickListener(this);
         txtVillage = (EditText) view.findViewById(R.id.txtVillage);
         txtCommune = (EditText) view.findViewById(R.id.txtCommune);
         txtDistrict = (EditText) view.findViewById(R.id.txtDistrict);
@@ -118,9 +117,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         txtFb = (EditText) view.findViewById(R.id.txtFacebook);
         txtOther = (EditText) view.findViewById(R.id.txtOther);
         txtOther.setOnFocusChangeListener(this);
-        imgChoose = (ImageButton) view.findViewById(R.id.btnChoose);
+        imgBack = (ImageButton) view.findViewById(R.id.imgBack);
+        imgBack.setOnClickListener(this);
+        imgMap = (ImageButton) view.findViewById(R.id.imgMap);
+        imgMap.setOnClickListener(this);
+        imgChoose = (ImageButton) view.findViewById(R.id.imgChoose);
         imgChoose.setOnClickListener(this);
-        btnSubmit = (Button) view.findViewById(R.id.btnSubmit);
+        btnSubmit = (Button) view.findViewById(R.id.imgSubmit);
         btnSubmit.setOnClickListener(this);
         gallery = (LinearLayout) view.findViewById(R.id.imgGallery);
         adImage = (ImageView) view.findViewById(R.id.registerImgAd);
@@ -137,13 +140,17 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 dialogFragment.show(appCompatActivity.getSupportFragmentManager(), "datePicker");
                 dialogFragment.setCancelable(false);
                 break;
-            case R.id.btnChoose:
+            case R.id.imgMap:
+                Intent intent = new Intent(getActivity(), MapsActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.imgChoose:
                 browseImage();
                 break;
             case R.id.imgBack:
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
-            case R.id.btnSubmit:
+            case R.id.imgSubmit:
                 try {
                     validate();
                     submitCustomer(getEntity());

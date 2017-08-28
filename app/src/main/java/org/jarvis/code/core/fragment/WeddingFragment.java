@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import org.jarvis.code.R;
 import org.jarvis.code.api.RequestService;
-import org.jarvis.code.core.adapter.FilterProductSearch;
+import org.jarvis.code.core.adapter.FilterProduct;
 import org.jarvis.code.core.adapter.LoadMoreHandler;
 import org.jarvis.code.core.adapter.ProductAdapter;
 import org.jarvis.code.core.model.response.Product;
@@ -37,7 +37,7 @@ import retrofit2.Response;
  * Created by KimChheng on 6/4/2017.
  */
 
-public class WeddingFragment extends Fragment implements Callback<ResponseEntity<Product>>, LoadMoreHandler.LoadMoreListener, SwipeRefreshLayout.OnRefreshListener ,FilterProductSearch.FilterProduct{
+public class WeddingFragment extends Fragment implements Callback<ResponseEntity<Product>>, LoadMoreHandler.LoadMoreListener, SwipeRefreshLayout.OnRefreshListener ,FilterProduct{
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -202,6 +202,6 @@ public class WeddingFragment extends Fragment implements Callback<ResponseEntity
 
     @Override
     public void search(String text) {
-        adapter.getFilter().filter(text);
+        adapter.filter(text);
     }
 }

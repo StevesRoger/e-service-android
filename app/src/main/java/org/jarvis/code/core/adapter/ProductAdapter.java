@@ -9,8 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,7 +28,7 @@ import java.util.List;
  * Created by KimChheng on 6/2/2017.
  */
 
-public class ProductAdapter extends RecyclerView.Adapter implements Filterable {
+public class ProductAdapter extends RecyclerView.Adapter {
 
     private final int VIEW_PRODUCT = 0;
     private final int VIEW_PROMOTION = 1;
@@ -139,9 +137,22 @@ public class ProductAdapter extends RecyclerView.Adapter implements Filterable {
         return copyList;
     }
 
-    @Override
-    public Filter getFilter() {
-        return new FilterProductSearch(this, originalList);
+    public void filter(String text) {
+        originalList.clear();
+        if (text.isEmpty()) {
+            originalList.addAll(copyList);
+        } else {
+            text = text.toLowerCase();
+            for (Product product : copyList) {
+                if (product.getCode().toLowerCase().contains(text) ||
+                        product.getColor().toLowerCase().contains(text) ||
+                        product.getPrice().toLowerCase().contains(text) ||
+                        product.getSize().toLowerCase().contains(text)) {
+                    originalList.add(product);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
 

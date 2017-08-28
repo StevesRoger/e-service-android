@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorButtonNormal"
     android:fitsSystemWindows="false"
-    tools:context="org.jarvis.code.main.MainActivity"
+    tools:context="org.jarvis.code.activity.MainActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="0dp">
 

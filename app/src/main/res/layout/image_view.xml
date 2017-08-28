@@ -27,7 +27,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="5dp"
-            android:src="@drawable/ic_cross_white" />
+            android:src="@drawable/img_cross_src" />
 
     </RelativeLayout>
 
@@ -45,7 +45,6 @@
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/image_view_height" />
-
 
         </LinearLayout>
 

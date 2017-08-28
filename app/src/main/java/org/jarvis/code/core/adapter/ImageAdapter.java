@@ -85,7 +85,7 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
                 .fit()
                 .centerCrop()
                 .placeholder(R.drawable.progress_spinning)
-                .error(R.drawable.img_not_available)
+                .error(R.drawable.no_image_available)
                 .into(imageView);
         container.addView(view);
         return view;
