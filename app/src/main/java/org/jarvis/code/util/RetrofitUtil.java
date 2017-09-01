@@ -25,8 +25,4 @@ public final class RetrofitUtil {
                // .client(okHttpClient)
                 .build();
     }
-
-    private RetrofitUtil() {
-
-    }
 }

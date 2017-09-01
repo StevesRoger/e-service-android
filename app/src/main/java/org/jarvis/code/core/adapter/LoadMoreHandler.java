@@ -2,23 +2,28 @@ package org.jarvis.code.core.adapter;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
-import org.jarvis.code.util.Constant;
+import org.jarvis.code.core.fragment.IFragment;
+import org.jarvis.code.core.model.response.ResponseEntity;
+import org.jarvis.code.util.Jog;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by ki.kao on 8/24/2017.
  */
 
-public class LoadMoreHandler extends RecyclerView.OnScrollListener {
+public class LoadMoreHandler<T> extends RecyclerView.OnScrollListener implements Callback<ResponseEntity<T>> {
 
     private LinearLayoutManager linearLayoutManager;
-    private LoadMoreListener loadMoreListener;
-    private boolean isLoading = true;
+    private IFragment<T> iFragment;
+    private boolean isLoading;
     private int visibleItemCount, totalItemCount, pastVisiblesItems;
 
-    public LoadMoreHandler(LoadMoreListener loadMoreListener, RecyclerView recyclerView) {
-        this.loadMoreListener = loadMoreListener;
+    public LoadMoreHandler(IFragment iFragment, RecyclerView recyclerView) {
+        this.iFragment = iFragment;
         this.linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
     }
 
@@ -29,23 +34,29 @@ public class LoadMoreHandler extends RecyclerView.OnScrollListener {
             visibleItemCount = linearLayoutManager.getChildCount();
             totalItemCount = linearLayoutManager.getItemCount();
             pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
-            if (isLoading && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
-                if (loadMoreListener != null) {
-                    loadMoreListener.onLoadMore();
+            if (!isLoading && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
+                if (iFragment != null) {
+                    iFragment.onLoadMore();
+                    isLoading = true;
                 }
-                isLoading = false;
             }
-            Log.i(Constant.TAG, "Scrolling up");
+            Jog.i(LoadMoreHandler.class, "Scrolling up");
         } else {
-            Log.i(Constant.TAG, "Scrolling down");
+            Jog.i(LoadMoreHandler.class, "Scrolling down");
         }
     }
 
     public void loaded() {
-        isLoading = true;
+        isLoading = false;
     }
 
-    public interface LoadMoreListener {
-        void onLoadMore();
+    @Override
+    public void onResponse(Call<ResponseEntity<T>> call, Response<ResponseEntity<T>> response) {
+        iFragment.onLoadMoreSuccess(call, response);
+    }
+
+    @Override
+    public void onFailure(Call<ResponseEntity<T>> call, Throwable t) {
+        iFragment.onLoadMoreFailure(call, t);
     }
 }

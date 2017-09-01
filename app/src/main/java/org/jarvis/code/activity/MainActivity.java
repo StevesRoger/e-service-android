@@ -16,10 +16,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.adapter.FilterProduct;
-import org.jarvis.code.core.adapter.ViewPagerAdapter;
+import org.jarvis.code.core.adapter.FragmentAdapter;
 import org.jarvis.code.core.fragment.CeremonyFragment;
 import org.jarvis.code.core.fragment.DesignFragment;
+import org.jarvis.code.core.fragment.IFragment;
 import org.jarvis.code.core.fragment.WeddingFragment;
 import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.ImageAnimate;
@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    private ViewPagerAdapter viewPagerAdapter;
+    private FragmentAdapter viewPagerAdapter;
     private ImageView adImage;
     private SearchView searchView;
     private int adImages[] = {R.drawable.coca_col_ad,
@@ -51,29 +51,33 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     }
 
     private void init() {
-        viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+
+        viewPagerAdapter = new FragmentAdapter(getSupportFragmentManager());
         viewPagerAdapter.addFragment(new WeddingFragment(), getResources().getString(R.string.wedding_fragment));
         viewPagerAdapter.addFragment(new CeremonyFragment(), getResources().getString(R.string.ceremony_fragment));
         viewPagerAdapter.addFragment(new DesignFragment(), getResources().getString(R.string.design_fragment));
+
         viewPager = (ViewPager) findViewById(R.id.tabPager);
         viewPager.setAdapter(viewPagerAdapter);
+        viewPager.setOffscreenPageLimit(2);
+
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
+
         adImage = (ImageView) findViewById(R.id.imgAd);
+
         searchView = (SearchView) findViewById(R.id.search_view);
         searchView.setQueryHint(getResources().getString(R.string.string_search_hint));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                ((FilterProduct) viewPagerAdapter.getItem(viewPager.getCurrentItem())).search(query);
-                ;
+                ((IFragment) viewPagerAdapter.getItem(viewPager.getCurrentItem())).search(query);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                ((FilterProduct) viewPagerAdapter.getItem(viewPager.getCurrentItem())).search(newText);
-                ;
+                ((IFragment) viewPagerAdapter.getItem(viewPager.getCurrentItem())).search(newText);
                 return true;
             }
         });

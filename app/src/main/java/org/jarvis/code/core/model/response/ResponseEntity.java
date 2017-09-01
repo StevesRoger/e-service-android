@@ -2,8 +2,6 @@ package org.jarvis.code.core.model.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.jarvis.code.core.model.response.base.AbstractResponse;
-
 import java.util.ArrayList;
 import java.util.List;
 

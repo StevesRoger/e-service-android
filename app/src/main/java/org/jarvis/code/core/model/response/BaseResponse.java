@@ -1,4 +1,4 @@
-package org.jarvis.code.core.model.response.base;
+package org.jarvis.code.core.model.response;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by KimChheng on 5/29/2017.
  */
 
-public abstract class AbstractResponse implements Serializable{
+public abstract class BaseResponse implements Serializable{
 
     @SerializedName("ID")
     protected Integer id;

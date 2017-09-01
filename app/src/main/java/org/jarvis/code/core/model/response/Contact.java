@@ -14,8 +14,6 @@ public class Contact implements Serializable {
     private String phone1 = "";
     @SerializedName("PHONE2")
     private String phone2 = "";
-    @SerializedName("PHONE3")
-    private String phone3 = "";
     @SerializedName("EMAIL")
     private String email = "";
     @SerializedName("FACEBOOK")
@@ -35,14 +33,6 @@ public class Contact implements Serializable {
 
     public void setPhone2(String phone2) {
         this.phone2 = phone2;
-    }
-
-    public String getPhone3() {
-        return phone3;
-    }
-
-    public void setPhone3(String phone3) {
-        this.phone3 = phone3;
     }
 
     public String getEmail() {

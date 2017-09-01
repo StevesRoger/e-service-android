@@ -2,13 +2,11 @@ package org.jarvis.code.core.model.request;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.jarvis.code.core.model.request.base.AbstractRequest;
-
 /**
  * Created by KimChheng on 6/16/2017.
  */
 
-public class Customer extends AbstractRequest {
+public class Customer extends BaseRequest {
     @SerializedName("GROOM_NAME")
     private String groomName;
     @SerializedName("GROOM_DAD_NAME")

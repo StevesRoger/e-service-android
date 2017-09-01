@@ -18,7 +18,9 @@ import com.squareup.picasso.Picasso;
 import org.jarvis.code.R;
 import org.jarvis.code.core.component.DialogView;
 import org.jarvis.code.core.fragment.RegisterFragment;
+import org.jarvis.code.core.model.response.BaseResponse;
 import org.jarvis.code.core.model.response.Product;
+import org.jarvis.code.core.model.response.Promotion;
 import org.jarvis.code.util.Constant;
 
 import java.util.ArrayList;
@@ -63,7 +65,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ProductViewHolder) {
-            Product product = (Product) originalList.get(position);
+            Product product = originalList.get(position);
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             productViewHolder.product = product;
             productViewHolder.lblCode.setText(context.getResources().getString(R.string.string_code) + product.getCode());
@@ -78,9 +80,9 @@ public class ProductAdapter extends RecyclerView.Adapter {
                     .error(R.drawable.no_image_available)
                     .into(productViewHolder.image);
         } else if (holder instanceof PromotionViewHolder) {
-            Product product = (Product) originalList.get(position);
+            Promotion promotion = (Promotion) originalList.get(position);
             PromotionViewHolder promotionViewHolder = (PromotionViewHolder) holder;
-            Picasso.with(context).load(imgUrl + product.getPromotion().getImages().get(0))
+            Picasso.with(context).load(imgUrl + promotion.getImages().get(0))
                     .fit()
                     .centerCrop()
                     .placeholder(R.drawable.progress_animation)
@@ -99,9 +101,9 @@ public class ProductAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        Product product = originalList.get(position);
-        if (product != null) {
-            if (product.getPromotion() != null)
+        Product item = originalList.get(position);
+        if (item != null) {
+            if (item instanceof Promotion)
                 return VIEW_PROMOTION;
             else
                 return VIEW_PRODUCT;
@@ -117,6 +119,11 @@ public class ProductAdapter extends RecyclerView.Adapter {
     public void add(Product product) {
         originalList.add(product);
         copyList.add(product);
+    }
+
+    public void add(int index, Product product) {
+        originalList.add(index, product);
+        copyList.add(index, product);
     }
 
     public void remove(int index) {

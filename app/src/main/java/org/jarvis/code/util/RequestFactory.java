@@ -6,9 +6,6 @@ package org.jarvis.code.util;
 
 public final class RequestFactory {
 
-    private RequestFactory() {
-    }
-
     public static <T> T build(Class<T> clazz) {
         return RetrofitUtil.RETROFIT.create(clazz);
     }

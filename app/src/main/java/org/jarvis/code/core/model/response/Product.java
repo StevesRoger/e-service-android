@@ -2,15 +2,13 @@ package org.jarvis.code.core.model.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.jarvis.code.core.model.response.base.AbstractResponse;
-
 import java.util.List;
 
 /**
  * Created by KimChheng on 5/29/2017.
  */
 
-public class Product extends AbstractResponse {
+public class Product extends BaseResponse {
 
     private static final long serialVersionUID = 1L;
     @SerializedName("CODE")
@@ -25,7 +23,6 @@ public class Product extends AbstractResponse {
     private Contact contact;
     @SerializedName("IMAGES")
     private List<Integer> images;
-    private transient Promotion promotion;
 
     public String getCode() {
         return code;
@@ -74,12 +71,5 @@ public class Product extends AbstractResponse {
     public void setImages(List<Integer> images) {
         this.images = images;
     }
-
-    public Promotion getPromotion() {
-        return promotion;
-    }
-
-    public void setPromotion(Promotion promotion) {
-        this.promotion = promotion;
-    }
+    
 }
