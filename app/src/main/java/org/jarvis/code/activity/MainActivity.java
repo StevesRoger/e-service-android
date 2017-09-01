@@ -17,10 +17,8 @@ import android.widget.Toast;
 
 import org.jarvis.code.R;
 import org.jarvis.code.core.adapter.FragmentAdapter;
-import org.jarvis.code.core.fragment.CeremonyFragment;
-import org.jarvis.code.core.fragment.DesignFragment;
 import org.jarvis.code.core.fragment.IFragment;
-import org.jarvis.code.core.fragment.WeddingFragment;
+import org.jarvis.code.core.fragment.ProductFragment;
 import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.ImageAnimate;
 
@@ -53,9 +51,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private void init() {
 
         viewPagerAdapter = new FragmentAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new WeddingFragment(), getResources().getString(R.string.wedding_fragment));
-        viewPagerAdapter.addFragment(new CeremonyFragment(), getResources().getString(R.string.ceremony_fragment));
-        viewPagerAdapter.addFragment(new DesignFragment(), getResources().getString(R.string.design_fragment));
+        viewPagerAdapter.addFragment(ProductFragment.newInstance("WED"), getResources().getString(R.string.wedding_fragment));
+        viewPagerAdapter.addFragment(ProductFragment.newInstance("CER"), getResources().getString(R.string.ceremony_fragment));
+        viewPagerAdapter.addFragment(ProductFragment.newInstance("DES"), getResources().getString(R.string.design_fragment));
 
         viewPager = (ViewPager) findViewById(R.id.tabPager);
         viewPager.setAdapter(viewPagerAdapter);

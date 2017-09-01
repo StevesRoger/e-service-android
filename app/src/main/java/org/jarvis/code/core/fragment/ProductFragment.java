@@ -34,27 +34,29 @@ import retrofit2.Response;
  * Created by ki.kao on 9/1/2017.
  */
 
-public abstract class BaseFragment extends Fragment implements IFragment<Product> {
+public class ProductFragment extends Fragment implements IFragment<Product> {
 
-    protected RecyclerView recyclerView;
-    protected SwipeRefreshLayout swipeRefreshLayout;
-    protected ProgressBar progressBar;
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private ProgressBar progressBar;
 
-    protected RequestService requestService;
-    protected TextView lblMessage;
+    private RequestService requestService;
+    private TextView lblMessage;
 
-    protected ProductAdapter adapter;
-    protected List<Product> products;
-    protected LoadMoreHandler<Product> loadMoreHandler;
+    private ProductAdapter adapter;
+    private List<Product> products;
+    private LoadMoreHandler<Product> loadMoreHandler;
 
-    protected String type;
-    protected final int LIMIT = 5;
-    protected int offset = 1;
-    protected int position = 5;
-    protected int page = 1;
+    private String type;
+    private final int LIMIT = 5;
+    private int offset = 1;
+    private int position = 5;
+    private int page = 1;
 
-    public BaseFragment() {
-        super();
+    public static ProductFragment newInstance(String type) {
+        ProductFragment fragment = new ProductFragment();
+        fragment.type = type;
+        return fragment;
     }
 
     @Override
@@ -100,7 +102,7 @@ public abstract class BaseFragment extends Fragment implements IFragment<Product
 
     @Override
     public void onLoadMore() {
-        Jog.i(BaseFragment.class, "Load more product");
+        Jog.i(ProductFragment.class, "Load more product");
         adapter.add(null);
         recyclerView.post(new Runnable() {
             public void run() {
@@ -129,7 +131,7 @@ public abstract class BaseFragment extends Fragment implements IFragment<Product
 
     @Override
     public void onLoadMoreFailure(Call<ResponseEntity<Product>> call, Throwable t) {
-        Jog.e(BaseFragment.class, t.getMessage());
+        Jog.e(ProductFragment.class, t.getMessage());
         Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
         adapter.remove(products.size() - 1);
         adapter.notifyItemRemoved(products.size());
@@ -144,7 +146,7 @@ public abstract class BaseFragment extends Fragment implements IFragment<Product
     public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
         if (response.code() == 200) {
             ResponseEntity<Product> responseEntity = response.body();
-            Jog.i(BaseFragment.class, responseEntity.getData().toString());
+            Jog.i(ProductFragment.class, responseEntity.getData().toString());
             loadMoreHandler.loaded();
             adapter.clear();
             adapter.addAll(responseEntity.getData());
@@ -165,7 +167,7 @@ public abstract class BaseFragment extends Fragment implements IFragment<Product
 
     @Override
     public void onFailure(Call<ResponseEntity<Product>> call, Throwable t) {
-        Jog.e(BaseFragment.class, t.getMessage());
+        Jog.e(ProductFragment.class, t.getMessage());
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
@@ -184,12 +186,12 @@ public abstract class BaseFragment extends Fragment implements IFragment<Product
                             adapter.add(position, body.getData().get(0));
                             position = position + 5;
                             page = position / 5;
-                           // adapter.notifyDataSetChanged();
+                            // adapter.notifyDataSetChanged();
                         }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Jog.e(BaseFragment.class, e.getMessage());
+                    Jog.e(ProductFragment.class, e.getMessage());
                 }
                 return null;
             }
