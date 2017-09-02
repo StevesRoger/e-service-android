@@ -1,5 +1,8 @@
 package org.jarvis.code.core.model.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -20,4 +23,5 @@ public class Promotion extends Product {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
 }

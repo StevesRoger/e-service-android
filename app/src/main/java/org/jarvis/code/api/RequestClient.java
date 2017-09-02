@@ -1,5 +1,6 @@
 package org.jarvis.code.api;
 
+import org.jarvis.code.core.model.response.Advertisement;
 import org.jarvis.code.core.model.response.Product;
 import org.jarvis.code.core.model.response.Promotion;
 import org.jarvis.code.core.model.response.ResponseEntity;
@@ -18,7 +19,7 @@ import retrofit2.http.Query;
  * Created by KimChheng on 5/28/2017.
  */
 
-public interface RequestService {
+public interface RequestClient {
 
     @POST("mobile/product/fetch")
     Call<ResponseEntity<Product>> fetchProducts(@Query("offset") int offset, @Query("limit") int limit, @Query("type") String type);
@@ -29,5 +30,8 @@ public interface RequestService {
 
     @POST("mobile/promotion/fetch")
     Call<ResponseEntity<Promotion>> fetchPromotions(@Query("offset") int offset, @Query("limit") int limit);
+
+    @POST("mobile/advertisement/fetch")
+    Call<ResponseEntity<Advertisement>> fetchAdvertisement();
 
 }

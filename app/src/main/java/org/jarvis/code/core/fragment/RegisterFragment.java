@@ -28,7 +28,7 @@ import com.google.gson.Gson;
 
 import org.jarvis.code.R;
 import org.jarvis.code.activity.MapsActivity;
-import org.jarvis.code.api.RequestService;
+import org.jarvis.code.api.RequestClient;
 import org.jarvis.code.core.component.DatePickerFragment;
 import org.jarvis.code.core.component.ImageCross;
 import org.jarvis.code.core.model.request.Customer;
@@ -36,7 +36,7 @@ import org.jarvis.code.core.model.response.Product;
 import org.jarvis.code.core.model.response.ResponseEntity;
 import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.FileUtil;
-import org.jarvis.code.util.ImageAnimate;
+import org.jarvis.code.util.AdvertisementUtil;
 import org.jarvis.code.util.RequestFactory;
 import org.jarvis.code.util.StringUtil;
 import org.jarvis.code.util.ValidateUtil;
@@ -73,7 +73,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private EditText txtEmail, txtFb, txtOther;
     private Button btnSubmit;
     private LinearLayout gallery;
-    private RequestService requestService;
+    private RequestClient requestService;
     private DatePickerFragment dialogFragment;
     private List<String> validControl;
     private int adImages[] = {R.drawable.coca_col_ad,
@@ -90,7 +90,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestService = RequestFactory.build(RequestService.class);
+        requestService = RequestFactory.build(RequestClient.class);
         dialogFragment = new DatePickerFragment();
         validControl = new ArrayList<>();
     }
@@ -128,7 +128,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         gallery = (LinearLayout) view.findViewById(R.id.imgGallery);
         adImage = (ImageView) view.findViewById(R.id.registerImgAd);
         requiredField(view);
-        ImageAnimate.animate(adImage, adImages, 0, true);
+        AdvertisementUtil.animate(adImage, adImages, 0, true);
         return view;
     }
 

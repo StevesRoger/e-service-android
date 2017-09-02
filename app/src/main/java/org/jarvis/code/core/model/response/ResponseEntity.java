@@ -1,7 +1,9 @@
 package org.jarvis.code.core.model.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
  * Created by KimChheng on 5/29/2017.
  */
 
-public class ResponseEntity<T> {
+public class ResponseEntity<T> implements Serializable {
 
     @SerializedName("MESSAGE")
     private String message;

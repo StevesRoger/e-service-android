@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jarvis.code.R;
-import org.jarvis.code.api.RequestService;
+import org.jarvis.code.api.RequestClient;
 import org.jarvis.code.core.adapter.LoadMoreHandler;
 import org.jarvis.code.core.adapter.ProductAdapter;
 import org.jarvis.code.core.model.response.Product;
@@ -40,7 +40,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressBar progressBar;
 
-    private RequestService requestService;
+    private RequestClient requestService;
     private TextView lblMessage;
 
     private ProductAdapter adapter;
@@ -64,7 +64,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
         super.onCreate(savedInstanceState);
         products = new ArrayList<>();
         adapter = new ProductAdapter(getContext(), products);
-        requestService = RequestFactory.build(RequestService.class);
+        requestService = RequestFactory.build(RequestClient.class);
         requestService.fetchProducts(1, LIMIT, type).enqueue(this);
     }
 
@@ -175,6 +175,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     }
 
     private void fetchPromotion(final int step) {
+        Jog.i(ProductFragment.class, "advertisement offset:" + step);
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -184,9 +185,9 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
                         ResponseEntity<Promotion> body = response.body();
                         if (body != null && !body.getData().isEmpty()) {
                             adapter.add(position, body.getData().get(0));
-                            position = position + 5;
-                            page = position / 5;
-                            // adapter.notifyDataSetChanged();
+                            Jog.i(ProductFragment.class, "advertisement position:" + position);
+                            position = (position + 5) + 1;
+                            page = (position - 1) / 5;
                         }
                     }
                 } catch (Exception e) {

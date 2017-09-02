@@ -16,7 +16,7 @@ import java.net.URLConnection;
  * Created by KimChheng on 6/17/2017.
  */
 
-public final class MultipartUtil {
+public final class FormDataUtil {
 
     private final String boundary;
     private static final String LINE_FEED = "\r\n";
@@ -33,7 +33,7 @@ public final class MultipartUtil {
      * @param charset
      * @throws IOException
      */
-    public MultipartUtil(String requestURL, String charset) throws IOException {
+    public FormDataUtil(String requestURL, String charset) throws IOException {
         this.charset = charset;
 
         // creates a unique boundary based on time stamp

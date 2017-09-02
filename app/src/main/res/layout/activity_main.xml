@@ -34,7 +34,7 @@
             <ImageView
                 android:id="@+id/imgAd"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="@dimen/advertisement_height"
                 android:adjustViewBounds="true"
                 android:src="@drawable/coca_col_ad"
                 tools:ignore="ContentDescription" />

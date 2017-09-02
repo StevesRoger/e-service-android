@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -20,7 +19,8 @@ import org.jarvis.code.core.adapter.FragmentAdapter;
 import org.jarvis.code.core.fragment.IFragment;
 import org.jarvis.code.core.fragment.ProductFragment;
 import org.jarvis.code.util.Constant;
-import org.jarvis.code.util.ImageAnimate;
+import org.jarvis.code.util.AdvertisementUtil;
+import org.jarvis.code.util.Jog;
 
 import java.util.Random;
 import java.util.concurrent.ScheduledExecutorService;
@@ -32,8 +32,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private FragmentAdapter viewPagerAdapter;
     private ImageView adImage;
     private SearchView searchView;
+
     private int adImages[] = {R.drawable.coca_col_ad,
             R.drawable.hi_tea_ad, R.drawable.samsung_ad, R.drawable.v_printing_ad};
+
     private Random random = new Random();
     private ScheduledExecutorService scheduleTaskExecutor;
     private int resId = R.drawable.samsung_ad;
@@ -43,7 +45,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        ImageAnimate.animate(adImage, adImages, 0, true);
+
+        AdvertisementUtil.animate(adImage, adImages, 0, true);
         checkRunTimePermission();
         //scheduleTaskAD();
     }
@@ -128,9 +131,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         switch (requestCode) {
             case Constant.REQUEST_PERMISSIONS_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    Log.e(Constant.TAG, "Permission Granted, Now you can use local drive .");
+                    Jog.e(MainActivity.class, "Permission Granted, Now you can use local drive .");
                 else
-                    Log.e(Constant.TAG, "Permission Denied, You cannot use local drive .");
+                    Jog.e(MainActivity.class, "Permission Denied, You cannot use local drive .");
                 break;
         }
     }

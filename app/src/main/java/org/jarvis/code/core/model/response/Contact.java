@@ -1,14 +1,13 @@
 package org.jarvis.code.core.model.response;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 
 /**
  * Created by KimChheng on 5/30/2017.
  */
 
-public class Contact implements Serializable {
+public class Contact extends BaseResponse {
 
     @SerializedName("PHONE1")
     private String phone1 = "";

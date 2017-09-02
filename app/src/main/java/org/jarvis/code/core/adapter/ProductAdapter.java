@@ -18,7 +18,6 @@ import com.squareup.picasso.Picasso;
 import org.jarvis.code.R;
 import org.jarvis.code.core.component.DialogView;
 import org.jarvis.code.core.fragment.RegisterFragment;
-import org.jarvis.code.core.model.response.BaseResponse;
 import org.jarvis.code.core.model.response.Product;
 import org.jarvis.code.core.model.response.Promotion;
 import org.jarvis.code.util.Constant;
@@ -151,11 +150,13 @@ public class ProductAdapter extends RecyclerView.Adapter {
         } else {
             text = text.toLowerCase();
             for (Product product : copyList) {
-                if (product.getCode().toLowerCase().contains(text) ||
-                        product.getColor().toLowerCase().contains(text) ||
-                        product.getPrice().toLowerCase().contains(text) ||
-                        product.getSize().toLowerCase().contains(text)) {
-                    originalList.add(product);
+                if (!(product instanceof Promotion)) {
+                    if (product.getCode().toLowerCase().contains(text) ||
+                            product.getColor().toLowerCase().contains(text) ||
+                            product.getPrice().toLowerCase().contains(text) ||
+                            product.getSize().toLowerCase().contains(text)) {
+                        originalList.add(product);
+                    }
                 }
             }
         }
