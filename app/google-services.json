@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "344944875180",
+    "firebase_url": "https://v-printing.firebaseio.com",
+    "project_id": "v-printing",
+    "storage_bucket": "v-printing.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344944875180:android:aa747a955b2f8b3c",
+        "android_client_info": {
+          "package_name": "org.jarvis.code"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "344944875180-9ijj24118jpcgq4cdqqpdeegbuonqqm5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuGf2lT698z9rB105nr9eQaQpHaIdgtmk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

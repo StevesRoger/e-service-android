@@ -54,7 +54,7 @@ public final class AdvertisementUtil implements Callback<ResponseEntity<Advertis
         Picasso.with(context).load(imgUrl + images.get(imageIndex))
                 .fit()
                 .centerCrop()
-                .placeholder(R.drawable.progress_animation)
+                //.placeholder(R.drawable.progress_animation)
                 .error(R.drawable.no_image_available)
                 .into(imageView);
 

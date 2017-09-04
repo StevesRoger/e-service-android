@@ -52,7 +52,6 @@
                     android:layout_height="48dp"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="3dp"
-                    android:background="@android:color/transparent"
                     android:src="@drawable/ic_v_printing" />
 
                 <android.support.design.widget.TabLayout

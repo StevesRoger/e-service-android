@@ -36,7 +36,6 @@ import org.jarvis.code.core.model.response.Product;
 import org.jarvis.code.core.model.response.ResponseEntity;
 import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.FileUtil;
-import org.jarvis.code.util.AdvertisementUtil;
 import org.jarvis.code.util.RequestFactory;
 import org.jarvis.code.util.StringUtil;
 import org.jarvis.code.util.ValidateUtil;
@@ -128,7 +127,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         gallery = (LinearLayout) view.findViewById(R.id.imgGallery);
         adImage = (ImageView) view.findViewById(R.id.registerImgAd);
         requiredField(view);
-        AdvertisementUtil.animate(adImage, adImages, 0, true);
+        //AdvertisementUtil.animate(adImage, adImages, 0, true);
         return view;
     }
 

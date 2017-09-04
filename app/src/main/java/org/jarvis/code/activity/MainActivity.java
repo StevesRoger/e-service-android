@@ -14,6 +14,9 @@ import android.support.v7.widget.SearchView;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
+
 import org.jarvis.code.R;
 import org.jarvis.code.core.adapter.FragmentAdapter;
 import org.jarvis.code.core.fragment.IFragment;
@@ -45,9 +48,10 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-
-        AdvertisementUtil.animate(adImage, adImages, 0, true);
+        //new AdvertisementUtil(getApplicationContext(), adImage);
         checkRunTimePermission();
+        FirebaseMessaging.getInstance().subscribeToTopic("Testing");
+        FirebaseInstanceId.getInstance().getToken();
         //scheduleTaskAD();
     }
 
