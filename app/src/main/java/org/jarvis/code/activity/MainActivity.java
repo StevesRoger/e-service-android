@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.jakewharton.picasso.OkHttp3Downloader;
+import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
 import org.jarvis.code.core.adapter.FragmentAdapter;
@@ -24,6 +26,7 @@ import org.jarvis.code.core.fragment.ProductFragment;
 import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.AdvertisementUtil;
 import org.jarvis.code.util.Jog;
+import org.jarvis.code.util.RetrofitUtil;
 
 import java.util.Random;
 import java.util.concurrent.ScheduledExecutorService;
