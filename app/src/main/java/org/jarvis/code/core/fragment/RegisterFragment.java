@@ -27,6 +27,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import org.jarvis.code.R;
+import org.jarvis.code.activity.MainActivity;
 import org.jarvis.code.activity.MapsActivity;
 import org.jarvis.code.api.RequestClient;
 import org.jarvis.code.core.component.DatePickerFragment;
@@ -34,8 +35,10 @@ import org.jarvis.code.core.component.ImageCross;
 import org.jarvis.code.core.model.request.Customer;
 import org.jarvis.code.core.model.response.Product;
 import org.jarvis.code.core.model.response.ResponseEntity;
+import org.jarvis.code.util.AnimateAD;
 import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.FileUtil;
+import org.jarvis.code.util.Jog;
 import org.jarvis.code.util.RequestFactory;
 import org.jarvis.code.util.StringUtil;
 import org.jarvis.code.util.ValidateUtil;
@@ -66,19 +69,20 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private EditText txtDadBrideName;
     private EditText txtMomBrideName;
     private EditText txtDate;
+
     private ImageButton datePicker, imgBack, imgMap, imgChoose;
+
     private EditText txtVillage, txtCommune, txtDistrict;
     private EditText txtHome, txtPhone;
     private EditText txtEmail, txtFb, txtOther;
+
     private Button btnSubmit;
     private LinearLayout gallery;
     private RequestClient requestService;
     private DatePickerFragment dialogFragment;
-    private List<String> validControl;
-    private int adImages[] = {R.drawable.coca_col_ad,
-            R.drawable.hi_tea_ad, R.drawable.samsung_ad, R.drawable.v_printing_ad};
-    private ImageView adImage;
+    private ImageView imageAd;
 
+    private List<String> validControl;
     private Uri uri;
     private File file;
 
@@ -125,9 +129,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         btnSubmit = (Button) view.findViewById(R.id.imgSubmit);
         btnSubmit.setOnClickListener(this);
         gallery = (LinearLayout) view.findViewById(R.id.imgGallery);
-        adImage = (ImageView) view.findViewById(R.id.registerImgAd);
+        imageAd = (ImageView) view.findViewById(R.id.registerImgAd);
         requiredField(view);
-        //AdvertisementUtil.animate(adImage, adImages, 0, true);
+        AnimateAD.animate(imageAd, MainActivity.advertisements, 0, true, getContext());
         return view;
     }
 
@@ -155,7 +159,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                     submitCustomer(getEntity());
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.e(Constant.TAG, e.getMessage());
+                    Jog.e(RegisterFragment.class, e.getMessage());
                     StringBuilder sb = new StringBuilder();
                     for (String msg : validControl)
                         sb.append(msg).append("\r\n");

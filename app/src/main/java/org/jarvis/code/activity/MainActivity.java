@@ -16,54 +16,55 @@ import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.jakewharton.picasso.OkHttp3Downloader;
-import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
+import org.jarvis.code.api.RequestClient;
 import org.jarvis.code.core.adapter.FragmentAdapter;
 import org.jarvis.code.core.fragment.IFragment;
 import org.jarvis.code.core.fragment.ProductFragment;
+import org.jarvis.code.core.model.response.Advertisement;
+import org.jarvis.code.core.model.response.ResponseEntity;
+import org.jarvis.code.util.AnimateAD;
 import org.jarvis.code.util.Constant;
-import org.jarvis.code.util.AdvertisementUtil;
 import org.jarvis.code.util.Jog;
-import org.jarvis.code.util.RetrofitUtil;
+import org.jarvis.code.util.RequestFactory;
 
-import java.util.Random;
-import java.util.concurrent.ScheduledExecutorService;
+import java.util.ArrayList;
+import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, Callback<ResponseEntity<Advertisement>> {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private FragmentAdapter viewPagerAdapter;
-    private ImageView adImage;
+    private ImageView imageAd;
     private SearchView searchView;
-
-    private int adImages[] = {R.drawable.coca_col_ad,
-            R.drawable.hi_tea_ad, R.drawable.samsung_ad, R.drawable.v_printing_ad};
-
-    private Random random = new Random();
-    private ScheduledExecutorService scheduleTaskExecutor;
-    private int resId = R.drawable.samsung_ad;
+    private RequestClient requestClient;
+    public static List<Integer> advertisements = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        //new AdvertisementUtil(getApplicationContext(), adImage);
+        requestClient = RequestFactory.build(RequestClient.class);
+        requestClient.fetchAdvertisement().enqueue(this);
         checkRunTimePermission();
         FirebaseMessaging.getInstance().subscribeToTopic("Testing");
         FirebaseInstanceId.getInstance().getToken();
-        //scheduleTaskAD();
+
     }
 
     private void init() {
 
         viewPagerAdapter = new FragmentAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(ProductFragment.newInstance("WED"), getResources().getString(R.string.wedding_fragment));
-        viewPagerAdapter.addFragment(ProductFragment.newInstance("CER"), getResources().getString(R.string.ceremony_fragment));
-        viewPagerAdapter.addFragment(ProductFragment.newInstance("DES"), getResources().getString(R.string.design_fragment));
+        viewPagerAdapter.addFragment(ProductFragment.newInstance("WED", this), getResources().getString(R.string.wedding_fragment));
+        viewPagerAdapter.addFragment(ProductFragment.newInstance("CER", this), getResources().getString(R.string.ceremony_fragment));
+        viewPagerAdapter.addFragment(ProductFragment.newInstance("DES", this), getResources().getString(R.string.design_fragment));
 
         viewPager = (ViewPager) findViewById(R.id.tabPager);
         viewPager.setAdapter(viewPagerAdapter);
@@ -72,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
 
-        adImage = (ImageView) findViewById(R.id.imgAd);
+        imageAd = (ImageView) findViewById(R.id.imgAd);
 
         searchView = (SearchView) findViewById(R.id.search_view);
         searchView.setQueryHint(getResources().getString(R.string.string_search_hint));
@@ -91,22 +92,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         });
     }
 
-    private void scheduleTaskAD() {
-        /*scheduleTaskExecutor = Executors.newScheduledThreadPool(5);
-        scheduleTaskExecutor.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                resId = random.nextInt(adImages.length);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adImage.setImageResource(adImages[resId]);
-                    }
-                });
-            }
-        }, 0, 15, TimeUnit.SECONDS);*/
-    }
-
     private void checkRunTimePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
@@ -114,11 +99,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 // We don't have permission so prompt the user
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                    Toast.makeText(this, "Write External Storage permission allows us to do store images. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Write External Storage permission allows us to do store advertisements. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
                 else
                     ActivityCompat.requestPermissions(this, Constant.MY_PERMISSIONS, Constant.REQUEST_PERMISSIONS_CODE);
             }
         }
+    }
+
+    public void onRefreshAD() {
+        requestClient.fetchAdvertisement().enqueue(this);
     }
 
     @Override
@@ -144,4 +133,25 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 break;
         }
     }
+
+    @Override
+    public void onResponse(Call<ResponseEntity<Advertisement>> call, Response<ResponseEntity<Advertisement>> response) {
+        if (response.code() == 200) {
+            ResponseEntity<Advertisement> responseEntity = response.body();
+            if (responseEntity.getData() != null && !responseEntity.getData().isEmpty()) {
+                advertisements.clear();
+                for (Advertisement advertisement : responseEntity.getData()) {
+                    advertisements.add(advertisement.getImage());
+                }
+                AnimateAD.animate(imageAd, advertisements, 0, true, this);
+            }
+        }
+    }
+
+    @Override
+    public void onFailure(Call<ResponseEntity<Advertisement>> call, Throwable t) {
+        Jog.i(AnimateAD.class, t.getMessage());
+        Toast.makeText(this, t.getMessage(), Toast.LENGTH_LONG).show();
+    }
+
 }

@@ -16,14 +16,17 @@ import org.jarvis.code.util.RetrofitUtil;
  */
 
 public class SplashActivity extends AppCompatActivity {
+
     private static boolean splashLoaded = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         final Picasso picasso = new Picasso.Builder(SplashActivity.this)
                 .downloader(new OkHttp3Downloader(RetrofitUtil.okHttpClient))
                 .build();
+
         Picasso.setSingletonInstance(picasso);
         if (!splashLoaded) {
             setContentView(R.layout.activity_splash);

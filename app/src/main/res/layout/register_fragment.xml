@@ -11,9 +11,9 @@
         <ImageView
             android:id="@+id/registerImgAd"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/advertisement_height"
             android:adjustViewBounds="true"
-            android:src="@drawable/coca_col_ad" />
+            android:src="@drawable/no_ad_available" />
 
         <ImageButton
             android:id="@+id/imgBack"
@@ -76,7 +76,7 @@
                                 android:layout_below="@+id/lblGroomName"
                                 android:ems="17"
                                 android:hint="@string/string_groom_name"
-                                android:inputType="text"/>
+                                android:inputType="text" />
 
                         </RelativeLayout>
                     </TableRow>
@@ -480,15 +480,15 @@
                     android:id="@+id/button_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:layout_below="@+id/table_layout">
+                    android:layout_below="@+id/table_layout"
+                    android:orientation="horizontal">
 
                     <ImageButton
                         android:id="@+id/imgMap"
                         android:layout_width="51dp"
                         android:layout_height="43dp"
-                        android:layout_marginTop="3dp"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginTop="3dp"
                         android:background="@null"
                         android:scaleType="centerCrop"
                         android:src="@drawable/img_google_map_src" />
@@ -497,8 +497,8 @@
                         android:id="@+id/imgChoose"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginTop="3dp"
                         android:background="@null"
                         android:scaleType="centerCrop"
                         android:src="@drawable/img_choose_src" />
@@ -507,9 +507,9 @@
                         android:id="@+id/imgSubmit"
                         android:layout_width="200dp"
                         android:layout_height="wrap_content"
-                        android:background="#0b79ce"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="48dp"
+                        android:background="#0b79ce"
                         android:text="@string/submit"
                         android:textColor="@color/colorWhite" />
 

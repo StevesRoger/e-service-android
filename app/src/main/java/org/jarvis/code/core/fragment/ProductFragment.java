@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jarvis.code.R;
+import org.jarvis.code.activity.MainActivity;
 import org.jarvis.code.api.RequestClient;
 import org.jarvis.code.core.adapter.LoadMoreHandler;
 import org.jarvis.code.core.adapter.ProductAdapter;
@@ -46,6 +47,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     private ProductAdapter adapter;
     private List<Product> products;
     private LoadMoreHandler<Product> loadMoreHandler;
+    private MainActivity mainActivity;
 
     private String type;
     private final int LIMIT = 5;
@@ -53,9 +55,10 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     private int position = 5;
     private int page = 1;
 
-    public static ProductFragment newInstance(String type) {
+    public static ProductFragment newInstance(String type, MainActivity mainActivity) {
         ProductFragment fragment = new ProductFragment();
         fragment.type = type;
+        fragment.mainActivity = mainActivity;
         return fragment;
     }
 
@@ -139,6 +142,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
 
     @Override
     public void onRefresh() {
+        mainActivity.onRefreshAD();
         requestService.fetchProducts(1, LIMIT, type).enqueue(this);
     }
 

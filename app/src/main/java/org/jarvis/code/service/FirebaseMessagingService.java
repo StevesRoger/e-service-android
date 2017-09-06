@@ -9,6 +9,13 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.jarvis.code.R;
 import org.jarvis.code.activity.MainActivity;
+import org.jarvis.code.util.Jog;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by KimChheng on 9/3/2017.
@@ -18,10 +25,24 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        showNotification(remoteMessage.getData().get("message"));
+        try {
+            Map<String, String> data = remoteMessage.getData();
+            //showNotification(data.get("title"), data.get("body"));
+            JSONArray jsonArray = new JSONArray(data.get("data"));
+            if (jsonArray != null) {
+                MainActivity.advertisements.clear();
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    MainActivity.advertisements.add(jsonObject.getInt("IMAGE"));
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Jog.i(FirebaseMessagingService.class, e.getMessage());
+        }
     }
 
-    private void showNotification(String message) {
+    private void showNotification(String title, String message) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -29,7 +50,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
                 .setAutoCancel(true)
-                .setContentTitle("V-Printing with FCM")
+                .setContentTitle(title)
                 .setContentText(message)
                 .setSmallIcon(R.drawable.common_google_signin_btn_icon_dark)
                 .setContentIntent(pendingIntent);

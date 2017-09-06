@@ -4,6 +4,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import org.jarvis.code.util.Constant;
+import org.jarvis.code.util.RetrofitUtil;
 
 import java.io.IOException;
 
@@ -26,7 +27,6 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
     }
 
     private void registerToken(String token) {
-        OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder()
                 .add("token", token)
                 .build();
@@ -35,7 +35,7 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
                 .url(Constant.BASE_URL + "/mobile/register")
                 .build();
         try {
-            client.newCall(request).execute();
+            RetrofitUtil.okHttpClient.newCall(request).execute();
         } catch (IOException e) {
             e.printStackTrace();
         }
