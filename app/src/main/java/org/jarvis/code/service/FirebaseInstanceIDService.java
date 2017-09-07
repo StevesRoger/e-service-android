@@ -4,12 +4,11 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import org.jarvis.code.util.Constant;
-import org.jarvis.code.util.RetrofitUtil;
+import org.jarvis.code.util.RequestFactory;
 
 import java.io.IOException;
 
 import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
@@ -35,7 +34,7 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
                 .url(Constant.BASE_URL + "/mobile/register")
                 .build();
         try {
-            RetrofitUtil.okHttpClient.newCall(request).execute();
+            RequestFactory.okHttpClient.newCall(request).execute();
         } catch (IOException e) {
             e.printStackTrace();
         }

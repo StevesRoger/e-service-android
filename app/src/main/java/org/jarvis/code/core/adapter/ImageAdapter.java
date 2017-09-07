@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
 import org.jarvis.code.core.fragment.RegisterFragment;
-import org.jarvis.code.core.model.response.Product;
+import org.jarvis.code.core.model.read.Product;
 import org.jarvis.code.util.Constant;
 
 import java.util.List;

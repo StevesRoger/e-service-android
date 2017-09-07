@@ -4,8 +4,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import org.jarvis.code.core.fragment.IFragment;
-import org.jarvis.code.core.model.response.ResponseEntity;
-import org.jarvis.code.util.Jog;
+import org.jarvis.code.core.model.read.ResponseEntity;
+import org.jarvis.code.util.Loggy;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,9 +40,9 @@ public class LoadMoreHandler<T> extends RecyclerView.OnScrollListener implements
                     isLoading = true;
                 }
             }
-            Jog.i(LoadMoreHandler.class, "Scrolling up");
+            Loggy.i(LoadMoreHandler.class, "Scrolling up");
         } else {
-            Jog.i(LoadMoreHandler.class, "Scrolling down");
+            Loggy.i(LoadMoreHandler.class, "Scrolling down");
         }
     }
 

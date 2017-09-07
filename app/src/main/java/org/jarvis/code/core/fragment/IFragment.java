@@ -2,7 +2,7 @@ package org.jarvis.code.core.fragment;
 
 import android.support.v4.widget.SwipeRefreshLayout;
 
-import org.jarvis.code.core.model.response.ResponseEntity;
+import org.jarvis.code.core.model.read.ResponseEntity;
 
 import retrofit2.Call;
 import retrofit2.Callback;

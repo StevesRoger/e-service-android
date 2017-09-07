@@ -6,7 +6,7 @@ import android.util.Log;
  * Created by ki.kao on 9/1/2017.
  */
 
-public final class Jog {
+public final class Loggy {
 
     public static void e(Class clazz, String message) {
         Log.e(Constant.TAG + clazz.getSimpleName(), message);

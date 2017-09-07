@@ -9,7 +9,7 @@ import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
-import org.jarvis.code.util.RetrofitUtil;
+import org.jarvis.code.util.RequestFactory;
 
 /**
  * Created by KimChheng on 7/16/2017.
@@ -22,12 +22,11 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         final Picasso picasso = new Picasso.Builder(SplashActivity.this)
-                .downloader(new OkHttp3Downloader(RetrofitUtil.okHttpClient))
+                .downloader(new OkHttp3Downloader(RequestFactory.okHttpClient))
                 .build();
-
         Picasso.setSingletonInstance(picasso);
+
         if (!splashLoaded) {
             setContentView(R.layout.activity_splash);
             int secondsDelayed = 1;

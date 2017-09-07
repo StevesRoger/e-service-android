@@ -19,10 +19,10 @@ import org.jarvis.code.activity.MainActivity;
 import org.jarvis.code.api.RequestClient;
 import org.jarvis.code.core.adapter.LoadMoreHandler;
 import org.jarvis.code.core.adapter.ProductAdapter;
-import org.jarvis.code.core.model.response.Product;
-import org.jarvis.code.core.model.response.Promotion;
-import org.jarvis.code.core.model.response.ResponseEntity;
-import org.jarvis.code.util.Jog;
+import org.jarvis.code.core.model.read.Product;
+import org.jarvis.code.core.model.read.Promotion;
+import org.jarvis.code.core.model.read.ResponseEntity;
+import org.jarvis.code.util.Loggy;
 import org.jarvis.code.util.RequestFactory;
 
 import java.util.ArrayList;
@@ -105,7 +105,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
 
     @Override
     public void onLoadMore() {
-        Jog.i(ProductFragment.class, "Load more product");
+        Loggy.i(ProductFragment.class, "Load more product");
         adapter.add(null);
         recyclerView.post(new Runnable() {
             public void run() {
@@ -134,7 +134,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
 
     @Override
     public void onLoadMoreFailure(Call<ResponseEntity<Product>> call, Throwable t) {
-        Jog.e(ProductFragment.class, t.getMessage());
+        Loggy.e(ProductFragment.class, t.getMessage());
         Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
         adapter.remove(products.size() - 1);
         adapter.notifyItemRemoved(products.size());
@@ -150,7 +150,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
         if (response.code() == 200) {
             ResponseEntity<Product> responseEntity = response.body();
-            Jog.i(ProductFragment.class, responseEntity.getData().toString());
+            Loggy.i(ProductFragment.class, responseEntity.getData().toString());
             loadMoreHandler.loaded();
             adapter.clear();
             adapter.addAll(responseEntity.getData());
@@ -171,7 +171,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
 
     @Override
     public void onFailure(Call<ResponseEntity<Product>> call, Throwable t) {
-        Jog.e(ProductFragment.class, t.getMessage());
+        Loggy.e(ProductFragment.class, t.getMessage());
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
@@ -179,7 +179,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     }
 
     private void fetchPromotion(final int step) {
-        Jog.i(ProductFragment.class, "advertisement offset:" + step);
+        Loggy.i(ProductFragment.class, "advertisement offset:" + step);
         new AsyncTask<Void, Void, Void>() {
             @Override
             protected Void doInBackground(Void... params) {
@@ -189,14 +189,14 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
                         ResponseEntity<Promotion> body = response.body();
                         if (body != null && !body.getData().isEmpty()) {
                             adapter.add(position, body.getData().get(0));
-                            Jog.i(ProductFragment.class, "advertisement position:" + position);
+                            Loggy.i(ProductFragment.class, "advertisement position:" + position);
                             position = (position + 5) + 1;
                             page = (position - 1) / 5;
                         }
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Jog.e(ProductFragment.class, e.getMessage());
+                    Loggy.e(ProductFragment.class, e.getMessage());
                 }
                 return null;
             }

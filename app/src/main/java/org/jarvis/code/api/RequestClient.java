@@ -1,9 +1,9 @@
 package org.jarvis.code.api;
 
-import org.jarvis.code.core.model.response.Advertisement;
-import org.jarvis.code.core.model.response.Product;
-import org.jarvis.code.core.model.response.Promotion;
-import org.jarvis.code.core.model.response.ResponseEntity;
+import org.jarvis.code.core.model.read.Advertisement;
+import org.jarvis.code.core.model.read.Product;
+import org.jarvis.code.core.model.read.Promotion;
+import org.jarvis.code.core.model.read.ResponseEntity;
 
 import java.util.Map;
 

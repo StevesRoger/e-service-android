@@ -1,9 +1,6 @@
-package org.jarvis.code.core.model.response;
+package org.jarvis.code.core.model.read;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
 
 /**
  * Created by ki.kao on 9/2/2017.

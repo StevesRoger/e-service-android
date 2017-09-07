@@ -1,7 +1,6 @@
 package org.jarvis.code.core.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -32,20 +31,19 @@ import org.jarvis.code.activity.MapsActivity;
 import org.jarvis.code.api.RequestClient;
 import org.jarvis.code.core.component.DatePickerFragment;
 import org.jarvis.code.core.component.ImageCross;
-import org.jarvis.code.core.model.request.Customer;
-import org.jarvis.code.core.model.response.Product;
-import org.jarvis.code.core.model.response.ResponseEntity;
+import org.jarvis.code.core.model.read.Product;
+import org.jarvis.code.core.model.read.ResponseEntity;
+import org.jarvis.code.core.model.write.Customer;
 import org.jarvis.code.util.AnimateAD;
+import org.jarvis.code.util.ComponentFactory;
 import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.FileUtil;
-import org.jarvis.code.util.Jog;
+import org.jarvis.code.util.Loggy;
 import org.jarvis.code.util.RequestFactory;
-import org.jarvis.code.util.StringUtil;
-import org.jarvis.code.util.ValidateUtil;
+import org.jarvis.code.util.Validator;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -60,7 +58,7 @@ import retrofit2.Response;
  * Created by KimChheng on 6/6/2017.
  */
 
-public class RegisterFragment extends Fragment implements View.OnClickListener, View.OnFocusChangeListener {
+public class RegisterFragment extends Fragment implements View.OnClickListener, View.OnFocusChangeListener, Callback<ResponseEntity<Map<String, Object>>> {
 
     private EditText txtGroomName;
     private EditText txtDadGroomName;
@@ -81,8 +79,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private RequestClient requestService;
     private DatePickerFragment dialogFragment;
     private ImageView imageAd;
+    private SweetAlertDialog progressDialog;
 
-    private List<String> validControl;
+    private Validator validator;
+    private ComponentFactory factory;
     private Uri uri;
     private File file;
 
@@ -95,13 +95,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         super.onCreate(savedInstanceState);
         requestService = RequestFactory.build(RequestClient.class);
         dialogFragment = new DatePickerFragment();
-        validControl = new ArrayList<>();
+        validator = new Validator(getContext());
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.register_fragment, container, false);
+        factory = new ComponentFactory(getContext(), view);
+
         txtGroomName = (EditText) view.findViewById(R.id.txtGroomName);
         txtDadGroomName = (EditText) view.findViewById(R.id.txtDadGroomName);
         txtMomGroomName = (EditText) view.findViewById(R.id.txtMomGroomName);
@@ -130,8 +132,10 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         btnSubmit.setOnClickListener(this);
         gallery = (LinearLayout) view.findViewById(R.id.imgGallery);
         imageAd = (ImageView) view.findViewById(R.id.registerImgAd);
-        requiredField(view);
+
+        requiredField();
         AnimateAD.animate(imageAd, MainActivity.advertisements, 0, true, getContext());
+
         return view;
     }
 
@@ -156,18 +160,15 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             case R.id.imgSubmit:
                 try {
                     validate();
-                    submitCustomer(getEntity());
+                    submitCustomer();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Jog.e(RegisterFragment.class, e.getMessage());
-                    StringBuilder sb = new StringBuilder();
-                    for (String msg : validControl)
-                        sb.append(msg).append("\r\n");
+                    Loggy.e(RegisterFragment.class, e.getMessage());
                     new SweetAlertDialog(getContext())
                             .setTitleText(e.getMessage().toString().trim())
-                            .setContentText(sb.toString())
+                            .setContentText(validator.getMessage())
                             .show();
-                    validControl.clear();
+                    validator.clear();
                 }
                 break;
             default:
@@ -176,7 +177,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    private Customer getEntity() {
+    private Customer createCustomer() {
         Bundle bundle = getArguments();
         Product product = (Product) bundle.getSerializable("product");
         Customer customer = new Customer();
@@ -198,61 +199,37 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         return customer;
     }
 
-    private void requiredField(View view) {
-        Context context = getContext();
-        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_groom_name),
-                (TextView) view.findViewById(R.id.lblGroomName));
-        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_dad_groom_name),
-                (TextView) view.findViewById(R.id.lblDadGroomName));
-        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_mom_groom_name),
-                (TextView) view.findViewById(R.id.lblMomGroomName));
-        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_bride_name),
-                (TextView) view.findViewById(R.id.lblBrideName));
-        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_dad_bride_name),
-                (TextView) view.findViewById(R.id.lblDadBrideName));
-        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_mom_bride_name),
-                (TextView) view.findViewById(R.id.lblMomBrideName));
-        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_wedding_date),
-                (TextView) view.findViewById(R.id.lblWeddingDate));
-        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_wedding_address),
-                (TextView) view.findViewById(R.id.lblAddress));
-        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_phone),
-                (TextView) view.findViewById(R.id.lblPhone));
-        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_email),
-                (TextView) view.findViewById(R.id.lblEmail));
-        ValidateUtil.setRequired(StringUtil.getString(context, R.string.string_facebook),
-                (TextView) view.findViewById(R.id.lblFacebook));
-
+    private void requiredField() {
+        Map<Integer, TextView> controls = new HashMap<>();
+        controls.put(R.string.string_groom_name, factory.build(TextView.class, R.id.lblGroomName));
+        controls.put(R.string.string_dad_groom_name, factory.build(TextView.class, R.id.lblDadGroomName));
+        controls.put(R.string.string_mom_groom_name, factory.build(TextView.class, R.id.lblMomGroomName));
+        controls.put(R.string.string_bride_name, factory.build(TextView.class, R.id.lblBrideName));
+        controls.put(R.string.string_dad_bride_name, factory.build(TextView.class, R.id.lblDadBrideName));
+        controls.put(R.string.string_mom_bride_name, factory.build(TextView.class, R.id.lblMomBrideName));
+        controls.put(R.string.string_wedding_date, factory.build(TextView.class, R.id.lblWeddingDate));
+        controls.put(R.string.string_wedding_address, factory.build(TextView.class, R.id.lblAddress));
+        controls.put(R.string.string_phone, factory.build(TextView.class, R.id.lblPhone));
+        controls.put(R.string.string_email, factory.build(TextView.class, R.id.lblEmail));
+        controls.put(R.string.string_facebook, factory.build(TextView.class, R.id.lblFacebook));
+        validator.setRequired(controls);
     }
 
     private void validate() throws Exception {
-        if (!ValidateUtil.isValid(txtGroomName))
-            validControl.add(txtGroomName.getHint().toString().trim());
-        if (!ValidateUtil.isValid(txtDadGroomName))
-            validControl.add(txtDadGroomName.getHint().toString().trim());
-        if (!ValidateUtil.isValid(txtMomGroomName))
-            validControl.add(txtMomGroomName.getHint().toString().trim());
-        if (!ValidateUtil.isValid(txtBrideName))
-            validControl.add(txtBrideName.getHint().toString().trim());
-        if (!ValidateUtil.isValid(txtDadBrideName))
-            validControl.add(txtDadBrideName.getHint().toString().trim());
-        if (!ValidateUtil.isValid(txtMomBrideName))
-            validControl.add(txtMomBrideName.getHint().toString().trim());
-        if (ValidateUtil.isEmpty(txtDate))
-            validControl.add(StringUtil.getString(getContext(), R.string.string_wedding_date));
-        if (ValidateUtil.isEmpty(txtVillage))
-            validControl.add(txtVillage.getHint().toString().trim());
-        if (ValidateUtil.isEmpty(txtCommune))
-            validControl.add(txtCommune.getHint().toString().trim());
-        if (ValidateUtil.isEmpty(txtDistrict))
-            validControl.add(txtDistrict.getHint().toString().trim());
-        if (ValidateUtil.isEmpty(txtPhone))
-            validControl.add(txtPhone.getHint().toString().trim());
-        if (ValidateUtil.isEmpty(txtEmail))
-            validControl.add(txtEmail.getHint().toString().trim());
-        if (ValidateUtil.isEmpty(txtFb))
-            validControl.add(txtFb.getHint().toString().trim());
-        if (!validControl.isEmpty())
+        validator.requiredTextField(txtGroomName);
+        validator.requiredTextField(txtDadGroomName);
+        validator.requiredTextField(txtMomGroomName);
+        validator.requiredTextField(txtBrideName);
+        validator.requiredTextField(txtDadBrideName);
+        validator.requiredTextField(txtMomBrideName);
+        validator.isEmptyTextField(txtDate, getContext().getResources().getString(R.string.string_wedding_date));
+        validator.isEmptyTextField(txtVillage);
+        validator.isEmptyTextField(txtCommune);
+        validator.isEmptyTextField(txtDistrict);
+        validator.isEmptyTextField(txtPhone);
+        validator.isEmptyTextField(txtEmail);
+        validator.isEmptyTextField(txtFb);
+        if (!validator.isValid())
             throw new Exception("There are invalid fields.");
     }
 
@@ -267,19 +244,18 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             if (uri != null)
                 takePhoto.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         }
-
         Intent chooserIntent = Intent.createChooser(gallery, "Choose an option");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{takePhoto});
         startActivityForResult(chooserIntent, 1);
     }
 
-    private void submitCustomer(Customer customer) {
+    private void submitCustomer() {
         try {
-            final SweetAlertDialog progressDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
-            progressDialog.setTitleText("Submitting ...");
-            progressDialog.setCancelable(false);
+            Customer customer = createCustomer();
             if (customer != null) {
-                validControl.clear();
+                progressDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
+                progressDialog.setTitleText("Submitting ...");
+                progressDialog.setCancelable(false);
                 String json = new Gson().toJson(customer);
                 Log.i(Constant.TAG, json);
                 RequestBody requestJson = RequestBody.create(MediaType.parse("text/plain"), json);
@@ -290,32 +266,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                     RequestBody requestBody = RequestBody.create(MediaType.parse(imageCross.getType()), file);
                     requestFiles[i] = MultipartBody.Part.createFormData("files", file.getName(), requestBody);
                 }
-                requestService.submitCustomer(requestJson, requestFiles).enqueue(new Callback<ResponseEntity<Map<String, Object>>>() {
-                    @Override
-                    public void onResponse(Call<ResponseEntity<Map<String, Object>>> call, Response<ResponseEntity<Map<String, Object>>> response) {
-                        if (response.code() == 200) {
-                            progressDialog.dismiss();
-                            new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                                    .setTitleText("Submit success!")
-                                    // .findViewById(R.id.confirm_button).setVisibility(View.GONE)
-                                    .show();
-                            ResponseEntity<Map<String, Object>> responseEntity = response.body();
-                            Log.i(Constant.TAG, responseEntity.getMessage());
-                            Toast.makeText(getContext(), responseEntity.getMessage(), Toast.LENGTH_LONG).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseEntity<Map<String, Object>>> call, Throwable t) {
-                        progressDialog.dismiss();
-                        new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
-                                .setTitleText("Oops...")
-                                .setContentText(t.getMessage())
-                                .show();
-                        Log.e(Constant.TAG, t.getMessage());
-                        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                });
+                requestService.submitCustomer(requestJson, requestFiles).enqueue(this);
                 progressDialog.show();
             }
         } catch (Exception e) {
@@ -330,7 +281,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == 1) {
             try {
-                Bitmap bitmap = null;
+                Bitmap bitmap;
                 if (data.getData() == null) {
                     if (file != null && uri != null)
                         FileUtil.reduceImageSize(getContext(), uri, file);
@@ -362,5 +313,30 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     public void onFocusChange(View view, boolean hasFocus) {
         if (hasFocus)
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    }
+
+    @Override
+    public void onResponse(Call<ResponseEntity<Map<String, Object>>> call, Response<ResponseEntity<Map<String, Object>>> response) {
+        if (response.code() == 200) {
+            progressDialog.dismiss();
+            new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Submit success!")
+                    // .findViewById(R.id.confirm_button).setVisibility(View.GONE)
+                    .show();
+            ResponseEntity<Map<String, Object>> responseEntity = response.body();
+            Log.i(Constant.TAG, responseEntity.getMessage());
+            Toast.makeText(getContext(), responseEntity.getMessage(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onFailure(Call<ResponseEntity<Map<String, Object>>> call, Throwable t) {
+        progressDialog.dismiss();
+        new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
+                .setTitleText("Oops...")
+                .setContentText(t.getMessage())
+                .show();
+        Log.e(Constant.TAG, t.getMessage());
+        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
     }
 }

@@ -22,11 +22,11 @@ import org.jarvis.code.api.RequestClient;
 import org.jarvis.code.core.adapter.FragmentAdapter;
 import org.jarvis.code.core.fragment.IFragment;
 import org.jarvis.code.core.fragment.ProductFragment;
-import org.jarvis.code.core.model.response.Advertisement;
-import org.jarvis.code.core.model.response.ResponseEntity;
+import org.jarvis.code.core.model.read.Advertisement;
+import org.jarvis.code.core.model.read.ResponseEntity;
 import org.jarvis.code.util.AnimateAD;
 import org.jarvis.code.util.Constant;
-import org.jarvis.code.util.Jog;
+import org.jarvis.code.util.Loggy;
 import org.jarvis.code.util.RequestFactory;
 
 import java.util.ArrayList;
@@ -127,9 +127,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         switch (requestCode) {
             case Constant.REQUEST_PERMISSIONS_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    Jog.e(MainActivity.class, "Permission Granted, Now you can use local drive .");
+                    Loggy.e(MainActivity.class, "Permission Granted, Now you can use local drive .");
                 else
-                    Jog.e(MainActivity.class, "Permission Denied, You cannot use local drive .");
+                    Loggy.e(MainActivity.class, "Permission Denied, You cannot use local drive .");
                 break;
         }
     }
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     @Override
     public void onFailure(Call<ResponseEntity<Advertisement>> call, Throwable t) {
-        Jog.i(AnimateAD.class, t.getMessage());
+        Loggy.i(AnimateAD.class, t.getMessage());
         Toast.makeText(this, t.getMessage(), Toast.LENGTH_LONG).show();
     }
 

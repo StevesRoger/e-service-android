@@ -9,12 +9,10 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.jarvis.code.R;
 import org.jarvis.code.activity.MainActivity;
-import org.jarvis.code.util.Jog;
+import org.jarvis.code.util.Loggy;
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -38,7 +36,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Jog.i(FirebaseMessagingService.class, e.getMessage());
+            Loggy.i(FirebaseMessagingService.class, e.getMessage());
         }
     }
 
