@@ -27,7 +27,6 @@ import com.google.gson.Gson;
 
 import org.jarvis.code.R;
 import org.jarvis.code.activity.MainActivity;
-import org.jarvis.code.activity.MapsActivity;
 import org.jarvis.code.api.RequestClient;
 import org.jarvis.code.core.component.DatePickerFragment;
 import org.jarvis.code.core.component.ImageCross;
@@ -148,8 +147,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 dialogFragment.setCancelable(false);
                 break;
             case R.id.imgMap:
-                Intent intent = new Intent(getActivity(), MapsActivity.class);
-                startActivity(intent);
+                Toast.makeText(getContext(), "Sorry for this feature is not release yet.", Toast.LENGTH_LONG).show();
+                //Intent intent = new Intent(getActivity(), MapsActivity.class);
+                //startActivity(intent);
                 break;
             case R.id.imgChoose:
                 browseImage();

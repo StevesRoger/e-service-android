@@ -59,7 +59,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblGroomName"
@@ -88,7 +89,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblDadGroomName"
@@ -118,7 +120,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblMomGroomName"
@@ -148,7 +151,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblBrideName"
@@ -178,7 +182,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblDadBrideName"
@@ -208,7 +213,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblMomBrideName"
@@ -238,7 +244,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblWeddingDate"
@@ -277,7 +284,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblAddress"
@@ -326,7 +334,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblHome"
@@ -357,7 +366,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblPhone"
@@ -388,7 +398,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblEmail"
@@ -419,7 +430,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblFacebook"
@@ -450,7 +462,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="match_parent"
+                            android:layout_weight="1">
 
                             <TextView
                                 android:id="@+id/lblOther"

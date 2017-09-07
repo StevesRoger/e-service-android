@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -56,7 +57,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         checkRunTimePermission();
         FirebaseMessaging.getInstance().subscribeToTopic("Testing");
         FirebaseInstanceId.getInstance().getToken();
-
     }
 
     private void init() {
@@ -88,6 +88,12 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             public boolean onQueryTextChange(String newText) {
                 ((IFragment) viewPagerAdapter.getItem(viewPager.getCurrentItem())).search(newText);
                 return true;
+            }
+        });
+        searchView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchView.setIconified(false);
             }
         });
     }

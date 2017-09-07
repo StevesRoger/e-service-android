@@ -47,7 +47,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     private ProductAdapter adapter;
     private List<Product> products;
     private LoadMoreHandler<Product> loadMoreHandler;
-    private MainActivity mainActivity;
+    private static MainActivity mainActivity;
 
     private String type;
     private final int LIMIT = 5;
@@ -100,7 +100,8 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
 
     @Override
     public void search(String text) {
-        adapter.filter(text);
+        if (adapter != null)
+            adapter.filter(text);
     }
 
     @Override
