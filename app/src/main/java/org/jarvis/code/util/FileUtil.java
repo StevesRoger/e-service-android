@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by KimChheng on 6/16/2017.
@@ -135,7 +137,7 @@ public final class FileUtil {
         return false;
     }
 
-    public static String getRealPathFromURI(Context context, Uri contentUri) {
+    /*public static String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
         try {
             String[] proj = {MediaStore.Images.Media.DATA};
@@ -149,10 +151,36 @@ public final class FileUtil {
             }
         }
 
+    }*/
+
+    public static String getRealPathFromURI(Context context, Uri uri) {
+        String filePath = "";
+        Pattern p = Pattern.compile("(\\d+)$");
+        Matcher m = p.matcher(uri.toString());
+        if (!m.find()) {
+            Loggy.e(FileUtil.class, "ID for requested image not found: " + uri.toString());
+            return filePath;
+        }
+        String imgId = m.group();
+
+        String[] column = {MediaStore.Images.Media.DATA};
+        String sel = MediaStore.Images.Media._ID + "=?";
+
+        Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                column, sel, new String[]{imgId}, null);
+
+        int columnIndex = cursor.getColumnIndex(column[0]);
+
+        if (cursor.moveToFirst()) {
+            filePath = cursor.getString(columnIndex);
+        }
+        cursor.close();
+
+        return filePath;
     }
 
     @NonNull
-   public static String getMimeType(@NonNull File file) {
+    public static String getMimeType(@NonNull File file) {
         String type = null;
         final String url = file.toString();
         final String extension = MimeTypeMap.getFileExtensionFromUrl(url);

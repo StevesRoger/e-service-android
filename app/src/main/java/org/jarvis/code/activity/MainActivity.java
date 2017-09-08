@@ -100,15 +100,22 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     private void checkRunTimePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                     && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 // We don't have permission so prompt the user
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                    Toast.makeText(this, "Write External Storage permission allows us to do store advertisements. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
-                else
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE))
+                    Toast.makeText(this, "Write External Storage permission allows us to do store image. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
+                else {
                     ActivityCompat.requestPermissions(this, Constant.MY_PERMISSIONS, Constant.REQUEST_PERMISSIONS_CODE);
+                    Loggy.i(MainActivity.class, "Request permission");
+                }
+            } else {
+                Loggy.i(MainActivity.class, "Permission is granted");
             }
+        } else {
+            Loggy.i(MainActivity.class, "Permission is granted");
         }
     }
 
@@ -133,9 +140,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         switch (requestCode) {
             case Constant.REQUEST_PERMISSIONS_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    Loggy.e(MainActivity.class, "Permission Granted, Now you can use local drive .");
+                    Loggy.e(MainActivity.class, "Permission Granted, Now you can use local drive.");
                 else
-                    Loggy.e(MainActivity.class, "Permission Denied, You cannot use local drive .");
+                    Loggy.e(MainActivity.class, "Permission Denied, You cannot use local drive.");
                 break;
         }
     }
