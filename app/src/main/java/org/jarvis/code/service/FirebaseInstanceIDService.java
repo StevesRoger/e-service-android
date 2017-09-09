@@ -4,6 +4,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
 import org.jarvis.code.util.Constant;
+import org.jarvis.code.util.Loggy;
 import org.jarvis.code.util.RequestFactory;
 
 import java.io.IOException;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /**
  * Created by KimChheng on 9/3/2017.
@@ -22,6 +24,8 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
     @Override
     public void onTokenRefresh() {
         String token = FirebaseInstanceId.getInstance().getToken();
+        Loggy.i(FirebaseInstanceIDService.class, "onTokenRefresh");
+        Loggy.i(FirebaseInstanceIDService.class, token);
         registerToken(token);
     }
 
@@ -34,7 +38,11 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
                 .url(Constant.BASE_URL + "/mobile/register")
                 .build();
         try {
-            RequestFactory.okHttpClient.newCall(request).execute();
+            Response response = RequestFactory.okHttpClient.newCall(request).execute();
+            if (response.code() == 200)
+                Loggy.i(FirebaseInstanceIDService.class, "Register token success.");
+            else
+                Loggy.i(FirebaseInstanceIDService.class, "Register failed");
         } catch (IOException e) {
             e.printStackTrace();
         }

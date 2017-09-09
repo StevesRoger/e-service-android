@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -24,6 +25,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         try {
+            Loggy.i(FirebaseMessagingService.class, "onMessageReceived");
+            Loggy.i(FirebaseMessagingService.class, remoteMessage.getData().toString());
             Map<String, String> data = remoteMessage.getData();
             //showNotification(data.get("title"), data.get("body"));
             JSONArray jsonArray = new JSONArray(data.get("data"));
@@ -33,6 +36,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                     JSONObject jsonObject = jsonArray.getJSONObject(i);
                     MainActivity.advertisements.add(jsonObject.getInt("IMAGE"));
                 }
+                Loggy.i(FirebaseMessagingService.class, "Update Advertisement");
             }
         } catch (Exception e) {
             e.printStackTrace();

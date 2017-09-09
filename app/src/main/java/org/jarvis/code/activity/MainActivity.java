@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
             @Override
             public boolean onQueryTextSubmit(String query) {
                 ((IFragment) viewPagerAdapter.getItem(viewPager.getCurrentItem())).search(query);
+                searchView.setIconified(true);
+                searchView.clearFocus();
                 return true;
             }
 

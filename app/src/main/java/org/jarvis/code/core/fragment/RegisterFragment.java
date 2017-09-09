@@ -230,7 +230,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         validator.isEmptyTextField(txtEmail);
         validator.isEmptyTextField(txtFb);
         if (!validator.isValid())
-            throw new Exception("There are invalid fields.");
+            throw new Exception("Mandatory fields is required.");
     }
 
     private void browseImage() {
@@ -319,13 +319,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     public void onResponse(Call<ResponseEntity<Map<String, Object>>> call, Response<ResponseEntity<Map<String, Object>>> response) {
         if (response.code() == 200) {
             progressDialog.dismiss();
+            ResponseEntity<Map<String, Object>> responseEntity = response.body();
             new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText("Submit success!")
+                    .setTitleText(responseEntity.getMessage())
                     // .findViewById(R.id.confirm_button).setVisibility(View.GONE)
                     .show();
-            ResponseEntity<Map<String, Object>> responseEntity = response.body();
-            Log.i(Constant.TAG, responseEntity.getMessage());
-            Toast.makeText(getContext(), responseEntity.getMessage(), Toast.LENGTH_LONG).show();
+            Loggy.i(RegisterFragment.class, responseEntity.getMessage());
+            //Toast.makeText(getContext(), responseEntity.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -337,6 +337,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 .setContentText(t.getMessage())
                 .show();
         Log.e(Constant.TAG, t.getMessage());
-        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
     }
 }
