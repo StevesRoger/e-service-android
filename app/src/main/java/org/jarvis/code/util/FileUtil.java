@@ -49,12 +49,11 @@ public final class FileUtil {
             bitmap = rotateImageIfRequired(context, bitmap, imgUri);
 
             FileOutputStream out = new FileOutputStream(imageDir);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 70, out);
             bitmap.recycle();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public static File createImageFile() {
@@ -137,21 +136,6 @@ public final class FileUtil {
         return false;
     }
 
-    /*public static String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-
-    }*/
 
     public static String getRealPathFromURI(Context context, Uri uri) {
         String filePath = "";

@@ -34,7 +34,7 @@ public final class AnimateAD {
         Picasso.with(context).load(imgUrl + images.get(imageIndex))
                 .fit()
                 .centerCrop()
-                //.placeholder(R.drawable.progress_animation)
+                //.placeholder(R.drawable.progress_spinning_circle)
                 .error(R.drawable.no_ad_available)
                 .into(imageView);
 

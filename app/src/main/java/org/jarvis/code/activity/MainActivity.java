@@ -37,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, Callback<ResponseEntity<Advertisement>> {
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, Callback<ResponseEntity<Advertisement>>, SearchView.OnQueryTextListener {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -45,15 +45,18 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private ImageView imageAd;
     private SearchView searchView;
     private RequestClient requestClient;
-    public static List<Integer> advertisements = new ArrayList<>();
+    public static List<Integer> advertisements;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
+
+        advertisements = new ArrayList<>();
         requestClient = RequestFactory.build(RequestClient.class);
         requestClient.fetchAdvertisement().enqueue(this);
+
         checkRunTimePermission();
         FirebaseMessaging.getInstance().subscribeToTopic("Testing");
         FirebaseInstanceId.getInstance().getToken();
@@ -77,27 +80,13 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
         searchView = (SearchView) findViewById(R.id.search_view);
         searchView.setQueryHint(getResources().getString(R.string.string_search_hint));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                ((IFragment) viewPagerAdapter.getItem(viewPager.getCurrentItem())).search(query);
-                searchView.setIconified(true);
-                searchView.clearFocus();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                ((IFragment) viewPagerAdapter.getItem(viewPager.getCurrentItem())).search(newText);
-                return true;
-            }
-        });
-        searchView.setOnClickListener(new View.OnClickListener() {
+        searchView.setOnQueryTextListener(this);
+       /* searchView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 searchView.setIconified(false);
             }
-        });
+        });*/
     }
 
     private void checkRunTimePermission() {
@@ -169,4 +158,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         Toast.makeText(this, t.getMessage(), Toast.LENGTH_LONG).show();
     }
 
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        ((IFragment) viewPagerAdapter.getItem(viewPager.getCurrentItem())).search(query);
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        ((IFragment) viewPagerAdapter.getItem(viewPager.getCurrentItem())).search(newText);
+        return true;
+    }
 }

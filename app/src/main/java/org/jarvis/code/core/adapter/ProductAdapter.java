@@ -21,6 +21,7 @@ import org.jarvis.code.core.fragment.RegisterFragment;
 import org.jarvis.code.core.model.read.Product;
 import org.jarvis.code.core.model.read.Promotion;
 import org.jarvis.code.util.Constant;
+import org.jarvis.code.util.Loggy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -144,6 +145,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
     }
 
     public void filter(String text) {
+        Loggy.i(ProductAdapter.class, "Search product '" + text + "'");
         originalList.clear();
         if (text.isEmpty()) {
             originalList.addAll(copyList);

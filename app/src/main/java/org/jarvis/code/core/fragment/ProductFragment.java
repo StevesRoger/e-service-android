@@ -47,7 +47,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     private ProductAdapter adapter;
     private List<Product> products;
     private LoadMoreHandler<Product> loadMoreHandler;
-    private static MainActivity mainActivity;
+    private MainActivity mainActivity;
 
     private String type;
     private final int LIMIT = 5;
@@ -55,12 +55,13 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     private int position = 5;
     private int page = 1;
 
-    public static ProductFragment newInstance(String type, MainActivity mainActivity) {
+    public static ProductFragment newInstance(String type, MainActivity activity) {
         ProductFragment fragment = new ProductFragment();
         fragment.type = type;
-        fragment.mainActivity = mainActivity;
+        fragment.mainActivity = activity;
         return fragment;
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -100,8 +101,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
 
     @Override
     public void search(String text) {
-        if (adapter != null)
-            adapter.filter(text);
+        adapter.filter(text);
     }
 
     @Override
@@ -145,6 +145,8 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     public void onRefresh() {
         mainActivity.onRefreshAD();
         requestService.fetchProducts(1, LIMIT, type).enqueue(this);
+        if (progressBar.getVisibility() == View.VISIBLE)
+            progressBar.setVisibility(View.GONE);
     }
 
     @Override

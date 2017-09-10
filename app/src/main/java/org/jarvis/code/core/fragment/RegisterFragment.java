@@ -282,7 +282,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         if (resultCode == Activity.RESULT_OK && requestCode == 1) {
             try {
                 Bitmap bitmap;
-                if (data.getData() == null) {
+                if (data == null || data.getData() == null) {
                     if (file != null && uri != null)
                         FileUtil.reduceImageSize(getContext(), uri, file);
                 } else {
