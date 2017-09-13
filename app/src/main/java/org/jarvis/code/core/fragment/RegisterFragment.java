@@ -1,6 +1,7 @@
 package org.jarvis.code.core.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -110,6 +112,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         txtDadBrideName = (EditText) view.findViewById(R.id.txtDadBrideName);
         txtMomBrideName = (EditText) view.findViewById(R.id.txtMomBrideName);
         txtDate = (EditText) view.findViewById(R.id.txtDate);
+        txtDate.setOnClickListener(this);
         datePicker = (ImageButton) view.findViewById(R.id.imgDate);
         datePicker.setOnClickListener(this);
         txtVillage = (EditText) view.findViewById(R.id.txtVillage);
@@ -138,16 +141,23 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         return view;
     }
 
+    private void openDialogDate() {
+        AppCompatActivity appCompatActivity = (AppCompatActivity) getContext();
+        dialogFragment.show(appCompatActivity.getSupportFragmentManager(), "datePicker");
+        dialogFragment.setCancelable(false);
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgDate:
-                AppCompatActivity appCompatActivity = (AppCompatActivity) getContext();
-                dialogFragment.show(appCompatActivity.getSupportFragmentManager(), "datePicker");
-                dialogFragment.setCancelable(false);
+                openDialogDate();
+                break;
+            case R.id.txtDate:
+                openDialogDate();
                 break;
             case R.id.imgMap:
-                Toast.makeText(getContext(), "Sorry for this feature is not release yet.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Sorry for this feature will release on next version.", Toast.LENGTH_LONG).show();
                 //Intent intent = new Intent(getActivity(), MapsActivity.class);
                 //startActivity(intent);
                 break;
@@ -156,6 +166,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 break;
             case R.id.imgBack:
                 getActivity().getSupportFragmentManager().popBackStack();
+                InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 break;
             case R.id.imgSubmit:
                 try {
@@ -164,7 +176,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 } catch (Exception e) {
                     e.printStackTrace();
                     Loggy.e(RegisterFragment.class, e.getMessage());
-                    new SweetAlertDialog(getContext())
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
                             .setTitleText(e.getMessage().toString().trim())
                             .setContentText(validator.getMessage())
                             .show();
@@ -222,7 +234,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         validator.requiredTextField(txtBrideName);
         validator.requiredTextField(txtDadBrideName);
         validator.requiredTextField(txtMomBrideName);
-        validator.isEmptyTextField(txtDate, getContext().getResources().getString(R.string.string_wedding_date));
+        validator.isEmptyTextField(txtDate, getString(R.string.string_wedding_date));
         validator.isEmptyTextField(txtVillage);
         validator.isEmptyTextField(txtCommune);
         validator.isEmptyTextField(txtDistrict);
@@ -230,7 +242,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         validator.isEmptyTextField(txtEmail);
         validator.isEmptyTextField(txtFb);
         if (!validator.isValid())
-            throw new Exception("Mandatory fields is required.");
+            throw new Exception(getString(R.string.string_problem));
     }
 
     private void browseImage() {
@@ -254,7 +266,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             Customer customer = createCustomer();
             if (customer != null) {
                 progressDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
-                progressDialog.setTitleText("Submitting ...");
+                progressDialog.setTitleText(getString(R.string.string_submitting));
                 progressDialog.setCancelable(false);
                 String json = new Gson().toJson(customer);
                 Log.i(Constant.TAG, json);
@@ -321,7 +333,8 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             progressDialog.dismiss();
             ResponseEntity<Map<String, Object>> responseEntity = response.body();
             new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText(responseEntity.getMessage())
+                    .setTitleText(getString(R.string.string_sending_infor))
+                    .setContentText(getString(R.string.string_success))
                     // .findViewById(R.id.confirm_button).setVisibility(View.GONE)
                     .show();
             Loggy.i(RegisterFragment.class, responseEntity.getMessage());
@@ -333,7 +346,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     public void onFailure(Call<ResponseEntity<Map<String, Object>>> call, Throwable t) {
         progressDialog.dismiss();
         new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
-                .setTitleText("Oops...")
+                .setTitleText(getString(R.string.string_fail))
                 .setContentText(t.getMessage())
                 .show();
         Log.e(Constant.TAG, t.getMessage());

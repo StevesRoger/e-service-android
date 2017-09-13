@@ -385,7 +385,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:ems="17"
                                 android:hint="@string/string_phone"
-                                android:inputType="text" />
+                                android:inputType="number" />
 
                         </RelativeLayout>
 
@@ -417,7 +417,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:ems="17"
                                 android:hint="@string/string_email"
-                                android:inputType="textEmailAddress" />
+                                android:inputType="textWebEmailAddress" />
 
                         </RelativeLayout>
 
@@ -522,8 +522,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginLeft="48dp"
-                        android:background="#0b79ce"
-                        android:text="@string/submit"
+                        android:background="@color/colorAccent"
+                        android:text="@string/string_submit"
+                        android:textSize="18dp"
                         android:textColor="@color/colorWhite" />
 
                 </LinearLayout>

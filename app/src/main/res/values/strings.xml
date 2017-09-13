@@ -33,7 +33,12 @@
     <string name="string_district">ស្រុក</string>
     <string name="choose_image">ជ្រើសរើស រូបភាព</string>
     <string name="string_date_hint">Sun/16/Aug/2017</string>
-    <string name="submit">Submit</string>
+    <string name="string_submit">បព្ជូានព័ត៌មាន</string>
     <string name="string_empty_kh">មិនអាចទទេ</string>
     <string name="string_search_hint">ស្វែងរកផលិតផល</string>
+    <string name="string_submitting">កំពុងបព្ជូាន...</string>
+    <string name="string_success">បានជោគជ័យ</string>
+    <string name="string_fail">បរាជ័យ</string>
+    <string name="string_sending_infor">បព្ជូានព័ត៌មាន</string>
+    <string name="string_problem">ព័ត៌មានមិនត្រឹមត្រូវ</string>
 </resources>

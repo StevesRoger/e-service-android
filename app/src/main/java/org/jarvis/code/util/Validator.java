@@ -35,7 +35,7 @@ public final class Validator {
     public void setRequired(int captionId, TextView textView) {
         String colored = "*";
         SpannableStringBuilder builder = new SpannableStringBuilder();
-        builder.append(context.getResources().getString(captionId));
+        builder.append(context.getString(captionId));
         int start = builder.length();
         builder.append(colored);
         int end = builder.length();
