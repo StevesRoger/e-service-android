@@ -145,8 +145,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     public void onRefresh() {
         mainActivity.onRefreshAD();
         requestService.fetchProducts(1, LIMIT, type).enqueue(this);
-        if (progressBar.getVisibility() == View.VISIBLE)
-            progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
