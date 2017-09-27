@@ -22,10 +22,10 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        final Picasso picasso = new Picasso.Builder(SplashActivity.this)
+        /*final Picasso picasso = new Picasso.Builder(SplashActivity.this)
                 .downloader(new OkHttp3Downloader(RequestFactory.okHttpClient))
                 .build();
-        Picasso.setSingletonInstance(picasso);
+        Picasso.setSingletonInstance(picasso);*/
 
         if (!splashLoaded) {
             setContentView(R.layout.activity_splash);

@@ -163,6 +163,8 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
             offset = 2;
             position = 5;
             page = 1;
+            if (products.size() == 5)
+                fetchPromotion(page);
             if (products.isEmpty() && lblMessage.getVisibility() == View.GONE) {
                 lblMessage.setText("There is no product from server!");
                 lblMessage.setVisibility(View.VISIBLE);
