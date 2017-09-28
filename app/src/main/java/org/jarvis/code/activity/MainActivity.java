@@ -11,7 +11,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -46,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private SearchView searchView;
     private RequestClient requestClient;
     public static List<Integer> advertisements;
+    private boolean isLoad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,13 +141,16 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     public void onResponse(Call<ResponseEntity<Advertisement>> call, Response<ResponseEntity<Advertisement>> response) {
         if (response.code() == 200) {
-            ResponseEntity<Advertisement> responseEntity = response.body();
-            if (responseEntity.getData() != null && !responseEntity.getData().isEmpty()) {
+            List<Advertisement> list = response.body().getData();
+            if (list != null && !list.isEmpty()) {
                 advertisements.clear();
-                for (Advertisement advertisement : responseEntity.getData()) {
+                for (Advertisement advertisement : list) {
                     advertisements.add(advertisement.getImage());
                 }
-                AnimateAD.animate(imageAd, advertisements, 0, true, this);
+                if (!isLoad) {
+                    AnimateAD.animate(imageAd, advertisements, 0, true, this);
+                    isLoad = true;
+                }
             }
         }
     }
