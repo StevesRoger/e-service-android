@@ -1,4 +1,4 @@
-package org.jarvis.code.core.component;
+package org.jarvis.code.core.control;
 
 import android.app.Dialog;
 import android.content.res.Configuration;

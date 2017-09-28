@@ -4,15 +4,15 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
-import android.util.Log;
+import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.jarvis.code.R;
 import org.jarvis.code.activity.MainActivity;
+import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.Loggy;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.Map;
 
@@ -25,19 +25,15 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         try {
-            Loggy.i(FirebaseMessagingService.class, "onMessageReceived");
-            Loggy.i(FirebaseMessagingService.class, remoteMessage.getData().toString());
             Map<String, String> data = remoteMessage.getData();
-            //showNotification(data.get("title"), data.get("body"));
+            Loggy.i(FirebaseMessagingService.class, "onMessageReceived");
+            Loggy.i(FirebaseMessagingService.class, data.toString());
+            //showNotification(data.get("title"), data.get("message"));
             JSONArray jsonArray = new JSONArray(data.get("data"));
-            if (jsonArray != null) {
-                MainActivity.advertisements.clear();
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = jsonArray.getJSONObject(i);
-                    MainActivity.advertisements.add(jsonObject.getInt("IMAGE"));
-                }
-                Loggy.i(FirebaseMessagingService.class, "Update Advertisement");
-            }
+            Intent intent = new Intent(Constant.FCM_BROADCAST_ACTION);
+            intent.putExtra("data", jsonArray.toString());
+            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+            Loggy.i(FirebaseMessagingService.class, "send broadcast");
         } catch (Exception e) {
             e.printStackTrace();
             Loggy.i(FirebaseMessagingService.class, e.getMessage());

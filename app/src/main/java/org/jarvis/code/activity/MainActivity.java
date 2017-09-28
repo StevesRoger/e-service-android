@@ -1,6 +1,8 @@
 package org.jarvis.code.activity;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -8,10 +10,10 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -25,10 +27,12 @@ import org.jarvis.code.core.fragment.IFragment;
 import org.jarvis.code.core.fragment.ProductFragment;
 import org.jarvis.code.core.model.read.Advertisement;
 import org.jarvis.code.core.model.read.ResponseEntity;
+import org.jarvis.code.receive.FCMReceiver;
 import org.jarvis.code.util.AnimateAD;
 import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.Loggy;
 import org.jarvis.code.util.RequestFactory;
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +41,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, Callback<ResponseEntity<Advertisement>>, SearchView.OnQueryTextListener {
+public class MainActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback, Callback<ResponseEntity<Advertisement>>, SearchView.OnQueryTextListener, FCMReceiver.IReceiver {
 
     private TabLayout tabLayout;
     private ViewPager viewPager;
@@ -45,7 +49,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private ImageView imageAd;
     private SearchView searchView;
     private RequestClient requestClient;
-    public static List<Integer> advertisements;
+    private FCMReceiver fcmReceiver;
+    private List<Integer> advertisements;
+    private boolean isLoad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +60,15 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         init();
 
         advertisements = new ArrayList<>();
+        fcmReceiver = new FCMReceiver(this);
         requestClient = RequestFactory.build(RequestClient.class);
         requestClient.fetchAdvertisement().enqueue(this);
 
         checkRunTimePermission();
-        FirebaseMessaging.getInstance().subscribeToTopic("Testing");
+        FirebaseMessaging.getInstance().subscribeToTopic("V-Printing");
         FirebaseInstanceId.getInstance().getToken();
+        Loggy.i(MainActivity.class,"register receiver");
+        LocalBroadcastManager.getInstance(this).registerReceiver(fcmReceiver, new IntentFilter(Constant.FCM_BROADCAST_ACTION));
     }
 
     private void init() {
@@ -81,37 +90,6 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         searchView = (SearchView) findViewById(R.id.search_view);
         searchView.setQueryHint(getResources().getString(R.string.string_search_hint));
         searchView.setOnQueryTextListener(this);
-       /* searchView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                searchView.setIconified(false);
-            }
-        });*/
-    }
-
-    private void checkRunTimePermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // We don't have permission so prompt the user
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE))
-                    Toast.makeText(this, "Write External Storage permission allows us to do store image. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
-                else {
-                    ActivityCompat.requestPermissions(this, Constant.MY_PERMISSIONS, Constant.REQUEST_PERMISSIONS_CODE);
-                    Loggy.i(MainActivity.class, "Request permission");
-                }
-            } else {
-                Loggy.i(MainActivity.class, "Permission is granted");
-            }
-        } else {
-            Loggy.i(MainActivity.class, "Permission is granted");
-        }
-    }
-
-    public void onRefreshAD() {
-        requestClient.fetchAdvertisement().enqueue(this);
     }
 
     @Override
@@ -141,20 +119,22 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     public void onResponse(Call<ResponseEntity<Advertisement>> call, Response<ResponseEntity<Advertisement>> response) {
         if (response.code() == 200) {
-            ResponseEntity<Advertisement> responseEntity = response.body();
-            if (responseEntity.getData() != null && !responseEntity.getData().isEmpty()) {
+            List<Advertisement> list = response.body().getData();
+            if (list != null && !list.isEmpty()) {
                 advertisements.clear();
-                for (Advertisement advertisement : responseEntity.getData()) {
+                for (Advertisement advertisement : list)
                     advertisements.add(advertisement.getImage());
+                if (!isLoad) {
+                    AnimateAD.animate(imageAd, advertisements, 0, true, this);
+                    isLoad = true;
                 }
-                AnimateAD.animate(imageAd, advertisements, 0, true, this);
             }
         }
     }
 
     @Override
     public void onFailure(Call<ResponseEntity<Advertisement>> call, Throwable t) {
-        Loggy.i(AnimateAD.class, t.getMessage());
+        Loggy.e(MainActivity.class, t.getMessage());
         Toast.makeText(this, t.getMessage(), Toast.LENGTH_LONG).show();
     }
 
@@ -169,4 +149,42 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         ((IFragment) viewPagerAdapter.getItem(viewPager.getCurrentItem())).search(newText);
         return true;
     }
+
+    @Override
+    protected void onStop() {
+        Loggy.i(MainActivity.class,"unregister receiver");
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(fcmReceiver);
+        super.onStop();
+    }
+
+    @Override
+    public void onReceive(Context context, JSONArray jsonArray) {
+        Loggy.i(MainActivity.class, jsonArray.toString());
+    }
+
+    private void checkRunTimePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                // We don't have permission so prompt the user
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE))
+                    Toast.makeText(this, "Write External Storage permission allows us to do store image. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
+                else {
+                    ActivityCompat.requestPermissions(this, Constant.MY_PERMISSIONS, Constant.REQUEST_PERMISSIONS_CODE);
+                    Loggy.i(MainActivity.class, "Request permission");
+                }
+            } else {
+                Loggy.i(MainActivity.class, "Permission is granted");
+            }
+        } else {
+            Loggy.i(MainActivity.class, "Permission is granted");
+        }
+    }
+
+    public void onRefreshAD() {
+        requestClient.fetchAdvertisement().enqueue(this);
+    }
+
 }

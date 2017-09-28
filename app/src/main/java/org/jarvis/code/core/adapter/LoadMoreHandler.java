@@ -22,7 +22,7 @@ public class LoadMoreHandler<T> extends RecyclerView.OnScrollListener implements
     private boolean isLoading;
     private int visibleItemCount, totalItemCount, pastVisiblesItems;
 
-    public LoadMoreHandler(IFragment iFragment, RecyclerView recyclerView) {
+    public LoadMoreHandler(IFragment<T> iFragment, RecyclerView recyclerView) {
         this.iFragment = iFragment;
         this.linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
     }
@@ -41,8 +41,10 @@ public class LoadMoreHandler<T> extends RecyclerView.OnScrollListener implements
                 }
             }
             Loggy.i(LoadMoreHandler.class, "Scrolling up");
+            Loggy.i(LoadMoreHandler.class, dx + " " + dy);
         } else {
             Loggy.i(LoadMoreHandler.class, "Scrolling down");
+            Loggy.i(LoadMoreHandler.class, dx + " " + dy);
         }
     }
 

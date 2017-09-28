@@ -28,14 +28,12 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import org.jarvis.code.R;
-import org.jarvis.code.activity.MainActivity;
 import org.jarvis.code.api.RequestClient;
-import org.jarvis.code.core.component.DatePickerFragment;
-import org.jarvis.code.core.component.ImageCross;
+import org.jarvis.code.core.control.JDatePicker;
+import org.jarvis.code.core.control.ImageCross;
 import org.jarvis.code.core.model.read.Product;
 import org.jarvis.code.core.model.read.ResponseEntity;
 import org.jarvis.code.core.model.write.Customer;
-import org.jarvis.code.util.AnimateAD;
 import org.jarvis.code.util.ComponentFactory;
 import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.FileUtil;
@@ -78,7 +76,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     private Button btnSubmit;
     private LinearLayout gallery;
     private RequestClient requestService;
-    private DatePickerFragment dialogFragment;
+    private JDatePicker dialogFragment;
     private ImageView imageAd;
     private SweetAlertDialog progressDialog;
 
@@ -95,7 +93,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestService = RequestFactory.build(RequestClient.class);
-        dialogFragment = new DatePickerFragment();
+        dialogFragment = new JDatePicker();
         validator = new Validator(getContext());
     }
 
@@ -136,7 +134,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
         imageAd = (ImageView) view.findViewById(R.id.registerImgAd);
 
         requiredField();
-        AnimateAD.animate(imageAd, MainActivity.advertisements, 0, true, getContext());
+        //AnimateAD.animate(imageAd, MainActivity.advertisements, 0, true, getContext());
 
         return view;
     }

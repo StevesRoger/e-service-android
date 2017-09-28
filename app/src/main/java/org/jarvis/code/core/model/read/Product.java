@@ -71,5 +71,30 @@ public class Product extends BaseResponse {
     public void setImages(List<Integer> images) {
         this.images = images;
     }
-    
+
+    @Override
+    public int hashCode() {
+        return this.id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Product) {
+            Product tmp = (Product) obj;
+            return this.id.equals(tmp.id);
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "code='" + code + '\'' +
+                ", size='" + size + '\'' +
+                ", price='" + price + '\'' +
+                ", color='" + color + '\'' +
+                ", contact=" + contact +
+                ", images=" + images.toString() +
+                '}';
+    }
 }

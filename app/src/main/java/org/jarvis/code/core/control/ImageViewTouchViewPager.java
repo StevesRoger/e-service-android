@@ -1,4 +1,4 @@
-package org.jarvis.code.core.component;
+package org.jarvis.code.core.control;
 
 import android.content.Context;
 import android.graphics.Point;

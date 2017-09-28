@@ -25,7 +25,6 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         String token = FirebaseInstanceId.getInstance().getToken();
         Loggy.i(FirebaseInstanceIDService.class, "onTokenRefresh");
-        Loggy.i(FirebaseInstanceIDService.class, token);
         registerToken(token);
     }
 
@@ -39,9 +38,10 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
                 .build();
         try {
             Response response = RequestFactory.okHttpClient.newCall(request).execute();
-            if (response.code() == 200)
+            if (response.code() == 200) {
                 Loggy.i(FirebaseInstanceIDService.class, "Register token success.");
-            else
+                Loggy.i(FirebaseInstanceIDService.class, "token: " + token);
+            } else
                 Loggy.i(FirebaseInstanceIDService.class, "Register failed");
         } catch (IOException e) {
             e.printStackTrace();

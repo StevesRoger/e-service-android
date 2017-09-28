@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.component.DialogView;
+import org.jarvis.code.core.control.DialogView;
 import org.jarvis.code.core.fragment.RegisterFragment;
 import org.jarvis.code.core.model.read.Product;
 import org.jarvis.code.core.model.read.Promotion;
@@ -24,7 +24,9 @@ import org.jarvis.code.util.Constant;
 import org.jarvis.code.util.Loggy;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by KimChheng on 6/2/2017.
@@ -38,6 +40,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
 
     private List<Product> originalList;
     private List<Product> copyList;
+    private Map<Integer, Product> map;
     private Context context;
 
     private static String imgUrl = Constant.BASE_URL + "mobile/image/view/";
@@ -45,7 +48,8 @@ public class ProductAdapter extends RecyclerView.Adapter {
     public ProductAdapter(Context context, List<Product> products) {
         this.originalList = products;
         this.context = context;
-        this.copyList = new ArrayList<>();
+        this.copyList = new ArrayList();
+        this.map = new HashMap();
     }
 
     @Override
@@ -114,34 +118,65 @@ public class ProductAdapter extends RecyclerView.Adapter {
     public void addAll(List<Product> products) {
         originalList.addAll(products);
         copyList.addAll(products);
+        for (Product product : products)
+            put(product);
     }
 
     public void add(Product product) {
         originalList.add(product);
         copyList.add(product);
+        put(product);
     }
 
     public void add(int index, Product product) {
         originalList.add(index, product);
         copyList.add(index, product);
+        put(product);
     }
 
     public void remove(int index) {
-        originalList.remove(index);
+        Product product = originalList.remove(index);
         copyList.remove(index);
+        if (product != null)
+            map.remove(product.getId());
     }
 
     public void clear() {
         originalList.clear();
         copyList.clear();
+        map.clear();
     }
 
-    public List<Product> getOriginalList() {
-        return originalList;
+    public void updateProduct(Product product) {
+        if (product != null) {
+            Product obj = map.get(product.getId());
+            obj.setCode(product.getCode());
+            obj.setColor(product.getColor());
+            obj.setPrice(product.getPrice());
+            obj.setSize(product.getSize());
+            obj.getContact().setPhone1(product.getContact().getPhone1());
+            notifyItemChanged(originalList.indexOf(obj));
+        }
     }
 
-    public List<Product> getCopyList() {
-        return copyList;
+    public void newProduct(Product product) {
+        if (product != null) {
+            add(0, product);
+            notifyItemInserted(0);
+        }
+    }
+
+    public int size() {
+        return originalList.size();
+    }
+
+    public boolean isEmpty() {
+        return originalList.isEmpty();
+    }
+
+    private void put(Product product) {
+        if (product != null)
+            map.put(product.getId(), product);
     }
 
     public void filter(String text) {
@@ -168,14 +203,14 @@ public class ProductAdapter extends RecyclerView.Adapter {
 
     public static class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView lblCode;
-        public TextView lblPrice;
-        public TextView lblSize;
-        public TextView lblColor;
-        public TextView lblContact;
-        public AppCompatButton btnRegister;
-        public ImageView image;
-        public Product product;
+        private TextView lblCode;
+        private TextView lblPrice;
+        private TextView lblSize;
+        private TextView lblColor;
+        private TextView lblContact;
+        private AppCompatButton btnRegister;
+        private ImageView image;
+        private Product product;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
@@ -224,7 +259,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
 
     public static class LoadingViewHolder extends RecyclerView.ViewHolder {
 
-        public ProgressBar progressBar;
+        private ProgressBar progressBar;
 
         public LoadingViewHolder(View itemView) {
             super(itemView);

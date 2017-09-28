@@ -1,11 +1,10 @@
-package org.jarvis.code.core.component;
+package org.jarvis.code.core.control;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.format.DateFormat;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
 import org.jarvis.code.R;
@@ -16,11 +15,11 @@ import java.util.Calendar;
  * Created by KimChheng on 6/7/2017.
  */
 
-public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+public class JDatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private EditText txtDate;
 
-    public DatePickerFragment() {
+    public JDatePicker() {
 
     }
 
@@ -37,7 +36,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int month, int day) {
+    public void onDateSet(android.widget.DatePicker view, int year, int month, int day) {
         // Do something with the date chosen by the user
         Calendar calNow = Calendar.getInstance();
         Calendar calSet = (Calendar) calNow.clone();
