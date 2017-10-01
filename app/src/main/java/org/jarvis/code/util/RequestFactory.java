@@ -1,6 +1,6 @@
 package org.jarvis.code.util;
 
-import org.jarvis.code.api.BasicAuthInterceptor;
+import org.jarvis.code.network.BasicAuthInterceptor;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,7 +26,7 @@ public final class RequestFactory {
                 .build();
 
         RETROFIT = new Retrofit.Builder()
-                .baseUrl(Constant.BASE_URL)
+                .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 //.addConverterFactory(JacksonConverterFactory.create())
                 .client(okHttpClient)

@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import org.jarvis.code.R;
 import org.jarvis.code.activity.MainActivity;
-import org.jarvis.code.api.RequestClient;
+import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.core.adapter.LoadMoreHandler;
 import org.jarvis.code.core.adapter.ProductAdapter;
 import org.jarvis.code.core.model.read.Product;
@@ -43,16 +43,19 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     private TextView lblMessage;
 
     private RequestClient requestService;
-
     private ProductAdapter adapter;
     private LoadMoreHandler<Product> loadMoreHandler;
     private MainActivity mainActivity;
 
     private String type;
+    private boolean isLoaded=false;
+    private boolean isVisibleToUser;
+
     private final int LIMIT = 5;
     private int offset = 1;
     private int position = 5;
     private int page = 1;
+
 
     public static ProductFragment newInstance(String type, MainActivity activity) {
         ProductFragment fragment = new ProductFragment();
@@ -68,7 +71,6 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
         super.onCreate(savedInstanceState);
         adapter = new ProductAdapter(getContext(), new ArrayList<Product>());
         requestService = RequestFactory.build(RequestClient.class);
-        requestService.fetchProducts(1, LIMIT, type).enqueue(this);
         Loggy.i(ProductFragment.class, type + " Invoke onCreate");
     }
 
@@ -96,7 +98,21 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView.addOnScrollListener(loadMoreHandler = new LoadMoreHandler(this, recyclerView));
+        if(isVisibleToUser && (!isLoaded)){
+            requestService.fetchProducts(1, LIMIT, type).enqueue(this);
+            isLoaded=true;
+        }
         Loggy.i(ProductFragment.class, type + " Invoke onViewCreated");
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        this.isVisibleToUser=isVisibleToUser;
+        if(isVisibleToUser && isAdded() ){
+            requestService.fetchProducts(1, LIMIT, type).enqueue(this);
+            isLoaded =true;
+        }
     }
 
     @Override

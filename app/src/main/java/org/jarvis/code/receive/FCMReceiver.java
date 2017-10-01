@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import org.jarvis.code.util.Constant;
+import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,7 +27,7 @@ public class FCMReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
-            if (intent.getAction().equals(Constant.FCM_BROADCAST_ACTION)) {
+            if (intent.getAction().equals(Constants.FCM_BROADCAST_ACTION)) {
                 String data = intent.getStringExtra("data");
                 if (receiver != null)
                     receiver.onReceive(context, new JSONArray(data));

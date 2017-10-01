@@ -1,4 +1,4 @@
-package org.jarvis.code.api;
+package org.jarvis.code.network;
 
 import org.jarvis.code.core.model.read.Advertisement;
 import org.jarvis.code.core.model.read.Product;

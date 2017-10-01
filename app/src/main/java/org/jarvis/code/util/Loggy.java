@@ -9,18 +9,18 @@ import android.util.Log;
 public final class Loggy {
 
     public static void e(Class clazz, String message) {
-        Log.e(Constant.TAG + clazz.getSimpleName(), message);
+        Log.e(Constants.TAG + clazz.getSimpleName(), message);
     }
 
     public static void d(Class clazz, String message) {
-        Log.d(Constant.TAG + clazz.getSimpleName(), message);
+        Log.d(Constants.TAG + clazz.getSimpleName(), message);
     }
 
     public static void i(Class clazz, String message) {
-        Log.i(Constant.TAG + clazz.getSimpleName(), message);
+        Log.i(Constants.TAG + clazz.getSimpleName(), message);
     }
 
     public static void v(Class clazz, String message) {
-        Log.v(Constant.TAG + clazz.getSimpleName(), message);
+        Log.v(Constants.TAG + clazz.getSimpleName(), message);
     }
 }

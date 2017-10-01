@@ -28,14 +28,14 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 
 import org.jarvis.code.R;
-import org.jarvis.code.api.RequestClient;
+import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.core.control.JDatePicker;
 import org.jarvis.code.core.control.ImageCross;
 import org.jarvis.code.core.model.read.Product;
 import org.jarvis.code.core.model.read.ResponseEntity;
 import org.jarvis.code.core.model.write.Customer;
 import org.jarvis.code.util.ComponentFactory;
-import org.jarvis.code.util.Constant;
+import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.FileUtil;
 import org.jarvis.code.util.Loggy;
 import org.jarvis.code.util.RequestFactory;
@@ -267,7 +267,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 progressDialog.setTitleText(getString(R.string.string_submitting));
                 progressDialog.setCancelable(false);
                 String json = new Gson().toJson(customer);
-                Log.i(Constant.TAG, json);
+                Log.i(Constants.TAG, json);
                 RequestBody requestJson = RequestBody.create(MediaType.parse("text/plain"), json);
                 MultipartBody.Part[] requestFiles = new MultipartBody.Part[gallery.getChildCount()];
                 for (int i = 0; i < gallery.getChildCount(); i++) {
@@ -281,7 +281,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(Constant.TAG, e.getMessage());
+            Log.e(Constants.TAG, e.getMessage());
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
@@ -347,7 +347,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener, 
                 .setTitleText(getString(R.string.string_fail))
                 .setContentText(t.getMessage())
                 .show();
-        Log.e(Constant.TAG, t.getMessage());
+        Log.e(Constants.TAG, t.getMessage());
         //Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
     }
 }

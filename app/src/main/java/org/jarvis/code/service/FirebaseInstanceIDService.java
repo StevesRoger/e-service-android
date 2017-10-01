@@ -3,7 +3,7 @@ package org.jarvis.code.service;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
-import org.jarvis.code.util.Constant;
+import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 import org.jarvis.code.util.RequestFactory;
 
@@ -34,7 +34,7 @@ public class FirebaseInstanceIDService extends FirebaseInstanceIdService {
                 .build();
         Request request = new Request.Builder()
                 .post(body)
-                .url(Constant.BASE_URL + "/mobile/register")
+                .url(Constants.BASE_URL + "/mobile/register")
                 .build();
         try {
             Response response = RequestFactory.okHttpClient.newCall(request).execute();
