@@ -18,9 +18,9 @@ import com.squareup.picasso.Picasso;
 import org.jarvis.code.R;
 import org.jarvis.code.core.control.DialogView;
 import org.jarvis.code.core.fragment.RegisterFragment;
-import org.jarvis.code.core.model.read.Product;
-import org.jarvis.code.core.model.read.Promotion;
-import org.jarvis.code.util.Constant;
+import org.jarvis.code.model.read.Product;
+import org.jarvis.code.model.read.Promotion;
+import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
     private Map<Integer, Product> map;
     private Context context;
 
-    private static String imgUrl = Constant.BASE_URL + "mobile/image/view/";
+    private static String imgUrl = Constants.BASE_URL + "mobile/image/view/";
 
     public ProductAdapter(Context context, List<Product> products) {
         this.originalList = products;

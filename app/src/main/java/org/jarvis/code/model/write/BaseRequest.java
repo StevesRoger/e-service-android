@@ -1,4 +1,4 @@
-package org.jarvis.code.core.model.write;
+package org.jarvis.code.model.write;
 
 import java.io.Serializable;
 

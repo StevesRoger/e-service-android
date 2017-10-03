@@ -19,8 +19,8 @@ import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
 import org.jarvis.code.core.fragment.RegisterFragment;
-import org.jarvis.code.core.model.read.Product;
-import org.jarvis.code.util.Constant;
+import org.jarvis.code.model.read.Product;
+import org.jarvis.code.util.Constants;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ import it.sephiroth.android.library.imagezoom.ImageViewTouch;
 
 public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
 
-    private static String imgUrl = Constant.BASE_URL + "mobile/image/view/";
+    private static String imgUrl = Constants.BASE_URL + "mobile/image/view/";
     private Product product;
     private Context context;
     private LayoutInflater layoutInflater;

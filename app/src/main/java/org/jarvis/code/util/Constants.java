@@ -6,7 +6,7 @@ import android.Manifest;
  * Created by KimChheng on 5/28/2017.
  */
 
-public final class Constant {
+public final class Constants {
 
     //public static final String BASE_URL = "https://e-service-application.herokuapp.com/api/";
     public static final String BASE_URL = "http://10.0.3.2:8080/api/";

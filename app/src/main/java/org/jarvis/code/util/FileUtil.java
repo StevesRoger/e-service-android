@@ -61,7 +61,7 @@ public final class FileUtil {
 
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                Log.e(Constant.TAG, "failed to create directory e-service");
+                Log.e(Constants.TAG, "failed to create directory e-service");
                 return null;
             }
         }

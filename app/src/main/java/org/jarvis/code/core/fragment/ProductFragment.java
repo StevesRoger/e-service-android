@@ -16,12 +16,12 @@ import android.widget.Toast;
 
 import org.jarvis.code.R;
 import org.jarvis.code.activity.MainActivity;
-import org.jarvis.code.api.RequestClient;
+import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.core.adapter.LoadMoreHandler;
 import org.jarvis.code.core.adapter.ProductAdapter;
-import org.jarvis.code.core.model.read.Product;
-import org.jarvis.code.core.model.read.Promotion;
-import org.jarvis.code.core.model.read.ResponseEntity;
+import org.jarvis.code.model.read.Product;
+import org.jarvis.code.model.read.Promotion;
+import org.jarvis.code.model.read.ResponseEntity;
 import org.jarvis.code.util.Loggy;
 import org.jarvis.code.util.RequestFactory;
 

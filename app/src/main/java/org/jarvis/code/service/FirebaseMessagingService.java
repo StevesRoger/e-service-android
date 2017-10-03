@@ -10,7 +10,7 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import org.jarvis.code.R;
 import org.jarvis.code.activity.MainActivity;
-import org.jarvis.code.util.Constant;
+import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 import org.json.JSONArray;
 
@@ -30,7 +30,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             Loggy.i(FirebaseMessagingService.class, data.toString());
             //showNotification(data.get("title"), data.get("message"));
             JSONArray jsonArray = new JSONArray(data.get("data"));
-            Intent intent = new Intent(Constant.FCM_BROADCAST_ACTION);
+            Intent intent = new Intent(Constants.FCM_BROADCAST_ACTION);
             intent.putExtra("data", jsonArray.toString());
             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
             Loggy.i(FirebaseMessagingService.class, "send broadcast");

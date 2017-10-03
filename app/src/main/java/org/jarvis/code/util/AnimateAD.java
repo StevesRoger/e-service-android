@@ -21,7 +21,7 @@ import java.util.List;
 
 public final class AnimateAD {
 
-    private static String imgUrl = Constant.BASE_URL + "mobile/image/view/";
+    private static String imgUrl = Constants.BASE_URL + "mobile/image/view/";
 
     public static void animate(final ImageView imageView, final List<Integer> images, final int imageIndex, final boolean forever, final Context context) {
 

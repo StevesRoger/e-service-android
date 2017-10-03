@@ -1,4 +1,4 @@
-package org.jarvis.code.core.model.write;
+package org.jarvis.code.model.write;
 
 
 import com.google.gson.annotations.SerializedName;

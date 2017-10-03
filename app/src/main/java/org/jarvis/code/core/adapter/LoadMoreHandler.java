@@ -4,7 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import org.jarvis.code.core.fragment.IFragment;
-import org.jarvis.code.core.model.read.ResponseEntity;
+import org.jarvis.code.model.read.ResponseEntity;
 import org.jarvis.code.util.Loggy;
 
 import retrofit2.Call;

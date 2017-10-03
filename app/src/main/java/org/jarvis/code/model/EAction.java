@@ -1,4 +1,4 @@
-package org.jarvis.code.api;
+package org.jarvis.code.model;
 
 /**
  * Created by ki.kao on 9/28/2017.

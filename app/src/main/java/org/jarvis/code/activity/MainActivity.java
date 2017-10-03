@@ -21,21 +21,25 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jarvis.code.R;
-import org.jarvis.code.api.RequestClient;
+import org.jarvis.code.VPrintApplication;
 import org.jarvis.code.core.adapter.FragmentAdapter;
 import org.jarvis.code.core.fragment.IFragment;
 import org.jarvis.code.core.fragment.ProductFragment;
-import org.jarvis.code.core.model.read.Advertisement;
-import org.jarvis.code.core.model.read.ResponseEntity;
+import org.jarvis.code.model.read.Advertisement;
+import org.jarvis.code.model.read.ResponseEntity;
+import org.jarvis.code.dagger.component.ActivityComponent;
+import org.jarvis.code.dagger.component.DaggerActivityComponent;
+import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.receive.FCMReceiver;
 import org.jarvis.code.util.AnimateAD;
-import org.jarvis.code.util.Constant;
+import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
-import org.jarvis.code.util.RequestFactory;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,27 +52,37 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     private FragmentAdapter viewPagerAdapter;
     private ImageView imageAd;
     private SearchView searchView;
-    private RequestClient requestClient;
+
     private FCMReceiver fcmReceiver;
     private List<Integer> advertisements;
     private boolean isLoad;
+    private ActivityComponent activityComponent;
+    @Inject
+    RequestClient requestClient;
+
+    public ActivityComponent getActivityComponent() {
+        return activityComponent = DaggerActivityComponent.builder()
+                .applicationComponent(VPrintApplication.get(this).getComponent())
+                .build();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getActivityComponent().inject(this);
         init();
 
         advertisements = new ArrayList<>();
         fcmReceiver = new FCMReceiver(this);
-        requestClient = RequestFactory.build(RequestClient.class);
+        //requestClient = RequestFactory.build(RequestClient.class);
         requestClient.fetchAdvertisement().enqueue(this);
 
         checkRunTimePermission();
         FirebaseMessaging.getInstance().subscribeToTopic("V-Printing");
         FirebaseInstanceId.getInstance().getToken();
-        Loggy.i(MainActivity.class,"register receiver");
-        LocalBroadcastManager.getInstance(this).registerReceiver(fcmReceiver, new IntentFilter(Constant.FCM_BROADCAST_ACTION));
+        Loggy.i(MainActivity.class, "register receiver");
+        LocalBroadcastManager.getInstance(this).registerReceiver(fcmReceiver, new IntentFilter(Constants.FCM_BROADCAST_ACTION));
     }
 
     private void init() {
@@ -107,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
-            case Constant.REQUEST_PERMISSIONS_CODE:
+            case Constants.REQUEST_PERMISSIONS_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
                     Loggy.e(MainActivity.class, "Permission Granted, Now you can use local drive.");
                 else
@@ -152,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
 
     @Override
     protected void onStop() {
-        Loggy.i(MainActivity.class,"unregister receiver");
+        Loggy.i(MainActivity.class, "unregister receiver");
         LocalBroadcastManager.getInstance(this).unregisterReceiver(fcmReceiver);
         super.onStop();
     }
@@ -172,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE))
                     Toast.makeText(this, "Write External Storage permission allows us to do store image. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
                 else {
-                    ActivityCompat.requestPermissions(this, Constant.MY_PERMISSIONS, Constant.REQUEST_PERMISSIONS_CODE);
+                    ActivityCompat.requestPermissions(this, Constants.MY_PERMISSIONS, Constants.REQUEST_PERMISSIONS_CODE);
                     Loggy.i(MainActivity.class, "Request permission");
                 }
             } else {
