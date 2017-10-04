@@ -9,7 +9,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.jarvis.code.R;
-import org.jarvis.code.activity.MainActivity;
+import org.jarvis.code.ui.main.MainActivity;
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 import org.json.JSONArray;

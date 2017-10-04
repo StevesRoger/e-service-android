@@ -15,7 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jarvis.code.R;
-import org.jarvis.code.activity.MainActivity;
+import org.jarvis.code.ui.main.MainActivity;
 import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.core.adapter.LoadMoreHandler;
 import org.jarvis.code.core.adapter.ProductAdapter;

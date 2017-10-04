@@ -5,11 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 
-import com.jakewharton.picasso.OkHttp3Downloader;
-import com.squareup.picasso.Picasso;
-
 import org.jarvis.code.R;
-import org.jarvis.code.util.RequestFactory;
+import org.jarvis.code.ui.main.MainActivity;
 
 /**
  * Created by KimChheng on 7/16/2017.

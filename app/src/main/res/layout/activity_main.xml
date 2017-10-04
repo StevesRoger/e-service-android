@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="?attr/colorButtonNormal"
     android:fitsSystemWindows="false"
-    tools:context="org.jarvis.code.activity.MainActivity"
+    tools:context="org.jarvis.code.ui.main.MainActivity"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="0dp">
 
@@ -32,7 +32,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imgAd"
+                android:id="@+id/img_ad"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/advertisement_height"
                 android:adjustViewBounds="true"
@@ -43,7 +43,7 @@
                 android:id="@+id/tab_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imgAd"
+                android:layout_below="@+id/img_ad"
                 android:background="@color/colorAccent">
 
                 <ImageView
@@ -77,7 +77,7 @@
             </RelativeLayout>
 
             <android.support.v4.view.ViewPager
-                android:id="@+id/tabPager"
+                android:id="@+id/tab_pager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/tab_panel"

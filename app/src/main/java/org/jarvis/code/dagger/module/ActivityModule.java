@@ -2,9 +2,15 @@ package org.jarvis.code.dagger.module;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import org.jarvis.code.core.adapter.TabAdapter;
 import org.jarvis.code.dagger.ActivityContext;
+import org.jarvis.code.dagger.PerActivity;
+import org.jarvis.code.ui.main.MainPresenter;
+import org.jarvis.code.ui.main.MainPresenterImpl;
+import org.jarvis.code.ui.main.MainView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -15,20 +21,30 @@ import dagger.Provides;
 @Module
 public class ActivityModule {
 
-    private Activity activity;
+    private AppCompatActivity activity;
 
-    public ActivityModule(Activity activity) {
+    public ActivityModule(AppCompatActivity activity) {
         this.activity = activity;
     }
 
     @Provides
     @ActivityContext
-    Context provideContext(){
+    Context provideContext() {
         return activity;
     }
 
     @Provides
-    Activity provideActivity(){
+    Activity provideActivity() {
         return activity;
+    }
+
+    @Provides
+    FragmentManager provideFragmentManager() {
+        return activity.getSupportFragmentManager();
+    }
+
+    @Provides
+    TabAdapter provideTabAdapter(FragmentManager fragmentManager) {
+        return new TabAdapter(fragmentManager);
     }
 }
