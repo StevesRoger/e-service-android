@@ -1,5 +1,6 @@
 package org.jarvis.code.dagger.component;
 
+import org.jarvis.code.ui.product.ProductFragment;
 import org.jarvis.code.dagger.PerActivity;
 import org.jarvis.code.dagger.module.ActivityModule;
 import org.jarvis.code.dagger.module.PresenterModule;
@@ -15,5 +16,7 @@ import dagger.Component;
 public interface ActivityComponent {
 
     void inject(MainActivity activity);
+
+    void inject(ProductFragment fragment);
 
 }

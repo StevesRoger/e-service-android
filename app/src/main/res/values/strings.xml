@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">V-Printing</string>
+    <!--Tab title-->
     <string name="wedding_fragment">សំបុត្រការ</string>
     <string name="ceremony_fragment">សំបុត្របុណ្យ</string>
     <string name="design_fragment">សំបុត្រច្នៃ</string>
+    <!--Item product-->
     <string name="string_code">លេខកូដស៏ :</string>
     <string name="string_color">ពណ៏ :</string>
     <string name="string_size">ទំហំ :</string>
     <string name="string_price">តម្លៃចាប់ពី :</string>
     <string name="string_contact">ទំនាក់ទំនង :</string>
     <string name="string_register">សូមចុះឈ្មោះ និងបំពេញពត័មាន</string>
+    <!--Register form-->
     <string name="string_information">បំពេញពត៏មាន</string>
     <string name="string_groom_name">កូនប្រុសឈ្មោះ</string>
     <string name="string_dad_groom_name">ឪពុកកូនប្រុសឈ្មោះ</string>
@@ -34,6 +37,7 @@
     <string name="choose_image">ជ្រើសរើស រូបភាព</string>
     <string name="string_date_hint">Sun/16/Aug/2017</string>
     <string name="string_submit">បព្ជូានព័ត៌មាន</string>
+    <!--App message KH-->
     <string name="string_empty_kh">មិនអាចទទេ</string>
     <string name="string_search_hint">ស្វែងរកផលិតផល</string>
     <string name="string_submitting">កំពុងបព្ជូាន...</string>
@@ -41,4 +45,9 @@
     <string name="string_fail">បរាជ័យ</string>
     <string name="string_sending_infor">បព្ជូានព័ត៌មាន</string>
     <string name="string_problem">ព័ត៌មានមិនត្រឹមត្រូវ</string>
+    <!--App message EN-->
+    <string name="api_retry_error">Please retry!</string>
+    <string name="api_default_error">Something wrong happened!</string>
+    <string name="some_error">Some Error Occurred!</string>
+    <string name="connection_error">Internet connection lost!</string>
 </resources>

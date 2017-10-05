@@ -1,9 +1,8 @@
-package org.jarvis.code.core.fragment;
+package org.jarvis.code.ui.product;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,19 +14,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jarvis.code.R;
-import org.jarvis.code.ui.main.MainActivity;
-import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.core.adapter.LoadMoreHandler;
 import org.jarvis.code.core.adapter.ProductAdapter;
+import org.jarvis.code.core.fragment.IFragment;
+import org.jarvis.code.dagger.component.ActivityComponent;
 import org.jarvis.code.model.read.Product;
 import org.jarvis.code.model.read.Promotion;
 import org.jarvis.code.model.read.ResponseEntity;
+import org.jarvis.code.network.RequestClient;
+import org.jarvis.code.ui.base.AbstractFragment;
 import org.jarvis.code.util.Loggy;
 import org.jarvis.code.util.RequestFactory;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -35,18 +39,22 @@ import retrofit2.Response;
  * Created by ki.kao on 9/1/2017.
  */
 
-public class ProductFragment extends Fragment implements IFragment<Product> {
+public class ProductFragment extends AbstractFragment implements ProductView, IFragment<Product> {
 
-    private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeRefreshLayout;
-    private ProgressBar progressBar;
-    private TextView lblMessage;
+    @BindView(R.id.recycler_view_product)
+    RecyclerView recyclerView;
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.progress_bar)
+    ProgressBar progressBar;
+    @BindView(R.id.txt_message)
+    TextView lblMessage;
+    @Inject
+    ProductAdapter adapter;
+    @Inject
+    ProductPresenter<ProductView> presenter;
 
-    private RequestClient requestService;
-
-    private ProductAdapter adapter;
     private LoadMoreHandler<Product> loadMoreHandler;
-    private MainActivity mainActivity;
 
     private String type;
     private final int LIMIT = 5;
@@ -54,21 +62,16 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     private int position = 5;
     private int page = 1;
 
-    public static ProductFragment newInstance(String type, MainActivity activity) {
+    public static ProductFragment newInstance(String type) {
         ProductFragment fragment = new ProductFragment();
         fragment.type = type;
-        fragment.mainActivity = activity;
         Loggy.i(ProductFragment.class, type + " Invoke constructor");
         return fragment;
     }
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new ProductAdapter(getContext(), new ArrayList<Product>());
-        requestService = RequestFactory.build(RequestClient.class);
-        requestService.fetchProducts(1, LIMIT, type).enqueue(this);
         Loggy.i(ProductFragment.class, type + " Invoke onCreate");
     }
 
@@ -76,18 +79,12 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.product_fragment, container, false);
-
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
-        swipeRefreshLayout.setOnRefreshListener(this);
-
-        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        lblMessage = (TextView) view.findViewById(R.id.txtMessage);
-
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewProduct);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
-
+        ActivityComponent component = getActivityComponent();
+        if (component != null) {
+            component.inject(this);
+            setUnBinder(ButterKnife.bind(this, view));
+            presenter.onAttach(this);
+        }
         Loggy.i(ProductFragment.class, type + " Invoke onCreateView");
         return view;
     }
@@ -95,68 +92,32 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(loadMoreHandler = new LoadMoreHandler(this, recyclerView));
         Loggy.i(ProductFragment.class, type + " Invoke onViewCreated");
     }
 
     @Override
     public void onRefresh() {
-        mainActivity.onRefreshAD();
-        requestService.fetchProducts(1, LIMIT, type).enqueue(this);
-        progressBar.setVisibility(View.GONE);
+        //mainActivity.onRefreshAD();
+        //requestService.fetchProducts(1, LIMIT, type).enqueue(this);
+        //progressBar.setVisibility(View.GONE);
         Loggy.i(ProductFragment.class, type + " Invoke onRefresh");
-    }
-
-    @Override
-    public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
-        if (response.code() == 200) {
-            List<Product> products = response.body().getData();
-            Loggy.i(ProductFragment.class, type + " On load success");
-            Loggy.i(ProductFragment.class, products.toString());
-            loadMoreHandler.loaded();
-            adapter.clear();
-            adapter.addAll(products);
-            adapter.notifyDataSetChanged();
-            progressBar.setVisibility(View.GONE);
-            swipeRefreshLayout.setRefreshing(false);
-            offset = 2;
-            position = 5;
-            page = 1;
-            if (adapter.size() == 5)
-                fetchPromotion(page);
-            if (adapter.isEmpty() && lblMessage.getVisibility() == View.GONE) {
-                recyclerView.setVisibility(View.GONE);
-                lblMessage.setText("There is no product from server!");
-                lblMessage.setVisibility(View.VISIBLE);
-            } else {
-                lblMessage.setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-            }
-        }
-    }
-
-    @Override
-    public void onFailure(Call<ResponseEntity<Product>> call, Throwable t) {
-        Loggy.e(ProductFragment.class, type + " On Load failure");
-        Loggy.e(ProductFragment.class, t.getMessage());
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.GONE);
-        lblMessage.setText("Oop...There are somethings went wrong!");
-        lblMessage.setVisibility(View.VISIBLE);
-        swipeRefreshLayout.setRefreshing(false);
-        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onLoadMore() {
         Loggy.i(ProductFragment.class, type + " On load more product");
-        adapter.add(null);
-        recyclerView.post(new Runnable() {
+        //adapter.add(null);
+        /*recyclerView.post(new Runnable() {
             public void run() {
                 adapter.notifyItemInserted(adapter.size() - 1);
                 requestService.fetchProducts(offset, LIMIT, type).enqueue(loadMoreHandler);
             }
-        });
+        });*/
     }
 
     @Override
@@ -169,7 +130,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
             Loggy.i(ProductFragment.class, products.toString());
             if (!products.isEmpty()) {
                 adapter.addAll(products);
-                fetchPromotion(page);
+                //fetchPromotion(page);
                 adapter.notifyDataSetChanged();
                 offset++;
                 loadMoreHandler.loaded();
@@ -192,7 +153,7 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
         adapter.filter(text);
     }
 
-    private void fetchPromotion(final int step) {
+   /* private void fetchPromotion(final int step) {
         Loggy.i(ProductFragment.class, type + " advertisement offset:" + step);
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -215,6 +176,42 @@ public class ProductFragment extends Fragment implements IFragment<Product> {
                 return null;
             }
         }.execute();
+    }*/
+
+    @Override
+    public void loadProductSucceed(List<Product> products) {
+        Loggy.i(ProductFragment.class, type + " On load product success");
+        Loggy.i(ProductFragment.class, products.toString());
+        loadMoreHandler.loaded();
+        adapter.clear();
+        adapter.addAll(products);
+        adapter.notifyDataSetChanged();
+        progressBar.setVisibility(View.GONE);
+        swipeRefreshLayout.setRefreshing(false);
+        offset = 2;
+        position = 5;
+        page = 1;
+        /*if (adapter.size() == 5)
+            fetchPromotion(page);*/
+        if (adapter.isEmpty() && lblMessage.getVisibility() == View.GONE) {
+            recyclerView.setVisibility(View.GONE);
+            lblMessage.setText("There is no product from server!");
+            lblMessage.setVisibility(View.VISIBLE);
+        } else {
+            lblMessage.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
     }
 
+    @Override
+    public void loadProductFailed(String message) {
+        Loggy.e(ProductFragment.class, type + " On Load failure");
+        Loggy.e(ProductFragment.class, message);
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        lblMessage.setText("Oop...There are somethings went wrong!");
+        lblMessage.setVisibility(View.VISIBLE);
+        swipeRefreshLayout.setRefreshing(false);
+        showMessage(message);
+    }
 }

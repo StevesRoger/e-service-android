@@ -263,7 +263,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
 
         public LoadingViewHolder(View itemView) {
             super(itemView);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.progress_bar);
         }
     }
 
