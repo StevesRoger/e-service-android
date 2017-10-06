@@ -1,6 +1,5 @@
 package org.jarvis.code.ui.product;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -19,12 +18,9 @@ import org.jarvis.code.core.adapter.ProductAdapter;
 import org.jarvis.code.core.fragment.IFragment;
 import org.jarvis.code.dagger.component.ActivityComponent;
 import org.jarvis.code.model.read.Product;
-import org.jarvis.code.model.read.Promotion;
 import org.jarvis.code.model.read.ResponseEntity;
-import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.ui.base.AbstractFragment;
 import org.jarvis.code.util.Loggy;
-import org.jarvis.code.util.RequestFactory;
 
 import java.util.List;
 
@@ -56,6 +52,8 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
 
     private LoadMoreHandler<Product> loadMoreHandler;
 
+    private boolean isLoaded = false;
+    private boolean isVisibleToUser;
     private String type;
     private final int LIMIT = 5;
     private int offset = 1;
@@ -63,16 +61,18 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
     private int page = 1;
 
     public static ProductFragment newInstance(String type) {
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type);
         ProductFragment fragment = new ProductFragment();
-        fragment.type = type;
-        Loggy.i(ProductFragment.class, type + " Invoke constructor");
+        fragment.setArguments(bundle);
         return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Loggy.i(ProductFragment.class, type + " Invoke onCreate");
+        type = getArguments() != null ? getArguments().getString("type") : "";
+        //setRetainInstance(true);
     }
 
     @Nullable
@@ -82,8 +82,8 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
         ActivityComponent component = getActivityComponent();
         if (component != null) {
             component.inject(this);
-            setUnBinder(ButterKnife.bind(this, view));
             presenter.onAttach(this);
+            setUnBinder(ButterKnife.bind(this, view));
         }
         Loggy.i(ProductFragment.class, type + " Invoke onCreateView");
         return view;
@@ -92,12 +92,26 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (isVisibleToUser && (!isLoaded)) {
+            presenter.fetchProduct(1, LIMIT, type);
+            isLoaded = true;
+        }
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(loadMoreHandler = new LoadMoreHandler(this, recyclerView));
         Loggy.i(ProductFragment.class, type + " Invoke onViewCreated");
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        this.isVisibleToUser = isVisibleToUser;
+        if (isVisibleToUser && isAdded()) {
+            presenter.fetchProduct(1, LIMIT, type);
+            isLoaded = true;
+        }
     }
 
     @Override
@@ -148,9 +162,14 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
     }
 
     @Override
-    public void search(String text) {
+    public void search(String text, ProductFragment fragment) {
         Loggy.i(ProductFragment.class, type + " search:'" + text + "'");
-        adapter.filter(text);
+        if (fragment.equals(this))
+            Loggy.i(ProductFragment.class, "equals");
+        else
+            Loggy.i(ProductFragment.class, "not equals");
+        //adapter.filter(text);
+
     }
 
    /* private void fetchPromotion(final int step) {

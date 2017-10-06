@@ -2,10 +2,17 @@ package org.jarvis.code.dagger.module;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.v4.app.FragmentManager;
 
+import org.jarvis.code.R;
+import org.jarvis.code.core.adapter.TabAdapter;
 import org.jarvis.code.dagger.ApplicationContext;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;

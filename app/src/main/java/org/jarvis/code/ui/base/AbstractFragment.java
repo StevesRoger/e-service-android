@@ -1,6 +1,8 @@
 package org.jarvis.code.ui.base;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import org.jarvis.code.dagger.component.ActivityComponent;
@@ -15,6 +17,10 @@ public abstract class AbstractFragment extends Fragment implements BaseView {
 
     private AbstractActivity activity;
     private Unbinder unbinder;
+
+    public AbstractFragment() {
+        super();
+    }
 
     @Override
     public void onAttach(Context context) {

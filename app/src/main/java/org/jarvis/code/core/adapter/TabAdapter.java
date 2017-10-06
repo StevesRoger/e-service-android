@@ -16,15 +16,14 @@ public class TabAdapter extends FragmentPagerAdapter {
     private List<Fragment> fragmentList;
     private List<String> fragmentTitleList;
 
-    public TabAdapter(FragmentManager fm) {
+    public TabAdapter(FragmentManager fm, List<String> titles) {
         super(fm);
         fragmentList = new ArrayList<>();
-        fragmentTitleList = new ArrayList<>();
+        fragmentTitleList = titles;
     }
 
-    public void addFragment(Fragment fragment, String title) {
+    public void addFragment(Fragment fragment) {
         fragmentList.add(fragment);
-        fragmentTitleList.add(title);
     }
 
     @Override

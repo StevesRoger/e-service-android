@@ -15,10 +15,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jarvis.code.R;
 import org.jarvis.code.core.adapter.TabAdapter;
-import org.jarvis.code.core.fragment.IFragment;
-import org.jarvis.code.ui.product.ProductFragment;
 import org.jarvis.code.receive.FCMReceiver;
 import org.jarvis.code.ui.base.AbstractActivity;
+import org.jarvis.code.ui.product.ProductFragment;
 import org.jarvis.code.util.AnimateAD;
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
@@ -61,9 +60,9 @@ public class MainActivity extends AbstractActivity implements MainView, FCMRecei
         presenter.onAttach(this);
         presenter.fetchAdvertisement();
 
-        tabAdapter.addFragment(ProductFragment.newInstance("WED"), getString(R.string.wedding_fragment));
-        tabAdapter.addFragment(ProductFragment.newInstance("CER"), getString(R.string.ceremony_fragment));
-        tabAdapter.addFragment(ProductFragment.newInstance("DES"), getString(R.string.design_fragment));
+        tabAdapter.addFragment(ProductFragment.newInstance("WED"));
+        tabAdapter.addFragment(ProductFragment.newInstance("CER"));
+        tabAdapter.addFragment(ProductFragment.newInstance("DES"));
 
         viewPager.setAdapter(tabAdapter);
         viewPager.setOffscreenPageLimit(2);
@@ -96,13 +95,17 @@ public class MainActivity extends AbstractActivity implements MainView, FCMRecei
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        ((IFragment) tabAdapter.getItem(viewPager.getCurrentItem())).search(query);
+        ProductFragment obj = (ProductFragment) tabAdapter.getItem(viewPager.getCurrentItem());
+        //((IFragment) tabAdapter.getItem(viewPager.getCurrentItem())).search(query);
+        obj.search(query, obj);
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        ((IFragment) tabAdapter.getItem(viewPager.getCurrentItem())).search(newText);
+        ProductFragment obj = (ProductFragment) tabAdapter.getItem(viewPager.getCurrentItem());
+        //((IFragment) tabAdapter.getItem(viewPager.getCurrentItem())).search(newText);
+        obj.search(newText, obj);
         return true;
     }
 
