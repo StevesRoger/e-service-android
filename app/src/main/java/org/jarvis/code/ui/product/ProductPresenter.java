@@ -13,7 +13,9 @@ import java.util.List;
 @PerActivity
 public interface ProductPresenter<V extends BaseView> extends BasePresenter<V> {
 
-    void fetchProduct(int offset, int limit, String type);
+    void loadProduct(int limit, String type);
+
+    void loadMoreProduct(int offset, int limit, String type);
 
     void onLoadProductSuccess(List<Product> products);
 

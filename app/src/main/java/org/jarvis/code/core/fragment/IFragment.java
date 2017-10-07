@@ -14,9 +14,7 @@ import retrofit2.Response;
  * Created by ki.kao on 9/1/2017.
  */
 
-public interface IFragment<T> extends SwipeRefreshLayout.OnRefreshListener {
-
-    void search(String text, ProductFragment obj);
+public interface IFragment<T> {
 
     void onLoadMore();
 

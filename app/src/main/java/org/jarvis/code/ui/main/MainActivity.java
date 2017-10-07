@@ -95,17 +95,13 @@ public class MainActivity extends AbstractActivity implements MainView, FCMRecei
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        ProductFragment obj = (ProductFragment) tabAdapter.getItem(viewPager.getCurrentItem());
-        //((IFragment) tabAdapter.getItem(viewPager.getCurrentItem())).search(query);
-        obj.search(query, obj);
+        ((ProductFragment) presenter.getCurrentFragment(viewPager.getCurrentItem())).search(query);
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        ProductFragment obj = (ProductFragment) tabAdapter.getItem(viewPager.getCurrentItem());
-        //((IFragment) tabAdapter.getItem(viewPager.getCurrentItem())).search(newText);
-        obj.search(newText, obj);
+        ((ProductFragment) presenter.getCurrentFragment(viewPager.getCurrentItem())).search(newText);
         return true;
     }
 

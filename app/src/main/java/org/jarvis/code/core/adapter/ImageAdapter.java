@@ -80,13 +80,20 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
 
             layoutParams = imageView.getLayoutParams();
             layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            Picasso.with(context).load(imgUrl + images.get(position))
+                    .fit()
+                    //.centerInside()
+                    .placeholder(R.drawable.progress_spinning)
+                    .error(R.drawable.no_image_available)
+                    .into(imageView);
+        }else {
+            Picasso.with(context).load(imgUrl + images.get(position))
+                    .fit()
+                    //.centerCrop()
+                    .placeholder(R.drawable.progress_spinning)
+                    .error(R.drawable.no_image_available)
+                    .into(imageView);
         }
-        Picasso.with(context).load(imgUrl + images.get(position))
-                .fit()
-                .centerCrop()
-                .placeholder(R.drawable.progress_spinning)
-                .error(R.drawable.no_image_available)
-                .into(imageView);
         container.addView(view);
         return view;
     }

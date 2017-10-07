@@ -1,5 +1,6 @@
 package org.jarvis.code.ui.product;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -72,7 +73,6 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         type = getArguments() != null ? getArguments().getString("type") : "";
-        //setRetainInstance(true);
     }
 
     @Nullable
@@ -82,10 +82,9 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
         ActivityComponent component = getActivityComponent();
         if (component != null) {
             component.inject(this);
-            presenter.onAttach(this);
             setUnBinder(ButterKnife.bind(this, view));
+            presenter.onAttach(this);
         }
-        Loggy.i(ProductFragment.class, type + " Invoke onCreateView");
         return view;
     }
 
@@ -93,7 +92,7 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (isVisibleToUser && (!isLoaded)) {
-            presenter.fetchProduct(1, LIMIT, type);
+            presenter.loadProduct(LIMIT, type);
             isLoaded = true;
         }
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -101,7 +100,6 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(loadMoreHandler = new LoadMoreHandler(this, recyclerView));
-        Loggy.i(ProductFragment.class, type + " Invoke onViewCreated");
     }
 
     @Override
@@ -109,7 +107,7 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
         super.setUserVisibleHint(isVisibleToUser);
         this.isVisibleToUser = isVisibleToUser;
         if (isVisibleToUser && isAdded()) {
-            presenter.fetchProduct(1, LIMIT, type);
+            presenter.loadProduct(LIMIT, type);
             isLoaded = true;
         }
     }
@@ -117,9 +115,8 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
     @Override
     public void onRefresh() {
         //mainActivity.onRefreshAD();
-        //requestService.fetchProducts(1, LIMIT, type).enqueue(this);
-        //progressBar.setVisibility(View.GONE);
-        Loggy.i(ProductFragment.class, type + " Invoke onRefresh");
+        presenter.loadProduct(LIMIT, type);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -162,14 +159,8 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
     }
 
     @Override
-    public void search(String text, ProductFragment fragment) {
-        Loggy.i(ProductFragment.class, type + " search:'" + text + "'");
-        if (fragment.equals(this))
-            Loggy.i(ProductFragment.class, "equals");
-        else
-            Loggy.i(ProductFragment.class, "not equals");
-        //adapter.filter(text);
-
+    public void search(String text) {
+        adapter.filter(text);
     }
 
    /* private void fetchPromotion(final int step) {
@@ -199,38 +190,55 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
 
     @Override
     public void loadProductSucceed(List<Product> products) {
-        Loggy.i(ProductFragment.class, type + " On load product success");
         Loggy.i(ProductFragment.class, products.toString());
         loadMoreHandler.loaded();
         adapter.clear();
         adapter.addAll(products);
         adapter.notifyDataSetChanged();
-        progressBar.setVisibility(View.GONE);
         swipeRefreshLayout.setRefreshing(false);
         offset = 2;
         position = 5;
         page = 1;
         /*if (adapter.size() == 5)
             fetchPromotion(page);*/
-        if (adapter.isEmpty() && lblMessage.getVisibility() == View.GONE) {
-            recyclerView.setVisibility(View.GONE);
-            lblMessage.setText("There is no product from server!");
-            lblMessage.setVisibility(View.VISIBLE);
-        } else {
-            lblMessage.setVisibility(View.GONE);
-            recyclerView.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
     public void loadProductFailed(String message) {
-        Loggy.e(ProductFragment.class, type + " On Load failure");
         Loggy.e(ProductFragment.class, message);
-        progressBar.setVisibility(View.GONE);
-        recyclerView.setVisibility(View.GONE);
-        lblMessage.setText("Oop...There are somethings went wrong!");
-        lblMessage.setVisibility(View.VISIBLE);
+        showErrorMessage();
         swipeRefreshLayout.setRefreshing(false);
         showMessage(message);
     }
+
+    @Override
+    public void showProgress() {
+        progressBar.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideProgress() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showErrorMessage() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        lblMessage.setText("Oop...There are somethings went wrong!");
+        lblMessage.setTextColor(Color.parseColor("#f80606"));
+        lblMessage.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void noProductAvailable() {
+        progressBar.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
+        lblMessage.setText("There is no product available on server!");
+        lblMessage.setTextColor(Color.parseColor("#141313"));
+        lblMessage.setVisibility(View.VISIBLE);
+    }
+
 }

@@ -1,6 +1,9 @@
 package org.jarvis.code.ui.main;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 
 import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.model.read.Advertisement;
@@ -39,6 +42,15 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
                 list.add(ad.getImage());
             view.startAnimateAD(list);
         }
+    }
+
+    @Override
+    public Fragment getCurrentFragment(int index) {
+        FragmentManager fragmentManager = ((AppCompatActivity) context()).getSupportFragmentManager();
+        List<Fragment> fragments = fragmentManager.getFragments();
+        if (fragments != null && !fragments.isEmpty())
+            return fragments.get(index);
+        else return null;
     }
 
 }

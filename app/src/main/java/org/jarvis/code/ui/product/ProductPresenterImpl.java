@@ -26,14 +26,27 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     }
 
     @Override
-    public void fetchProduct(int offset, int limit, String type) {
-        requestClient.fetchProducts(offset, limit, type).enqueue(interactor);
+    public void loadProduct(int limit, String type) {
+        requestClient.fetchProducts(1, limit, type).enqueue(interactor);
+    }
+
+    @Override
+    public void loadMoreProduct(int offset, int limit, String type) {
+
     }
 
     @Override
     public void onLoadProductSuccess(List<Product> products) {
-        if (view != null && products != null && !products.isEmpty())
-            view.loadProductSucceed(products);
+        if (view != null) {
+            if (products != null) {
+                if (!products.isEmpty()) {
+                    view.loadProductSucceed(products);
+                    view.hideProgress();
+                } else
+                    view.noProductAvailable();
+            } else
+                view.showErrorMessage();
+        }
     }
 
     @Override
