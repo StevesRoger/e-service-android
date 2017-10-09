@@ -17,6 +17,7 @@ public class BasePresenterImpl<V extends BaseView> implements BasePresenter<V> {
     protected final RequestClient requestClient;
 
     protected V view;
+    protected BaseInteractor interactor;
 
     @Inject
     public BasePresenterImpl(@ActivityContext Context context, RequestClient requestClient) {

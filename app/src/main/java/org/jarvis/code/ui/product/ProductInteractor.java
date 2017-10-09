@@ -1,5 +1,7 @@
 package org.jarvis.code.ui.product;
 
+import android.support.v7.widget.LinearLayoutManager;
+
 import org.jarvis.code.ui.base.BaseInteractor;
 
 /**
@@ -7,4 +9,6 @@ import org.jarvis.code.ui.base.BaseInteractor;
  */
 
 public interface ProductInteractor<T> extends BaseInteractor<T> {
+
+    void setLinearLayoutManager(LinearLayoutManager linearLayoutManager);
 }

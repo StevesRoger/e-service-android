@@ -1,4 +1,4 @@
-package org.jarvis.code.core.adapter;
+package org.jarvis.code.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;

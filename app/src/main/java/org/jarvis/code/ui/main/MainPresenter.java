@@ -4,8 +4,9 @@ import android.support.v4.app.Fragment;
 
 import org.jarvis.code.dagger.PerActivity;
 import org.jarvis.code.model.read.Advertisement;
-import org.jarvis.code.ui.base.BaseView;
+import org.jarvis.code.ui.base.BaseInteractor;
 import org.jarvis.code.ui.base.BasePresenter;
+import org.jarvis.code.ui.base.BaseView;
 
 import java.util.List;
 

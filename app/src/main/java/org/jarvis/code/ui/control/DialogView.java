@@ -1,4 +1,4 @@
-package org.jarvis.code.core.control;
+package org.jarvis.code.ui.control;
 
 import android.app.Dialog;
 import android.content.res.Configuration;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.adapter.ImageAdapter;
+import org.jarvis.code.adapter.ImageAdapter;
 import org.jarvis.code.model.read.Product;
 
 /**

@@ -20,7 +20,7 @@
         tools:replace="android:icon">
 
         <activity
-            android:name=".activity.SplashActivity">
+            android:name=".ui.splash.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

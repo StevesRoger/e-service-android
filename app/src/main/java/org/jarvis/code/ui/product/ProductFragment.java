@@ -11,15 +11,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.adapter.LoadMoreHandler;
-import org.jarvis.code.core.adapter.ProductAdapter;
-import org.jarvis.code.core.fragment.IFragment;
+import org.jarvis.code.adapter.ProductAdapter;
 import org.jarvis.code.dagger.component.ActivityComponent;
 import org.jarvis.code.model.read.Product;
-import org.jarvis.code.model.read.ResponseEntity;
 import org.jarvis.code.ui.base.AbstractFragment;
 import org.jarvis.code.util.Loggy;
 
@@ -29,14 +25,12 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.Call;
-import retrofit2.Response;
 
 /**
  * Created by ki.kao on 9/1/2017.
  */
 
-public class ProductFragment extends AbstractFragment implements ProductView, IFragment<Product> {
+public class ProductFragment extends AbstractFragment implements ProductView {
 
     @BindView(R.id.recycler_view_product)
     RecyclerView recyclerView;
@@ -47,17 +41,18 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
     @BindView(R.id.txt_message)
     TextView lblMessage;
     @Inject
+    LinearLayoutManager linearLayoutManager;
+    @Inject
     ProductAdapter adapter;
     @Inject
     ProductPresenter<ProductView> presenter;
-
-    private LoadMoreHandler<Product> loadMoreHandler;
 
     private boolean isLoaded = false;
     private boolean isVisibleToUser;
     private String type;
     private final int LIMIT = 5;
     private int offset = 1;
+
     private int position = 5;
     private int page = 1;
 
@@ -84,6 +79,7 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
             component.inject(this);
             setUnBinder(ButterKnife.bind(this, view));
             presenter.onAttach(this);
+            presenter.getInteractor().setLinearLayoutManager(linearLayoutManager);
         }
         return view;
     }
@@ -97,9 +93,9 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
         }
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(loadMoreHandler = new LoadMoreHandler(this, recyclerView));
+        recyclerView.addOnScrollListener(presenter.getInteractor());
     }
 
     @Override
@@ -120,40 +116,37 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
     }
 
     @Override
-    public void onLoadMore() {
+    public void loadMoreProduct() {
         Loggy.i(ProductFragment.class, type + " On load more product");
-        //adapter.add(null);
-        /*recyclerView.post(new Runnable() {
+        adapter.add(null);
+        recyclerView.post(new Runnable() {
             public void run() {
                 adapter.notifyItemInserted(adapter.size() - 1);
-                requestService.fetchProducts(offset, LIMIT, type).enqueue(loadMoreHandler);
+                presenter.LoadMoreProduct(offset, LIMIT, type);
             }
-        });*/
+        });
     }
 
     @Override
-    public void onLoadMoreSuccess(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
-        if (response.code() == 200) {
-            adapter.remove(adapter.size() - 1);
-            adapter.notifyItemRemoved(adapter.size());
-            List<Product> products = response.body().getData();
-            Loggy.i(ProductFragment.class, type + " On load more success");
-            Loggy.i(ProductFragment.class, products.toString());
-            if (!products.isEmpty()) {
-                adapter.addAll(products);
-                //fetchPromotion(page);
-                adapter.notifyDataSetChanged();
-                offset++;
-                loadMoreHandler.loaded();
-            }
+    public void loadMoreProductSucceed(List<Product> products) {
+        adapter.remove(adapter.size() - 1);
+        adapter.notifyItemRemoved(adapter.size());
+        Loggy.i(ProductFragment.class, type + " On load more success");
+        Loggy.i(ProductFragment.class, products.toString());
+        if (!products.isEmpty()) {
+            adapter.addAll(products);
+            //fetchPromotion(page);
+            adapter.notifyDataSetChanged();
+            offset++;
+            presenter.getInteractor().loaded();
         }
     }
 
     @Override
-    public void onLoadMoreFailure(Call<ResponseEntity<Product>> call, Throwable t) {
+    public void loadMoreProductFailed(String message) {
         Loggy.e(ProductFragment.class, type + " On load more failure");
-        Loggy.e(ProductFragment.class, t.getMessage());
-        Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+        Loggy.e(ProductFragment.class, message);
+        showMessage(message);
         adapter.remove(adapter.size() - 1);
         adapter.notifyItemRemoved(adapter.size());
     }
@@ -191,7 +184,7 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
     @Override
     public void loadProductSucceed(List<Product> products) {
         Loggy.i(ProductFragment.class, products.toString());
-        loadMoreHandler.loaded();
+        presenter.getInteractor().loaded();
         adapter.clear();
         adapter.addAll(products);
         adapter.notifyDataSetChanged();
@@ -239,6 +232,12 @@ public class ProductFragment extends AbstractFragment implements ProductView, IF
         lblMessage.setText("There is no product available on server!");
         lblMessage.setTextColor(Color.parseColor("#141313"));
         lblMessage.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onDestroyView() {
+        presenter.onDetach();
+        super.onDestroyView();
     }
 
 }

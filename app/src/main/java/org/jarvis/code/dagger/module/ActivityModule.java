@@ -5,10 +5,11 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.adapter.ProductAdapter;
-import org.jarvis.code.core.adapter.TabAdapter;
+import org.jarvis.code.adapter.ProductAdapter;
+import org.jarvis.code.adapter.TabAdapter;
 import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.model.read.Product;
 
@@ -16,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -57,6 +57,11 @@ public class ActivityModule {
     @Provides
     LocalBroadcastManager provideLocalBroadcastManager() {
         return LocalBroadcastManager.getInstance(activity);
+    }
+
+    @Provides
+    LinearLayoutManager provideLinearLayoutManager() {
+        return new LinearLayoutManager(activity);
     }
 
     @Provides

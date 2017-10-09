@@ -15,9 +15,13 @@ public interface ProductPresenter<V extends BaseView> extends BasePresenter<V> {
 
     void loadProduct(int limit, String type);
 
-    void loadMoreProduct(int offset, int limit, String type);
+    void LoadMoreProduct(int offset, int limit, String type);
+
+    void onLoadMoreProduct();
 
     void onLoadProductSuccess(List<Product> products);
 
     void onLoadProductFailure(String message);
+
+    ProductInteractorImpl getInteractor();
 }

@@ -7,6 +7,9 @@ import org.jarvis.code.ui.main.MainView;
 import org.jarvis.code.ui.product.ProductPresenter;
 import org.jarvis.code.ui.product.ProductPresenterImpl;
 import org.jarvis.code.ui.product.ProductView;
+import org.jarvis.code.ui.splash.SplashPresenter;
+import org.jarvis.code.ui.splash.SplashPresenterImpl;
+import org.jarvis.code.ui.splash.SplashView;
 
 import dagger.Module;
 import dagger.Provides;
@@ -24,7 +27,13 @@ public class PresenterModule {
     }
 
     @Provides
-    ProductPresenter<ProductView> provideProductPresenter(ProductPresenterImpl productPresenter){
+    ProductPresenter<ProductView> provideProductPresenter(ProductPresenterImpl productPresenter) {
         return productPresenter;
+    }
+
+    @Provides
+    @PerActivity
+    SplashPresenter<SplashView> provideSplashPresenter(SplashPresenterImpl splashPresenter) {
+        return splashPresenter;
     }
 }

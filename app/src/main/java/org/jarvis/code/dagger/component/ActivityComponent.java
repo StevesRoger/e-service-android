@@ -5,6 +5,7 @@ import org.jarvis.code.dagger.PerActivity;
 import org.jarvis.code.dagger.module.ActivityModule;
 import org.jarvis.code.dagger.module.PresenterModule;
 import org.jarvis.code.ui.main.MainActivity;
+import org.jarvis.code.ui.splash.SplashActivity;
 
 import dagger.Component;
 
@@ -19,4 +20,5 @@ public interface ActivityComponent {
 
     void inject(ProductFragment fragment);
 
+    void inject(SplashActivity activity);
 }

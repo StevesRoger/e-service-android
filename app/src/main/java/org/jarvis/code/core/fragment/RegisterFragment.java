@@ -29,8 +29,8 @@ import com.google.gson.Gson;
 
 import org.jarvis.code.R;
 import org.jarvis.code.network.RequestClient;
-import org.jarvis.code.core.control.JDatePicker;
-import org.jarvis.code.core.control.ImageCross;
+import org.jarvis.code.ui.control.JDatePicker;
+import org.jarvis.code.ui.control.ImageCross;
 import org.jarvis.code.model.read.Product;
 import org.jarvis.code.model.read.ResponseEntity;
 import org.jarvis.code.model.write.Customer;

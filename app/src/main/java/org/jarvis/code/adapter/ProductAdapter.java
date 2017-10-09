@@ -1,4 +1,4 @@
-package org.jarvis.code.core.adapter;
+package org.jarvis.code.adapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.control.DialogView;
+import org.jarvis.code.ui.control.DialogView;
 import org.jarvis.code.core.fragment.RegisterFragment;
 import org.jarvis.code.model.read.Product;
 import org.jarvis.code.model.read.Promotion;

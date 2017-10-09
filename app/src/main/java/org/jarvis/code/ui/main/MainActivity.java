@@ -14,7 +14,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.adapter.TabAdapter;
+import org.jarvis.code.adapter.TabAdapter;
 import org.jarvis.code.receive.FCMReceiver;
 import org.jarvis.code.ui.base.AbstractActivity;
 import org.jarvis.code.ui.product.ProductFragment;

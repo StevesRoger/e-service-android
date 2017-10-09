@@ -1,4 +1,4 @@
-package org.jarvis.code.core.control;
+package org.jarvis.code.ui.control;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
