@@ -7,6 +7,9 @@ import org.jarvis.code.ui.main.MainView;
 import org.jarvis.code.ui.product.ProductPresenter;
 import org.jarvis.code.ui.product.ProductPresenterImpl;
 import org.jarvis.code.ui.product.ProductView;
+import org.jarvis.code.ui.register.RegisterPresenter;
+import org.jarvis.code.ui.register.RegisterPresenterImpl;
+import org.jarvis.code.ui.register.RegisterView;
 import org.jarvis.code.ui.splash.SplashPresenter;
 import org.jarvis.code.ui.splash.SplashPresenterImpl;
 import org.jarvis.code.ui.splash.SplashView;
@@ -29,6 +32,11 @@ public class PresenterModule {
     @Provides
     ProductPresenter<ProductView> provideProductPresenter(ProductPresenterImpl productPresenter) {
         return productPresenter;
+    }
+
+    @Provides
+    RegisterPresenter<RegisterView> provideRegisterPresenter(RegisterPresenterImpl registerPresenter) {
+        return registerPresenter;
     }
 
     @Provides

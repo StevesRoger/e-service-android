@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.fragment.RegisterFragment;
+import org.jarvis.code.ui.register.RegisterFragment;
 import org.jarvis.code.model.read.Product;
 import org.jarvis.code.util.Constants;
 

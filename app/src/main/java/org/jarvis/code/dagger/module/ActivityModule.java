@@ -11,7 +11,9 @@ import org.jarvis.code.R;
 import org.jarvis.code.adapter.ProductAdapter;
 import org.jarvis.code.adapter.TabAdapter;
 import org.jarvis.code.dagger.ActivityContext;
+import org.jarvis.code.dagger.PerActivity;
 import org.jarvis.code.model.read.Product;
+import org.jarvis.code.ui.control.JDatePicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +57,7 @@ public class ActivityModule {
     }
 
     @Provides
+    @PerActivity
     LocalBroadcastManager provideLocalBroadcastManager() {
         return LocalBroadcastManager.getInstance(activity);
     }
@@ -65,8 +68,14 @@ public class ActivityModule {
     }
 
     @Provides
+    @PerActivity
     TabAdapter provideTabAdapter(FragmentManager fragmentManager, @Named("titles") List<String> titles) {
         return new TabAdapter(fragmentManager, titles);
+    }
+
+    @Provides
+    JDatePicker provideJDatePicker() {
+        return new JDatePicker();
     }
 
     @Provides

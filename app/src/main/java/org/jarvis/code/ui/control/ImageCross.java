@@ -59,8 +59,8 @@ public class ImageCross extends FrameLayout implements View.OnClickListener {
             return;
 
         root = customView.findViewById(R.id.root);
-        photo = (ImageView) customView.findViewById(R.id.galleryItemImage);
-        close = (ImageButton) customView.findViewById(R.id.btnRemove);
+        photo = (ImageView) customView.findViewById(R.id.gallery_item_image);
+        close = (ImageButton) customView.findViewById(R.id.btn_remove);
         close.setOnClickListener(this);
 
     }

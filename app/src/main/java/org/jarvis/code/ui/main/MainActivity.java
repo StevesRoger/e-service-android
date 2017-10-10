@@ -15,7 +15,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jarvis.code.R;
 import org.jarvis.code.adapter.TabAdapter;
-import org.jarvis.code.receive.FCMReceiver;
+import org.jarvis.code.service.FCMReceiver;
 import org.jarvis.code.ui.base.AbstractActivity;
 import org.jarvis.code.ui.product.ProductFragment;
 import org.jarvis.code.util.AnimateAD;
