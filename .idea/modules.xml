@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/E-Service.iml" filepath="$PROJECT_DIR$/E-Service.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/e-service.iml" filepath="$PROJECT_DIR$/e-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/e-service-android.iml" filepath="$PROJECT_DIR$/e-service-android.iml" />
     </modules>
   </component>
