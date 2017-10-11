@@ -1,4 +1,4 @@
-package org.jarvis.code.core.adapter;
+package org.jarvis.code.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.fragment.RegisterFragment;
+import org.jarvis.code.ui.register.RegisterFragment;
 import org.jarvis.code.model.read.Product;
 import org.jarvis.code.util.Constants;
 
@@ -37,7 +37,7 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
     private Context context;
     private LayoutInflater layoutInflater;
     private DialogFragment dialogFragment;
-    List<Integer> images;
+    private List<Integer> images;
     private boolean isLandscape = false;
 
     public ImageAdapter(Context context, DialogFragment dialogFragment, Product product, boolean isLandscape) {
@@ -80,13 +80,20 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
 
             layoutParams = imageView.getLayoutParams();
             layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            Picasso.with(context).load(imgUrl + images.get(position))
+                    .fit()
+                    //.centerInside()
+                    .placeholder(R.drawable.progress_spinning)
+                    .error(R.drawable.no_image_available)
+                    .into(imageView);
+        }else {
+            Picasso.with(context).load(imgUrl + images.get(position))
+                    .fit()
+                    //.centerCrop()
+                    .placeholder(R.drawable.progress_spinning)
+                    .error(R.drawable.no_image_available)
+                    .into(imageView);
         }
-        Picasso.with(context).load(imgUrl + images.get(position))
-                .fit()
-                .centerCrop()
-                .placeholder(R.drawable.progress_spinning)
-                .error(R.drawable.no_image_available)
-                .into(imageView);
         container.addView(view);
         return view;
     }
@@ -98,7 +105,7 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+        FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
         switch (view.getId()) {
             case R.id.registerText:
                 new Handler().postDelayed(new Runnable() {

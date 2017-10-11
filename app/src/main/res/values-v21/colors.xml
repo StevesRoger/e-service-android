@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#fd0365</color>
-    <color name="colorPrimaryDark">#f30160</color>
+    <color name="colorPrimary">#e5005a</color>
+    <color name="colorPrimaryDark">#d90156</color>
     <color name="colorAccent">#fd0365</color>
     <color name="vertical_line">#00aeff</color>
     <color name="btn_register">#dadeda</color>

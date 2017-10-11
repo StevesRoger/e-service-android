@@ -3,9 +3,8 @@ package org.jarvis.code.dagger.module;
 import android.app.Application;
 import android.content.Context;
 
+import org.jarvis.code.adapter.TabAdapter;
 import org.jarvis.code.dagger.ApplicationContext;
-
-import javax.inject.Named;
 
 import dagger.Module;
 import dagger.Provides;

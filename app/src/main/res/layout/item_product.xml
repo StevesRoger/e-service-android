@@ -16,7 +16,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imgViewProduct"
+                android:id="@+id/img_view_product"
                 android:layout_width="@dimen/icon_product_width"
                 android:layout_height="@dimen/icon_product_height"
                 android:layout_marginLeft="5dp"
@@ -28,7 +28,7 @@
                 android:id="@+id/text_panel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/imgViewProduct">
+                android:layout_toRightOf="@+id/img_view_product">
 
                 <TableRow
                     android:layout_width="match_parent"
@@ -104,7 +104,7 @@
                     android:layout_marginBottom="4dp">
 
                     <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/btnRegister"
+                        android:id="@+id/btn_register"
                         android:layout_width="@dimen/button_register_width"
                         android:layout_height="@dimen/button_register_height"
                         android:background="@color/colorAccent"

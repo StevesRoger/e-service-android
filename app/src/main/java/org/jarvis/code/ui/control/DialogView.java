@@ -1,4 +1,4 @@
-package org.jarvis.code.core.control;
+package org.jarvis.code.ui.control;
 
 import android.app.Dialog;
 import android.content.res.Configuration;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.adapter.ImageAdapter;
+import org.jarvis.code.adapter.ImageAdapter;
 import org.jarvis.code.model.read.Product;
 
 /**
@@ -23,17 +23,18 @@ public class DialogView extends DialogFragment {
 
     private Product product;
 
-    public DialogView() {
-
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
+    public static DialogView newInstance(Product product) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("product", product);
+        DialogView dialogView = new DialogView();
+        dialogView.setArguments(bundle);
+        return dialogView;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        product = (Product) getArguments().getSerializable("product");
         setStyle(DialogFragment.STYLE_NORMAL, R.style.dialog_theme);
         setRetainInstance(true);
     }
@@ -51,7 +52,7 @@ public class DialogView extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dialog_view, container, false);
-        ImageViewTouchViewPager viewPager = (ImageViewTouchViewPager) view.findViewById(R.id.imagePager);
+        ImageViewTouchViewPager viewPager = (ImageViewTouchViewPager) view.findViewById(R.id.image_view_touch);
         boolean isLandscape = false;
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Toast.makeText(getContext(), "Landscape Mode", Toast.LENGTH_LONG).show();

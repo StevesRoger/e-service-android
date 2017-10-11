@@ -6,7 +6,7 @@
     android:background="@android:color/white">
 
     <ImageView
-        android:id="@+id/galleryItemImage"
+        android:id="@+id/gallery_item_image"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_alignParentTop="true"
@@ -16,7 +16,7 @@
         android:scaleType="centerCrop" />
 
     <ImageButton
-        android:id="@+id/btnRemove"
+        android:id="@+id/btn_remove"
         android:layout_width="16dp"
         android:layout_height="16dp"
         android:layout_gravity="end"

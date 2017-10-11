@@ -1,29 +1,23 @@
 package org.jarvis.code.ui.main;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.adapter.TabAdapter;
-import org.jarvis.code.core.fragment.IFragment;
-import org.jarvis.code.core.fragment.ProductFragment;
-import org.jarvis.code.receive.FCMReceiver;
-import org.jarvis.code.ui.base.BaseActivity;
+import org.jarvis.code.adapter.TabAdapter;
+import org.jarvis.code.service.FCMReceiver;
+import org.jarvis.code.ui.base.AbstractActivity;
+import org.jarvis.code.ui.product.ProductFragment;
 import org.jarvis.code.util.AnimateAD;
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
@@ -36,7 +30,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends BaseActivity implements MainView, FCMReceiver.IReceiver {
+public class MainActivity extends AbstractActivity implements MainView, FCMReceiver.IReceiver {
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -50,6 +44,8 @@ public class MainActivity extends BaseActivity implements MainView, FCMReceiver.
     TabAdapter tabAdapter;
     @Inject
     MainPresenter<MainView> presenter;
+    @Inject
+    LocalBroadcastManager localBroadcastManager;
 
     private FCMReceiver fcmReceiver;
     private boolean isLoad;
@@ -60,29 +56,31 @@ public class MainActivity extends BaseActivity implements MainView, FCMReceiver.
         setContentView(R.layout.activity_main);
         getActivityComponent().inject(this);
         setUnBinder(ButterKnife.bind(this));
+
         presenter.onAttach(this);
         presenter.fetchAdvertisement();
-        tabAdapter.addFragment(ProductFragment.newInstance("WED", this), getResources().getString(R.string.wedding_fragment));
-        tabAdapter.addFragment(ProductFragment.newInstance("CER", this), getResources().getString(R.string.ceremony_fragment));
-        tabAdapter.addFragment(ProductFragment.newInstance("DES", this), getResources().getString(R.string.design_fragment));
+
+        tabAdapter.addFragment(ProductFragment.newInstance("WED"));
+        tabAdapter.addFragment(ProductFragment.newInstance("CER"));
+        tabAdapter.addFragment(ProductFragment.newInstance("DES"));
 
         viewPager.setAdapter(tabAdapter);
         viewPager.setOffscreenPageLimit(2);
 
         tabLayout.setupWithViewPager(viewPager);
 
-        searchView.setQueryHint(getResources().getString(R.string.string_search_hint));
+        searchView.setQueryHint(getString(R.string.string_search_hint));
         searchView.setOnQueryTextListener(this);
 
         fcmReceiver = new FCMReceiver(this);
 
-        checkRunTimePermission();
         FirebaseMessaging.getInstance().subscribeToTopic("V-Printing");
         FirebaseInstanceId.getInstance().getToken();
-        Loggy.i(MainActivity.class, "register receiver");
-        LocalBroadcastManager.getInstance(this).registerReceiver(fcmReceiver, new IntentFilter(Constants.FCM_BROADCAST_ACTION));
-    }
 
+        Loggy.i(MainActivity.class, "register receiver");
+        localBroadcastManager.registerReceiver(fcmReceiver, new IntentFilter(Constants.FCM_BROADCAST_ACTION));
+
+    }
 
     @Override
     public void onBackPressed() {
@@ -97,21 +95,22 @@ public class MainActivity extends BaseActivity implements MainView, FCMReceiver.
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        ((IFragment) tabAdapter.getItem(viewPager.getCurrentItem())).search(query);
+        ((ProductFragment) presenter.getCurrentFragment(viewPager.getCurrentItem())).search(query);
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        ((IFragment) tabAdapter.getItem(viewPager.getCurrentItem())).search(newText);
+        ((ProductFragment) presenter.getCurrentFragment(viewPager.getCurrentItem())).search(newText);
         return true;
     }
 
     @Override
-    protected void onStop() {
+    protected void onDestroy() {
         Loggy.i(MainActivity.class, "unregister receiver");
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(fcmReceiver);
-        super.onStop();
+        localBroadcastManager.unregisterReceiver(fcmReceiver);
+        presenter.onDetach();
+        super.onDestroy();
     }
 
     @Override
@@ -119,26 +118,6 @@ public class MainActivity extends BaseActivity implements MainView, FCMReceiver.
         Loggy.i(MainActivity.class, jsonArray.toString());
     }
 
-    private void checkRunTimePermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // We don't have permission so prompt the user
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE))
-                    Toast.makeText(this, "Write External Storage permission allows us to do store image. Please allow this permission in App Settings.", Toast.LENGTH_LONG).show();
-                else {
-                    ActivityCompat.requestPermissions(this, Constants.MY_PERMISSIONS, Constants.REQUEST_PERMISSIONS_CODE);
-                    Loggy.i(MainActivity.class, "Request permission");
-                }
-            } else {
-                Loggy.i(MainActivity.class, "Permission is granted");
-            }
-        } else {
-            Loggy.i(MainActivity.class, "Permission is granted");
-        }
-    }
 
     public void onRefreshAD() {
         //requestClient.fetchAdvertisement().enqueue(this);

@@ -1,7 +1,6 @@
-package org.jarvis.code.core.adapter;
+package org.jarvis.code.adapter;
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
@@ -16,10 +15,10 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
-import org.jarvis.code.core.control.DialogView;
-import org.jarvis.code.core.fragment.RegisterFragment;
 import org.jarvis.code.model.read.Product;
 import org.jarvis.code.model.read.Promotion;
+import org.jarvis.code.ui.control.DialogView;
+import org.jarvis.code.ui.register.RegisterFragment;
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 
@@ -27,6 +26,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by KimChheng on 6/2/2017.
@@ -56,13 +58,13 @@ public class ProductAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_PRODUCT) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product, parent, false);
-            return new ProductViewHolder(view);
+            return this.new ProductViewHolder(view);
         } else if (viewType == VIEW_PROMOTION) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_promotion, parent, false);
-            return new PromotionViewHolder(view);
+            return this.new PromotionViewHolder(view);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progressbar, parent, false);
-            return new LoadingViewHolder(view);
+            return this.new LoadingViewHolder(view);
         }
     }
 
@@ -182,12 +184,9 @@ public class ProductAdapter extends RecyclerView.Adapter {
     public void filter(String text) {
         Loggy.i(ProductAdapter.class, "Search product '" + text + "'");
         originalList.clear();
-        if (text.isEmpty()) {
-            originalList.addAll(copyList);
-        } else {
-            text = text.toLowerCase();
+        if (!text.isEmpty()) {
             for (Product product : copyList) {
-                if (!(product instanceof Promotion)) {
+                if (product instanceof Product) {
                     if (product.getCode().toLowerCase().contains(text) ||
                             product.getColor().toLowerCase().contains(text) ||
                             product.getPrice().toLowerCase().contains(text) ||
@@ -196,76 +195,75 @@ public class ProductAdapter extends RecyclerView.Adapter {
                     }
                 }
             }
+        } else {
+            originalList.addAll(copyList);
         }
         notifyDataSetChanged();
     }
 
 
-    public static class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public class ProductViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private TextView lblCode;
-        private TextView lblPrice;
-        private TextView lblSize;
-        private TextView lblColor;
-        private TextView lblContact;
-        private AppCompatButton btnRegister;
-        private ImageView image;
+        @BindView(R.id.lblCode)
+        TextView lblCode;
+        @BindView(R.id.lblPrice)
+        TextView lblPrice;
+        @BindView(R.id.lblSize)
+        TextView lblSize;
+        @BindView(R.id.lblColor)
+        TextView lblColor;
+        @BindView(R.id.lblContact)
+        TextView lblContact;
+        @BindView(R.id.btn_register)
+        AppCompatButton btnRegister;
+        @BindView(R.id.img_view_product)
+        ImageView image;
         private Product product;
 
         public ProductViewHolder(View itemView) {
             super(itemView);
-            lblCode = (TextView) itemView.findViewById(R.id.lblCode);
-            lblPrice = (TextView) itemView.findViewById(R.id.lblPrice);
-            lblSize = (TextView) itemView.findViewById(R.id.lblSize);
-            lblColor = (TextView) itemView.findViewById(R.id.lblColor);
-            lblContact = (TextView) itemView.findViewById(R.id.lblContact);
-            btnRegister = (AppCompatButton) itemView.findViewById(R.id.btnRegister);
-            image = (ImageView) itemView.findViewById(R.id.imgViewProduct);
+            ButterKnife.bind(this, itemView);
             btnRegister.setOnClickListener(this);
-            itemView.setOnClickListener(this);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
-            if (view.getId() == R.id.btnRegister) {
-                Bundle bundles = new Bundle();
-                bundles.putSerializable("product", product);
-                RegisterFragment registerFragment = new RegisterFragment();
-                registerFragment.setArguments(bundles);
+            FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
+            if (view.getId() == R.id.btn_register) {
+                RegisterFragment registerFragment = RegisterFragment.newInstance(product);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, registerFragment)
                         .addToBackStack("registerFragment")
                         .commit();
             } else {
-                DialogView dialogView = new DialogView();
-                dialogView.setProduct(product);
+                DialogView dialogView = DialogView.newInstance(product);
                 dialogView.show(fragmentManager.beginTransaction(), "Image Gallery");
                 //dialogView.setCancelable(false);
             }
         }
     }
 
-    public static class PromotionViewHolder extends RecyclerView.ViewHolder {
+    public class PromotionViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView image;
+        @BindView(R.id.img_view_promotion)
+        ImageView image;
 
         public PromotionViewHolder(View itemView) {
             super(itemView);
-            image = (ImageView) itemView.findViewById(R.id.imgViewPromotion);
+            ButterKnife.bind(this, itemView);
         }
     }
 
-    public static class LoadingViewHolder extends RecyclerView.ViewHolder {
+    public class LoadingViewHolder extends RecyclerView.ViewHolder {
 
-        private ProgressBar progressBar;
+        @BindView(R.id.progress_bar)
+        ProgressBar progressBar;
 
         public LoadingViewHolder(View itemView) {
             super(itemView);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.progressBar);
+            ButterKnife.bind(this, itemView);
         }
     }
-
 
 }

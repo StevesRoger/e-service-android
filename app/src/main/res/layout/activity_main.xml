@@ -29,15 +29,16 @@
         <RelativeLayout
             android:id="@+id/relativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_margin="0dp">
 
-            <ImageView
+            <android.support.v7.widget.AppCompatImageView
                 android:id="@+id/img_ad"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/advertisement_height"
                 android:adjustViewBounds="true"
-                android:src="@drawable/no_ad_available"
-                tools:ignore="ContentDescription" />
+                android:background="@color/colorWhite"
+                android:src="@drawable/no_ad_available" />
 
             <RelativeLayout
                 android:id="@+id/tab_panel"

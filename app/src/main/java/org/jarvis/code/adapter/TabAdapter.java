@@ -1,8 +1,8 @@
-package org.jarvis.code.core.adapter;
+package org.jarvis.code.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,20 +11,19 @@ import java.util.List;
  * Created by KimChheng on 6/4/2017.
  */
 
-public class TabAdapter extends FragmentPagerAdapter {
+public class TabAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> fragmentList;
     private List<String> fragmentTitleList;
 
-    public TabAdapter(FragmentManager fm) {
+    public TabAdapter(FragmentManager fm, List<String> titles) {
         super(fm);
         fragmentList = new ArrayList<>();
-        fragmentTitleList = new ArrayList<>();
+        fragmentTitleList = titles;
     }
 
-    public void addFragment(Fragment fragment, String title) {
+    public void addFragment(Fragment fragment) {
         fragmentList.add(fragment);
-        fragmentTitleList.add(title);
     }
 
     @Override

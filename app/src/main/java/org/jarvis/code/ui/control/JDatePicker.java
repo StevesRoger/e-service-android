@@ -1,4 +1,4 @@
-package org.jarvis.code.core.control;
+package org.jarvis.code.ui.control;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -18,10 +18,6 @@ import java.util.Calendar;
 public class JDatePicker extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private EditText txtDate;
-
-    public JDatePicker() {
-
-    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {

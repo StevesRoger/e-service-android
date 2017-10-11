@@ -1,49 +1,25 @@
 package org.jarvis.code.ui.base;
 
-import android.app.Activity;
-import android.app.Application;
 import android.content.Context;
-
-import org.jarvis.code.dagger.ActivityContext;
-import org.jarvis.code.network.RequestClient;
-
-import javax.inject.Inject;
+import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by ki.kao on 10/4/2017.
  */
 
-public class BasePresenter<V extends IView> implements IPresenter<V> {
+public interface BasePresenter<V extends BaseView> {
 
-    protected final Context context;
-    protected final RequestClient requestClient;
+    void onAttach(V view);
 
-    private V view;
+    void onDetach();
 
-    @Inject
-    public BasePresenter(@ActivityContext Context context, RequestClient requestClient) {
-        this.context = context;
-        this.requestClient = requestClient;
-    }
+    Context context();
 
-    @Override
-    public void onAttach(V view) {
-        this.view = view;
-    }
+    AppCompatActivity activity();
 
-    @Override
-    public void onDetach() {
-        this.view = null;
-    }
+    V getView();
 
-    @Override
-    public Context context() {
-        return context;
-    }
+    void showMessage(String message);
 
-    @Override
-    public V getView() {
-        return view;
-    }
-
+    void showSnackBar(String message);
 }

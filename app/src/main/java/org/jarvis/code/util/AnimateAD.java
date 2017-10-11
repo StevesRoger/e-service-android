@@ -26,14 +26,13 @@ public final class AnimateAD {
     public static void animate(final ImageView imageView, final List<Integer> images, final int imageIndex, final boolean forever, final Context context) {
 
         int fadeInDuration = 500; // Configure time values here
-        int timeBetween = 3000;
+        int timeBetween = 5000;
         int fadeOutDuration = 1000;
 
         imageView.setVisibility(View.INVISIBLE);    //Visible or invisible by default - this will apply when the animation ends
         //imageView.setImageResource(advertisements.get(imageIndex));
         Picasso.with(context).load(imgUrl + images.get(imageIndex))
                 .fit()
-                .centerCrop()
                 //.placeholder(R.drawable.progress_spinning_circle)
                 .error(R.drawable.no_ad_available)
                 .into(imageView);

@@ -1,4 +1,4 @@
-package org.jarvis.code.receive;
+package org.jarvis.code.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

@@ -15,7 +15,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
             android:text="@string/string_register"
             android:textColor="@color/colorWhite"
             android:textSize="8pt" />
@@ -26,7 +27,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="3dp"
             android:src="@drawable/img_cross_src" />
 
     </RelativeLayout>
