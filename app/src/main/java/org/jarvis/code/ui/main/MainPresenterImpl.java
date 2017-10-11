@@ -22,8 +22,8 @@ import javax.inject.Inject;
 public class MainPresenterImpl extends BasePresenterImpl<MainView> implements MainPresenter<MainView> {
 
     @Inject
-    public MainPresenterImpl(@ActivityContext Context context, RequestClient requestClient) {
-        super(context, requestClient);
+    public MainPresenterImpl(AppCompatActivity activity, @ActivityContext Context context, RequestClient requestClient) {
+        super(activity, context, requestClient);
         this.interactor = new AdvertisementInteractorImpl(this);
     }
 

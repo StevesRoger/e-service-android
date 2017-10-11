@@ -34,8 +34,6 @@
             android:windowSoftInputMode="adjustPan|stateHidden">
         </activity>
 
-        <activity android:name=".activity.MapsActivity"/>
-
         <service
             android:name=".service.FirebaseMessagingService">
             <intent-filter>

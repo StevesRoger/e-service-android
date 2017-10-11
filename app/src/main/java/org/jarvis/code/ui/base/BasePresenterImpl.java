@@ -1,6 +1,7 @@
 package org.jarvis.code.ui.base;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 
 import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.network.RequestClient;
@@ -14,14 +15,16 @@ import javax.inject.Inject;
 public class BasePresenterImpl<V extends BaseView> implements BasePresenter<V> {
 
     protected final Context context;
+    protected final AppCompatActivity activity;
     protected final RequestClient requestClient;
 
     protected V view;
     protected BaseInteractor interactor;
 
     @Inject
-    public BasePresenterImpl(@ActivityContext Context context, RequestClient requestClient) {
+    public BasePresenterImpl(AppCompatActivity activity, @ActivityContext Context context, RequestClient requestClient) {
         this.context = context;
+        this.activity = activity;
         this.requestClient = requestClient;
     }
 
@@ -41,6 +44,11 @@ public class BasePresenterImpl<V extends BaseView> implements BasePresenter<V> {
     }
 
     @Override
+    public AppCompatActivity activity() {
+        return activity;
+    }
+
+    @Override
     public V getView() {
         return view;
     }
@@ -48,7 +56,7 @@ public class BasePresenterImpl<V extends BaseView> implements BasePresenter<V> {
     @Override
     public void showMessage(String message) {
         if (view != null)
-            view.showMessage(message);
+            view.toastMessage(message);
 
     }
 

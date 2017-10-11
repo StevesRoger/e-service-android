@@ -30,6 +30,6 @@ public class AdvertisementInteractorImpl implements AdvertisementInteractor<Adve
     public void onFailure(Call<ResponseEntity<Advertisement>> call, Throwable t) {
         Loggy.e(MainActivity.class, t.getMessage());
         presenter.showSnackBar(t.getMessage());
-        //presenter.showMessage(t.getMessage());
+        //presenter.toastMessage(t.getMessage());
     }
 }

@@ -1,6 +1,5 @@
 package org.jarvis.code.dagger.module;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
@@ -14,12 +13,14 @@ import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.dagger.PerActivity;
 import org.jarvis.code.model.read.Product;
 import org.jarvis.code.ui.control.JDatePicker;
+import org.jarvis.code.util.Validator;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Named;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import dagger.Module;
 import dagger.Provides;
 
@@ -42,7 +43,7 @@ public class ActivityModule {
     }
 
     @Provides
-    Activity provideActivity() {
+    AppCompatActivity provideActivity() {
         return activity;
     }
 
@@ -76,6 +77,16 @@ public class ActivityModule {
     @Provides
     JDatePicker provideJDatePicker() {
         return new JDatePicker();
+    }
+
+    @Provides
+    Validator provideValidator() {
+        return new Validator(activity);
+    }
+
+    @Provides
+    SweetAlertDialog provideSweetAlertProgressDialog() {
+        return new SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE);
     }
 
     @Provides

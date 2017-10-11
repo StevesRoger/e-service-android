@@ -16,7 +16,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/imgViewPromotion"
+                android:id="@+id/img_view_promotion"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/icon_product_height"
                 android:layout_centerHorizontal="true"

@@ -16,7 +16,9 @@ import org.jarvis.code.R;
 import org.jarvis.code.adapter.ProductAdapter;
 import org.jarvis.code.dagger.component.ActivityComponent;
 import org.jarvis.code.model.read.Product;
+import org.jarvis.code.model.read.Promotion;
 import org.jarvis.code.ui.base.AbstractFragment;
+import org.jarvis.code.ui.product.promotion.PromotionPresenter;
 import org.jarvis.code.util.Loggy;
 
 import java.util.List;
@@ -45,7 +47,9 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     @Inject
     ProductAdapter adapter;
     @Inject
-    ProductPresenter<ProductView> presenter;
+    ProductPresenter<ProductView> productPresenter;
+    @Inject
+    PromotionPresenter<ProductView> promotionPresenter;
 
     private boolean isLoaded = false;
     private boolean isVisibleToUser;
@@ -78,8 +82,8 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         if (component != null) {
             component.inject(this);
             setUnBinder(ButterKnife.bind(this, view));
-            presenter.onAttach(this);
-            presenter.getInteractor().setLinearLayoutManager(linearLayoutManager);
+            productPresenter.onAttach(this);
+            productPresenter.getInteractor().setLinearLayoutManager(linearLayoutManager);
         }
         return view;
     }
@@ -88,14 +92,14 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (isVisibleToUser && (!isLoaded)) {
-            presenter.loadProduct(LIMIT, type);
+            productPresenter.loadProduct(LIMIT, type);
             isLoaded = true;
         }
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(presenter.getInteractor());
+        recyclerView.addOnScrollListener(productPresenter.getInteractor());
     }
 
     @Override
@@ -103,7 +107,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         super.setUserVisibleHint(isVisibleToUser);
         this.isVisibleToUser = isVisibleToUser;
         if (isVisibleToUser && isAdded()) {
-            presenter.loadProduct(LIMIT, type);
+            productPresenter.loadProduct(LIMIT, type);
             isLoaded = true;
         }
     }
@@ -111,7 +115,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     @Override
     public void onRefresh() {
         //mainActivity.onRefreshAD();
-        presenter.loadProduct(LIMIT, type);
+        productPresenter.loadProduct(LIMIT, type);
         progressBar.setVisibility(View.GONE);
     }
 
@@ -122,7 +126,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         recyclerView.post(new Runnable() {
             public void run() {
                 adapter.notifyItemInserted(adapter.size() - 1);
-                presenter.LoadMoreProduct(offset, LIMIT, type);
+                productPresenter.LoadMoreProduct(offset, LIMIT, type);
             }
         });
     }
@@ -135,10 +139,10 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         Loggy.i(ProductFragment.class, products.toString());
         if (!products.isEmpty()) {
             adapter.addAll(products);
-            //fetchPromotion(page);
+            promotionPresenter.loadPromotion(page,1);
             adapter.notifyDataSetChanged();
             offset++;
-            presenter.getInteractor().loaded();
+            productPresenter.getInteractor().loaded();
         }
     }
 
@@ -146,17 +150,28 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     public void loadMoreProductFailed(String message) {
         Loggy.e(ProductFragment.class, type + " On load more failure");
         Loggy.e(ProductFragment.class, message);
-        showMessage(message);
+        toastMessage(message);
         adapter.remove(adapter.size() - 1);
         adapter.notifyItemRemoved(adapter.size());
     }
 
     @Override
     public void search(String text) {
-        adapter.filter(text);
+        adapter.filter(text.toLowerCase());
     }
 
-   /* private void fetchPromotion(final int step) {
+    @Override
+    public void loadPromotionSucceed(List<Promotion> promotions) {
+        if (promotions != null && !promotions.isEmpty()) {
+            adapter.add(position, promotions.get(0));
+            Loggy.i(ProductFragment.class, type + " advertisement position:" + position);
+            position = (position + 5) + 1;
+            page = (position - 1) / 5;
+        }
+    }
+
+
+    /* private void fetchPromotion(final int step) {
         Loggy.i(ProductFragment.class, type + " advertisement offset:" + step);
         new AsyncTask<Void, Void, Void>() {
             @Override
@@ -184,7 +199,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     @Override
     public void loadProductSucceed(List<Product> products) {
         Loggy.i(ProductFragment.class, products.toString());
-        presenter.getInteractor().loaded();
+        productPresenter.getInteractor().loaded();
         adapter.clear();
         adapter.addAll(products);
         adapter.notifyDataSetChanged();
@@ -201,7 +216,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         Loggy.e(ProductFragment.class, message);
         showErrorMessage();
         swipeRefreshLayout.setRefreshing(false);
-        showMessage(message);
+        toastMessage(message);
     }
 
     @Override
@@ -236,7 +251,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
 
     @Override
     public void onDestroyView() {
-        presenter.onDetach();
+        productPresenter.onDetach();
         super.onDestroyView();
     }
 

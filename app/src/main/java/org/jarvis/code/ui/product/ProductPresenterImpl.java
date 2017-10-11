@@ -1,6 +1,7 @@
 package org.jarvis.code.ui.product;
 
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 
 import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.model.read.Product;
@@ -23,8 +24,8 @@ import retrofit2.Response;
 public class ProductPresenterImpl extends BasePresenterImpl<ProductView> implements ProductPresenter<ProductView> {
 
     @Inject
-    public ProductPresenterImpl(@ActivityContext Context context, RequestClient requestClient) {
-        super(context, requestClient);
+    public ProductPresenterImpl(AppCompatActivity activity, @ActivityContext Context context, RequestClient requestClient) {
+        super(activity, context, requestClient);
         this.interactor = new ProductInteractorImpl(this);
     }
 

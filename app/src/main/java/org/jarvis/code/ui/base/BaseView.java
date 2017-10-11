@@ -1,8 +1,5 @@
 package org.jarvis.code.ui.base;
 
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.widget.SearchView;
-
 /**
  * Created by ki.kao on 10/4/2017.
  */
@@ -13,9 +10,10 @@ public interface BaseView {
 
     void hideKeyboard();
 
-    void showMessage(String message);
+    void toastMessage(String message);
 
     void showSnackBar(String message);
 
+    void showSweetAlert(int type, String title, String content);
 
 }

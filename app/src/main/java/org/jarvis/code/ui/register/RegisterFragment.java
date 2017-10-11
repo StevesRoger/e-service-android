@@ -29,13 +29,11 @@ import com.google.gson.Gson;
 import org.jarvis.code.R;
 import org.jarvis.code.dagger.component.ActivityComponent;
 import org.jarvis.code.model.read.Product;
-import org.jarvis.code.model.read.ResponseEntity;
 import org.jarvis.code.model.write.Customer;
 import org.jarvis.code.ui.base.AbstractFragment;
 import org.jarvis.code.ui.control.ImageCross;
 import org.jarvis.code.ui.control.JDatePicker;
 import org.jarvis.code.util.ComponentFactory;
-import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.FileUtil;
 import org.jarvis.code.util.Loggy;
 import org.jarvis.code.util.Validator;
@@ -54,15 +52,12 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by KimChheng on 6/6/2017.
  */
 
-public class RegisterFragment extends AbstractFragment implements RegisterView, Callback<ResponseEntity<Map<String, Object>>> {
+public class RegisterFragment extends AbstractFragment implements RegisterView {
 
     @BindView(R.id.txtGroomName)
     EditText txtGroomName;
@@ -97,12 +92,14 @@ public class RegisterFragment extends AbstractFragment implements RegisterView, 
     @Inject
     RegisterPresenter<RegisterView> presenter;
     @Inject
-    JDatePicker dialogFragment;
+    JDatePicker jDatePicker;
     @Inject
     FragmentManager fragmentManager;
+    @Inject
+    Validator validator;
+    @Inject
+    SweetAlertDialog progressDialog;
 
-    private SweetAlertDialog progressDialog;
-    private Validator validator;
     private ComponentFactory factory;
     private Uri uri;
     private File file;
@@ -111,10 +108,17 @@ public class RegisterFragment extends AbstractFragment implements RegisterView, 
     private boolean isLoaded = false;
     private boolean isVisibleToUser;
 
+    public static RegisterFragment newInstance(Product product) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("product", product);
+        RegisterFragment registerFragment = new RegisterFragment();
+        registerFragment.setArguments(bundle);
+        return registerFragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        validator = new Validator(getContext());
         product = (Product) getArguments().getSerializable("product");
     }
 
@@ -167,7 +171,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView, 
                 showDialogDatePicker();
                 break;
             case R.id.imgMap:
-                showMessage("Sorry for this feature will release on next version.");
+                toastMessage("Sorry for this feature will release on next version.");
                 break;
             case R.id.imgChoose:
                 browseImage();
@@ -177,15 +181,11 @@ public class RegisterFragment extends AbstractFragment implements RegisterView, 
                 break;
             case R.id.btn_submit:
                 try {
-                    validate();
                     presenter.submitCustomer();
                 } catch (Exception e) {
                     e.printStackTrace();
                     Loggy.e(RegisterFragment.class, e.getMessage());
-                    new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText(e.getMessage().toString().trim())
-                            .setContentText(validator.getMessage())
-                            .show();
+                    showSweetAlert(SweetAlertDialog.ERROR_TYPE, e.getMessage().toString().trim(), validator.getMessage());
                     validator.clear();
                 }
                 break;
@@ -196,7 +196,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView, 
     }
 
     @Override
-    public Customer createCustomer() {
+    public RequestBody requestJson() {
         Customer customer = new Customer();
         customer.setGroomName(txtGroomName.getText().toString().trim());
         customer.setGroomDadName(txtDadGroomName.getText().toString().trim());
@@ -216,7 +216,21 @@ public class RegisterFragment extends AbstractFragment implements RegisterView, 
         customer.setFb(editTexts.get(6).getText().toString().trim());
         customer.setOther(editTexts.get(7).getText().toString().trim());
         customer.setProductId(product.getId());
-        return customer;
+        String json = new Gson().toJson(customer);
+        Loggy.i(RegisterPresenterImpl.class, json);
+        return RequestBody.create(MediaType.parse("text/plain"), json);
+    }
+
+    @Override
+    public MultipartBody.Part[] requestFiles() {
+        MultipartBody.Part[] requestFiles = new MultipartBody.Part[gallery.getChildCount()];
+        for (int i = 0; i < gallery.getChildCount(); i++) {
+            ImageCross imageCross = (ImageCross) gallery.getChildAt(i);
+            File file = imageCross.getFile();
+            RequestBody requestBody = RequestBody.create(MediaType.parse(imageCross.getType()), file);
+            requestFiles[i] = MultipartBody.Part.createFormData("files", file.getName(), requestBody);
+        }
+        return requestFiles;
     }
 
     @Override
@@ -272,33 +286,6 @@ public class RegisterFragment extends AbstractFragment implements RegisterView, 
         startActivityForResult(chooserIntent, 1);
     }
 
-    /*private void submitCustomer() {
-        try {
-            Customer customer = createCustomer();
-            if (customer != null) {
-                progressDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
-                progressDialog.setTitleText(getString(R.string.string_submitting));
-                progressDialog.setCancelable(false);
-                String json = new Gson().toJson(customer);
-                Log.i(Constants.TAG, json);
-                RequestBody requestJson = RequestBody.create(MediaType.parse("text/plain"), json);
-                MultipartBody.Part[] requestFiles = new MultipartBody.Part[gallery.getChildCount()];
-                for (int i = 0; i < gallery.getChildCount(); i++) {
-                    ImageCross imageCross = (ImageCross) gallery.getChildAt(i);
-                    File file = imageCross.getFile();
-                    RequestBody requestBody = RequestBody.create(MediaType.parse(imageCross.getType()), file);
-                    requestFiles[i] = MultipartBody.Part.createFormData("files", file.getName(), requestBody);
-                }
-                requestService.submitCustomer(requestJson, requestFiles).enqueue(this);
-                progressDialog.show();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(Constants.TAG, e.getMessage());
-            Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }*/
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -339,35 +326,9 @@ public class RegisterFragment extends AbstractFragment implements RegisterView, 
     }
 
     @Override
-    public void onResponse(Call<ResponseEntity<Map<String, Object>>> call, Response<ResponseEntity<Map<String, Object>>> response) {
-        if (response.code() == 200) {
-            progressDialog.dismiss();
-            ResponseEntity<Map<String, Object>> responseEntity = response.body();
-            new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                    .setTitleText(getString(R.string.string_sending_infor))
-                    .setContentText(getString(R.string.string_success))
-                    // .findViewById(R.id.confirm_button).setVisibility(View.GONE)
-                    .show();
-            Loggy.i(RegisterFragment.class, responseEntity.getMessage());
-            //Toast.makeText(getContext(), responseEntity.getMessage(), Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onFailure(Call<ResponseEntity<Map<String, Object>>> call, Throwable t) {
-        progressDialog.dismiss();
-        new SweetAlertDialog(getContext(), SweetAlertDialog.ERROR_TYPE)
-                .setTitleText(getString(R.string.string_fail))
-                .setContentText(t.getMessage())
-                .show();
-        Log.e(Constants.TAG, t.getMessage());
-        //Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-    }
-
-    @Override
     public void showDialogDatePicker() {
-        dialogFragment.show(fragmentManager, "datePicker");
-        dialogFragment.setCancelable(false);
+        jDatePicker.show(fragmentManager, "datePicker");
+        jDatePicker.setCancelable(false);
     }
 
     @Override
@@ -375,5 +336,17 @@ public class RegisterFragment extends AbstractFragment implements RegisterView, 
         fragmentManager.popBackStack();
         InputMethodManager inputManager = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         inputManager.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+    @Override
+    public void showProgressDialog() {
+        progressDialog.setTitleText(getString(R.string.string_submitting));
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    @Override
+    public void dismissProgressDialog() {
+        progressDialog.dismissWithAnimation();
     }
 }

@@ -28,6 +28,7 @@ import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 
 import butterknife.Unbinder;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 /**
  * Created by ki.kao on 10/4/2017.
@@ -117,7 +118,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements Base
     }
 
     @Override
-    public void showMessage(String message) {
+    public void toastMessage(String message) {
         if (message != null) {
             Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
         } else {
@@ -134,6 +135,15 @@ public abstract class AbstractActivity extends AppCompatActivity implements Base
                 .findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(ContextCompat.getColor(this, R.color.colorWhite));
         snackbar.show();
+    }
+
+    @Override
+    public void showSweetAlert(int type, String title, String content) {
+        new SweetAlertDialog(this, type)
+                .setTitleText(title)
+                .setContentText(content)
+                // .findViewById(R.id.confirm_button).setVisibility(View.GONE)
+                .show();
     }
 
     @Override

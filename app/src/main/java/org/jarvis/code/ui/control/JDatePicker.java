@@ -19,10 +19,6 @@ public class JDatePicker extends DialogFragment implements DatePickerDialog.OnDa
 
     private EditText txtDate;
 
-    public JDatePicker() {
-
-    }
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         // Use the current date as the default date in the picker

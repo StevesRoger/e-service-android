@@ -37,7 +37,7 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
     private Context context;
     private LayoutInflater layoutInflater;
     private DialogFragment dialogFragment;
-    List<Integer> images;
+    private List<Integer> images;
     private boolean isLandscape = false;
 
     public ImageAdapter(Context context, DialogFragment dialogFragment, Product product, boolean isLandscape) {
@@ -105,7 +105,7 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        FragmentManager fragmentManager = ((AppCompatActivity) view.getContext()).getSupportFragmentManager();
+        FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
         switch (view.getId()) {
             case R.id.registerText:
                 new Handler().postDelayed(new Runnable() {

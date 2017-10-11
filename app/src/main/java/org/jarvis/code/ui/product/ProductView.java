@@ -3,6 +3,7 @@ package org.jarvis.code.ui.product;
 import android.support.v4.widget.SwipeRefreshLayout;
 
 import org.jarvis.code.model.read.Product;
+import org.jarvis.code.model.read.Promotion;
 import org.jarvis.code.ui.base.BaseView;
 
 import java.util.List;
@@ -22,6 +23,8 @@ public interface ProductView extends BaseView, SwipeRefreshLayout.OnRefreshListe
     void loadMoreProductSucceed(List<Product> products);
 
     void loadMoreProductFailed(String message);
+
+    void loadPromotionSucceed(List<Promotion> promotions);
 
     void showProgress();
 

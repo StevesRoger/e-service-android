@@ -1,8 +1,6 @@
 package org.jarvis.code.ui.base;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import org.jarvis.code.dagger.component.ActivityComponent;
@@ -52,15 +50,21 @@ public abstract class AbstractFragment extends Fragment implements BaseView {
     }
 
     @Override
-    public void showMessage(String message) {
+    public void toastMessage(String message) {
         if (activity != null)
-            activity.showMessage(message);
+            activity.toastMessage(message);
     }
 
     @Override
     public void showSnackBar(String message) {
         if (activity != null)
             activity.showSnackBar(message);
+    }
+
+    @Override
+    public void showSweetAlert(int type, String title, String content) {
+        if (activity != null)
+            activity.showSweetAlert(type, title, content);
     }
 
     public ActivityComponent getActivityComponent() {
