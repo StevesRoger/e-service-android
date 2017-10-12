@@ -8,6 +8,8 @@ import org.jarvis.code.dagger.module.ApplicationModule;
 import org.jarvis.code.dagger.module.NetworkModule;
 import org.jarvis.code.network.RequestClient;
 
+import java.util.List;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -25,4 +27,6 @@ public interface ApplicationComponent {
     Application application();
 
     RequestClient requestClient();
+
+    List<Integer> advertisement();
 }

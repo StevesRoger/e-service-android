@@ -110,7 +110,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
 
     public static RegisterFragment newInstance(Product product) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable("product", product);
+        bundle.putParcelable("product", product);
         RegisterFragment registerFragment = new RegisterFragment();
         registerFragment.setArguments(bundle);
         return registerFragment;
@@ -119,7 +119,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        product = (Product) getArguments().getSerializable("product");
+        product = getArguments().getParcelable("product");
     }
 
     @Nullable

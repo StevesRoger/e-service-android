@@ -5,7 +5,23 @@ package org.jarvis.code.model;
  */
 
 public enum EAction {
-    NEW,
-    UPDATE,
-    DELETE
+    NEW(1, "NEW"),
+    UPDATE(2, "UPDATE"),
+    DELETE(3, "DELETE");
+
+    int code;
+    String desc;
+
+    EAction(int code, String desc) {
+        this.code = code;
+        this.desc = desc;
+    }
+
+    public int getCode() {
+        return code;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
 }

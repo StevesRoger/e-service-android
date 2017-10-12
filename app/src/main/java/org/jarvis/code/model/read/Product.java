@@ -1,7 +1,10 @@
 package org.jarvis.code.model.read;
 
+import android.os.Parcel;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +26,47 @@ public class Product extends BaseResponse {
     private Contact contact;
     @SerializedName("IMAGES")
     private List<Integer> images;
+
+    public Product() {
+    }
+
+    public Product(Parcel source) {
+        id = source.readInt();
+        code = source.readString();
+        size = source.readString();
+        price = source.readString();
+        color = source.readString();
+        contact = source.readParcelable(Contact.class.getClassLoader());
+        images = (ArrayList<Integer>) source.readSerializable();
+    }
+
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel source) {
+            return new Product(source);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(code);
+        dest.writeString(size);
+        dest.writeString(price);
+        dest.writeString(color);
+        dest.writeParcelable(contact, flags);
+        dest.writeList(images);
+    }
 
     public String getCode() {
         return code;
@@ -97,4 +141,5 @@ public class Product extends BaseResponse {
                 ", images=" + images.toString() +
                 '}';
     }
+
 }

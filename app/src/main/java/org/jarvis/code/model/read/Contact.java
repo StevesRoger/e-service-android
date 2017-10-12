@@ -1,12 +1,15 @@
 package org.jarvis.code.model.read;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by KimChheng on 5/30/2017.
  */
 
-public class Contact extends BaseResponse {
+public class Contact implements Parcelable {
 
     @SerializedName("PHONE1")
     private String phone1 = "";
@@ -16,6 +19,41 @@ public class Contact extends BaseResponse {
     private String email = "";
     @SerializedName("FACEBOOK")
     private String facebook = "";
+
+    public Contact() {
+    }
+
+    public Contact(Parcel source) {
+        phone1 = source.readString();
+        phone2 = source.readString();
+        email = source.readString();
+        facebook = source.readString();
+    }
+
+    public static final Creator<Contact> CREATOR = new Creator<Contact>() {
+        @Override
+        public Contact createFromParcel(Parcel source) {
+            return new Contact(source);
+        }
+
+        @Override
+        public Contact[] newArray(int size) {
+            return new Contact[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(phone1);
+        dest.writeString(phone2);
+        dest.writeString(email);
+        dest.writeString(facebook);
+    }
 
     public String getPhone1() {
         return phone1;
@@ -48,4 +86,5 @@ public class Contact extends BaseResponse {
     public void setFacebook(String facebook) {
         this.facebook = facebook;
     }
+
 }

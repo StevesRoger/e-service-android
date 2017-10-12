@@ -10,7 +10,6 @@ import org.jarvis.code.model.read.Advertisement;
 import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.ui.base.BasePresenterImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -35,7 +34,7 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     @Override
     public void onAnimateAD(List<Advertisement> ads) {
         if (view != null && ads != null && !ads.isEmpty()) {
-            List<Integer> list = new ArrayList<>();
+            List<Integer> list = view.getAdvertisement();
             for (Advertisement ad : ads)
                 list.add(ad.getImage());
             view.startAnimateAD(list);

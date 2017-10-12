@@ -24,4 +24,6 @@ public interface ProductPresenter<V extends BaseView> extends BasePresenter<V> {
     void onLoadProductFailure(String message);
 
     ProductInteractorImpl getInteractor();
+
+    void loadPromotion(int offset, int limit);
 }

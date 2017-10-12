@@ -9,6 +9,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import com.google.firebase.messaging.RemoteMessage;
 
 import org.jarvis.code.R;
+import org.jarvis.code.model.EType;
 import org.jarvis.code.ui.main.MainActivity;
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
@@ -28,15 +29,72 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             Map<String, String> data = remoteMessage.getData();
             Loggy.i(FirebaseMessagingService.class, "onMessageReceived");
             Loggy.i(FirebaseMessagingService.class, data.toString());
-            //showNotification(data.get("title"), data.get("message"));
-            JSONArray jsonArray = new JSONArray(data.get("data"));
-            Intent intent = new Intent(Constants.FCM_BROADCAST_ACTION);
-            intent.putExtra("data", jsonArray.toString());
-            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-            Loggy.i(FirebaseMessagingService.class, "send broadcast");
+            if (data != null && !data.isEmpty()) {
+                String type = data.get("type");
+                int action = new Integer(data.get("action"));
+                JSONArray jsonArray = new JSONArray(data.get("data"));
+                if (type.equals("PRODUCT")) {
+                    //onProduct(action, jsonArray);
+                } else if (type.equals("PROMOTION")) {
+                    onPromotion(action, jsonArray);
+                } else {
+                    onAdvertisement(action, jsonArray);
+                }
+            }
+            /*showNotification(data.get("title"), data.get("message"));
+            Loggy.i(FirebaseMessagingService.class, "send broadcast");*/
         } catch (Exception e) {
             e.printStackTrace();
             Loggy.i(FirebaseMessagingService.class, e.getMessage());
+        }
+    }
+
+
+    private void sendBroadcast(int action, JSONArray jsonArray) {
+        switch (action) {
+            case 1:
+                Intent newIntent = new Intent(Constants.FCM_BROADCAST_ACTION_NEW);
+                newIntent.putExtra("data", jsonArray.toString());
+                LocalBroadcastManager.getInstance(this).sendBroadcast(newIntent);
+                break;
+            case 2:
+                Intent updateIntent = new Intent(Constants.FCM_BROADCAST_ACTION_UPDATE);
+                updateIntent.putExtra("data", jsonArray.toString());
+                LocalBroadcastManager.getInstance(this).sendBroadcast(updateIntent);
+                break;
+            case 3:
+                Intent deleteIntent = new Intent(Constants.FCM_BROADCAST_ACTION_DELETE);
+                deleteIntent.putExtra("data", jsonArray.toString());
+                LocalBroadcastManager.getInstance(this).sendBroadcast(deleteIntent);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void onPromotion(int action, JSONArray jsonArray) {
+        switch (action) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void onAdvertisement(int action, JSONArray jsonArray) {
+        switch (action) {
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            default:
+                break;
         }
     }
 

@@ -1,6 +1,5 @@
 package org.jarvis.code.ui.main;
 
-import android.content.Context;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -21,7 +20,6 @@ import org.jarvis.code.ui.product.ProductFragment;
 import org.jarvis.code.util.AnimateAD;
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
-import org.json.JSONArray;
 
 import java.util.List;
 
@@ -30,7 +28,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AbstractActivity implements MainView, FCMReceiver.IReceiver {
+public class MainActivity extends AbstractActivity implements MainView {
 
     @BindView(R.id.tab_layout)
     TabLayout tabLayout;
@@ -46,6 +44,8 @@ public class MainActivity extends AbstractActivity implements MainView, FCMRecei
     MainPresenter<MainView> presenter;
     @Inject
     LocalBroadcastManager localBroadcastManager;
+    @Inject
+    List<Integer> ads;
 
     private FCMReceiver fcmReceiver;
     private boolean isLoad;
@@ -72,13 +72,13 @@ public class MainActivity extends AbstractActivity implements MainView, FCMRecei
         searchView.setQueryHint(getString(R.string.string_search_hint));
         searchView.setOnQueryTextListener(this);
 
-        fcmReceiver = new FCMReceiver(this);
+        fcmReceiver = new FCMReceiver();
 
         FirebaseMessaging.getInstance().subscribeToTopic("V-Printing");
         FirebaseInstanceId.getInstance().getToken();
 
         Loggy.i(MainActivity.class, "register receiver");
-        localBroadcastManager.registerReceiver(fcmReceiver, new IntentFilter(Constants.FCM_BROADCAST_ACTION));
+        localBroadcastManager.registerReceiver(fcmReceiver, new IntentFilter(Constants.FCM_BROADCAST_ACTION_NEW));
 
     }
 
@@ -113,21 +113,24 @@ public class MainActivity extends AbstractActivity implements MainView, FCMRecei
         super.onDestroy();
     }
 
+
     @Override
-    public void onReceive(Context context, JSONArray jsonArray) {
-        Loggy.i(MainActivity.class, jsonArray.toString());
-    }
-
-
-    public void onRefreshAD() {
-        //requestClient.fetchAdvertisement().enqueue(this);
+    public void refreshAD() {
+        if (ads.isEmpty()) {
+            presenter.fetchAdvertisement();
+        }
     }
 
     @Override
     public void startAnimateAD(List<Integer> ads) {
-        if (!isLoad) {
+        if (!isLoad && !ads.isEmpty()) {
             AnimateAD.animate(imageAd, ads, 0, true, this);
             isLoad = true;
         }
+    }
+
+    @Override
+    public List<Integer> getAdvertisement() {
+        return ads;
     }
 }

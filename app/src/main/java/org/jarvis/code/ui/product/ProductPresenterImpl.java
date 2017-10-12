@@ -5,9 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 
 import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.model.read.Product;
+import org.jarvis.code.model.read.Promotion;
 import org.jarvis.code.model.read.ResponseEntity;
 import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.ui.base.BasePresenterImpl;
+import org.jarvis.code.util.Loggy;
 
 import java.util.List;
 
@@ -82,4 +84,20 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         return (ProductInteractorImpl) interactor;
     }
 
+    @Override
+    public void loadPromotion(int offset, int limit) {
+        requestClient.fetchPromotions(offset, limit).enqueue(new Callback<ResponseEntity<Promotion>>() {
+            @Override
+            public void onResponse(Call<ResponseEntity<Promotion>> call, Response<ResponseEntity<Promotion>> response) {
+                if (view != null && response.isSuccessful())
+                    view.loadPromotionSucceed(response.body().getData());
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseEntity<Promotion>> call, Throwable t) {
+                Loggy.e(ProductPresenterImpl.class, t.getMessage());
+            }
+        });
+    }
 }

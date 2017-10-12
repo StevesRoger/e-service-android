@@ -15,31 +15,34 @@ import org.json.JSONException;
 
 public class FCMReceiver extends BroadcastReceiver {
 
-    private IReceiver receiver;
-
     public FCMReceiver() {
-    }
-
-    public FCMReceiver(IReceiver receiver) {
-        this.receiver = receiver;
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         try {
-            if (intent.getAction().equals(Constants.FCM_BROADCAST_ACTION)) {
+           // IReceiver receiver=intent.getSerializableExtra()
+           // if(receiver!=null)
+            if (intent.getAction().equals(Constants.FCM_BROADCAST_ACTION_NEW)) {
                 String data = intent.getStringExtra("data");
-                if (receiver != null)
-                    receiver.onReceive(context, new JSONArray(data));
+               // if (receiver != null)
+                   // receiver.onReceive(context, new JSONArray(data));
                 Loggy.i(FCMReceiver.class, data);
+            } else if (intent.getAction().equals(Constants.FCM_BROADCAST_ACTION_UPDATE)) {
+
+            } else {
+
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public interface IReceiver {
+        void onNewItem(Context context, JSONArray jsonArray);
 
-        void onReceive(Context context, JSONArray jsonArray);
+        void onUpdateItem(Context context, JSONArray jsonArray);
+
+        void onDeleteItem(Context context, JSONArray jsonArray);
     }
 }

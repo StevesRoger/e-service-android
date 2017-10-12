@@ -116,7 +116,7 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
                     }
                 }, 500);
                 Bundle bundles = new Bundle();
-                bundles.putSerializable("product", product);
+                bundles.putParcelable("product", product);
                 RegisterFragment registerFragment = new RegisterFragment();
                 registerFragment.setArguments(bundles);
                 fragmentManager.beginTransaction()
