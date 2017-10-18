@@ -2,7 +2,6 @@ package org.jarvis.code.adapter;
 
 import android.content.Context;
 import android.graphics.Paint;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -18,8 +17,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
-import org.jarvis.code.ui.register.RegisterFragment;
 import org.jarvis.code.model.read.Product;
+import org.jarvis.code.ui.register.RegisterFragment;
 import org.jarvis.code.util.Constants;
 
 import java.util.List;
@@ -35,7 +34,6 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
     private static String imgUrl = Constants.BASE_URL + "mobile/image/view/";
     private Product product;
     private Context context;
-    private LayoutInflater layoutInflater;
     private DialogFragment dialogFragment;
     private List<Integer> images;
     private boolean isLandscape = false;
@@ -45,7 +43,6 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
         this.dialogFragment = dialogFragment;
         this.product = product;
         this.images = product.getImages();
-        this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.isLandscape = isLandscape;
     }
 
@@ -61,7 +58,7 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = layoutInflater.inflate(R.layout.image_view, container, false);
+        View view = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.image_view, container, false);
 
         TextView register = (TextView) view.findViewById(R.id.registerText);
         register.setOnClickListener(this);
@@ -86,7 +83,7 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
                     .placeholder(R.drawable.progress_spinning)
                     .error(R.drawable.no_image_available)
                     .into(imageView);
-        }else {
+        } else {
             Picasso.with(context).load(imgUrl + images.get(position))
                     .fit()
                     //.centerCrop()
@@ -115,10 +112,7 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
                             dialogFragment.dismiss();
                     }
                 }, 500);
-                Bundle bundles = new Bundle();
-                bundles.putParcelable("product", product);
-                RegisterFragment registerFragment = new RegisterFragment();
-                registerFragment.setArguments(bundles);
+                RegisterFragment registerFragment = RegisterFragment.newInstance(product);
                 fragmentManager.beginTransaction()
                         .replace(R.id.container, registerFragment)
                         .addToBackStack("registerFragment")

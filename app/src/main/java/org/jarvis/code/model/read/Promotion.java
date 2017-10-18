@@ -4,6 +4,8 @@ import android.os.Parcel;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * Created by ki.kao on 8/26/2017.
  */
@@ -15,6 +17,8 @@ public class Promotion extends Product {
 
     public Promotion(Parcel source) {
         super();
+        id = source.readInt();
+        images = (ArrayList<Integer>) source.readSerializable();
         desc = source.readString();
     }
 
@@ -38,6 +42,7 @@ public class Promotion extends Product {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
+        dest.writeList(images);
         dest.writeString(desc);
     }
 

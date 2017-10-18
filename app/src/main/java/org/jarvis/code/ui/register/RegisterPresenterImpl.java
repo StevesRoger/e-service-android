@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import org.jarvis.code.R;
 import org.jarvis.code.dagger.ActivityContext;
-import org.jarvis.code.model.read.ResponseEntity;
+import org.jarvis.code.model.ResponseEntity;
 import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.ui.base.BasePresenterImpl;
 import org.jarvis.code.util.Loggy;

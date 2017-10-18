@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 
 import org.jarvis.code.dagger.PerActivity;
 import org.jarvis.code.model.read.Advertisement;
-import org.jarvis.code.ui.base.BaseInteractor;
 import org.jarvis.code.ui.base.BasePresenter;
 import org.jarvis.code.ui.base.BaseView;
 
@@ -21,4 +20,5 @@ public interface MainPresenter<V extends BaseView> extends BasePresenter<V> {
     void onAnimateAD(List<Advertisement> ads);
 
     Fragment getCurrentFragment(int index);
+
 }

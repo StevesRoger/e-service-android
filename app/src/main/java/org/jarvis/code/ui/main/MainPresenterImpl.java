@@ -34,20 +34,18 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     @Override
     public void onAnimateAD(List<Advertisement> ads) {
         if (view != null && ads != null && !ads.isEmpty()) {
-            List<Integer> list = view.getAdvertisement();
             for (Advertisement ad : ads)
-                list.add(ad.getImage());
-            view.startAnimateAD(list);
+                ((MainActivity) activity()).advertisement.add(ad.getImage());
+            view.startAnimateAD();
         }
     }
 
     @Override
     public Fragment getCurrentFragment(int index) {
-        FragmentManager fragmentManager = ((AppCompatActivity) context()).getSupportFragmentManager();
+        FragmentManager fragmentManager = activity().getSupportFragmentManager();
         List<Fragment> fragments = fragmentManager.getFragments();
         if (fragments != null && !fragments.isEmpty())
             return fragments.get(index);
         else return null;
     }
-
 }

@@ -12,7 +12,10 @@ import org.jarvis.code.adapter.TabAdapter;
 import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.dagger.PerActivity;
 import org.jarvis.code.model.read.Product;
+import org.jarvis.code.service.FirebaseBroadcastReceiver;
 import org.jarvis.code.ui.control.JDatePicker;
+import org.jarvis.code.ui.main.MainPresenterImpl;
+import org.jarvis.code.ui.product.ProductPresenterImpl;
 import org.jarvis.code.util.Validator;
 
 import java.util.ArrayList;
@@ -87,6 +90,27 @@ public class ActivityModule {
     @Provides
     SweetAlertDialog provideSweetAlertProgressDialog() {
         return new SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE);
+    }
+
+    @Provides
+    @Named("advertisement")
+    @PerActivity
+    FirebaseBroadcastReceiver provideBroadcastReceiverAdvertisement(MainPresenterImpl mainPresenter) {
+        return new FirebaseBroadcastReceiver(mainPresenter.getInteractor());
+    }
+
+    @Provides
+    @Named("product")
+    @PerActivity
+    FirebaseBroadcastReceiver provideBroadcastReceiverProduct(ProductPresenterImpl productPresenter) {
+        return new FirebaseBroadcastReceiver(productPresenter.getInteractor());
+    }
+
+    @Provides
+    @Named("promotion")
+    @PerActivity
+    FirebaseBroadcastReceiver provideBroadcastReceiverPromotion(ProductPresenterImpl productPresenter) {
+        return new FirebaseBroadcastReceiver(productPresenter.getPromotionInteractor());
     }
 
     @Provides

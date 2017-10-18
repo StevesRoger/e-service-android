@@ -37,6 +37,12 @@ public abstract class AbstractFragment extends Fragment implements BaseView {
     }
 
     @Override
+    public void onDestroyView() {
+        unbinder.unbind();
+        super.onDestroyView();
+    }
+
+    @Override
     public boolean isNetworkConnected() {
         if (activity != null)
             return activity.isNetworkConnected();

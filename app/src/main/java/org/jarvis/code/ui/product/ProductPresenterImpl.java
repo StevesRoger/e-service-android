@@ -4,12 +4,11 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
 import org.jarvis.code.dagger.ActivityContext;
+import org.jarvis.code.model.ResponseEntity;
 import org.jarvis.code.model.read.Product;
 import org.jarvis.code.model.read.Promotion;
-import org.jarvis.code.model.read.ResponseEntity;
 import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.ui.base.BasePresenterImpl;
-import org.jarvis.code.util.Loggy;
 
 import java.util.List;
 
@@ -25,10 +24,14 @@ import retrofit2.Response;
 
 public class ProductPresenterImpl extends BasePresenterImpl<ProductView> implements ProductPresenter<ProductView> {
 
+    private PromotionInteractorImpl promotionInteractor;
+
     @Inject
     public ProductPresenterImpl(AppCompatActivity activity, @ActivityContext Context context, RequestClient requestClient) {
         super(activity, context, requestClient);
         this.interactor = new ProductInteractorImpl(this);
+        this.promotionInteractor = new PromotionInteractorImpl(this);
+
     }
 
     @Override
@@ -37,7 +40,13 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     }
 
     @Override
-    public void LoadMoreProduct(int offset, int limit, String type) {
+    public void loadMoreProduct() {
+        if (view != null)
+            view.loadMoreProduct();
+    }
+
+    @Override
+    public void onLoadMoreProduct(int offset, int limit, String type) {
         requestClient.fetchProducts(offset, limit, type).enqueue(new Callback<ResponseEntity<Product>>() {
             @Override
             public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
@@ -51,12 +60,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                     view.loadMoreProductFailed(t.getMessage());
             }
         });
-    }
-
-    @Override
-    public void onLoadMoreProduct() {
-        if (view != null)
-            view.loadMoreProduct();
     }
 
     @Override
@@ -80,24 +83,24 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     }
 
     @Override
-    public ProductInteractorImpl getInteractor() {
-        return (ProductInteractorImpl) interactor;
+    public void loadPromotion(int offset, int limit) {
+        requestClient.fetchPromotions(offset, limit).enqueue(promotionInteractor);
     }
 
     @Override
-    public void loadPromotion(int offset, int limit) {
-        requestClient.fetchPromotions(offset, limit).enqueue(new Callback<ResponseEntity<Promotion>>() {
-            @Override
-            public void onResponse(Call<ResponseEntity<Promotion>> call, Response<ResponseEntity<Promotion>> response) {
-                if (view != null && response.isSuccessful())
-                    view.loadPromotionSucceed(response.body().getData());
+    public void onLoadPromotionSucceed(List<Promotion> promotions) {
+        if (view != null)
+            view.loadPromotionSucceed(promotions);
+    }
 
-            }
+    @Override
+    public void onLoadPromotionFailure(String message) {
+        if (view != null)
+            view.toastMessage(message);
+    }
 
-            @Override
-            public void onFailure(Call<ResponseEntity<Promotion>> call, Throwable t) {
-                Loggy.e(ProductPresenterImpl.class, t.getMessage());
-            }
-        });
+    @Override
+    public PromotionInteractorImpl getPromotionInteractor() {
+        return promotionInteractor;
     }
 }

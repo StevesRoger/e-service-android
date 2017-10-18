@@ -66,4 +66,9 @@ public class BasePresenterImpl<V extends BaseView> implements BasePresenter<V> {
             view.showSnackBar(message);
     }
 
+    @Override
+    public BaseInteractor getInteractor() {
+        return interactor;
+    }
+
 }

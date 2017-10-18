@@ -14,7 +14,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import org.jarvis.code.R;
 import org.jarvis.code.adapter.TabAdapter;
-import org.jarvis.code.service.FCMReceiver;
+import org.jarvis.code.service.FirebaseBroadcastReceiver;
 import org.jarvis.code.ui.base.AbstractActivity;
 import org.jarvis.code.ui.product.ProductFragment;
 import org.jarvis.code.util.AnimateAD;
@@ -24,6 +24,7 @@ import org.jarvis.code.util.Loggy;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,9 +46,11 @@ public class MainActivity extends AbstractActivity implements MainView {
     @Inject
     LocalBroadcastManager localBroadcastManager;
     @Inject
-    List<Integer> ads;
+    List<Integer> advertisement;
+    @Inject
+    @Named("advertisement")
+    FirebaseBroadcastReceiver advertisementReceiver;
 
-    private FCMReceiver fcmReceiver;
     private boolean isLoad;
 
     @Override
@@ -72,13 +75,11 @@ public class MainActivity extends AbstractActivity implements MainView {
         searchView.setQueryHint(getString(R.string.string_search_hint));
         searchView.setOnQueryTextListener(this);
 
-        fcmReceiver = new FCMReceiver();
-
         FirebaseMessaging.getInstance().subscribeToTopic("V-Printing");
         FirebaseInstanceId.getInstance().getToken();
 
         Loggy.i(MainActivity.class, "register receiver");
-        localBroadcastManager.registerReceiver(fcmReceiver, new IntentFilter(Constants.FCM_BROADCAST_ACTION_NEW));
+        localBroadcastManager.registerReceiver(advertisementReceiver, new IntentFilter(Constants.FCM_BROADCAST_PRODUCT));
 
     }
 
@@ -108,7 +109,7 @@ public class MainActivity extends AbstractActivity implements MainView {
     @Override
     protected void onDestroy() {
         Loggy.i(MainActivity.class, "unregister receiver");
-        localBroadcastManager.unregisterReceiver(fcmReceiver);
+        localBroadcastManager.unregisterReceiver(advertisementReceiver);
         presenter.onDetach();
         super.onDestroy();
     }
@@ -116,21 +117,16 @@ public class MainActivity extends AbstractActivity implements MainView {
 
     @Override
     public void refreshAD() {
-        if (ads.isEmpty()) {
+        if (advertisement.isEmpty()) {
             presenter.fetchAdvertisement();
         }
     }
 
     @Override
-    public void startAnimateAD(List<Integer> ads) {
-        if (!isLoad && !ads.isEmpty()) {
-            AnimateAD.animate(imageAd, ads, 0, true, this);
+    public void startAnimateAD() {
+        if (!isLoad && !advertisement.isEmpty()) {
+            AnimateAD.animate(imageAd, advertisement, 0, true, this);
             isLoad = true;
         }
-    }
-
-    @Override
-    public List<Integer> getAdvertisement() {
-        return ads;
     }
 }

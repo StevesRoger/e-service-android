@@ -1,11 +1,13 @@
 package org.jarvis.code.ui.product;
 
+import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import org.jarvis.code.model.read.Product;
-import org.jarvis.code.model.read.ResponseEntity;
+import org.jarvis.code.model.ResponseEntity;
 import org.jarvis.code.util.Loggy;
+import org.json.JSONArray;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -21,7 +23,7 @@ public class ProductInteractorImpl extends RecyclerView.OnScrollListener impleme
     private boolean isLoading;
     private int visibleItemCount, totalItemCount, pastVisiblesItems;
 
-    public ProductInteractorImpl(ProductPresenter<ProductView> presenter) {
+    public ProductInteractorImpl(ProductPresenter presenter) {
         this.presenter = presenter;
     }
 
@@ -60,7 +62,7 @@ public class ProductInteractorImpl extends RecyclerView.OnScrollListener impleme
             pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
             if (!isLoading && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                 if (presenter != null) {
-                    presenter.onLoadMoreProduct();
+                    presenter.loadMoreProduct();
                     isLoading = true;
                 }
             }
@@ -70,5 +72,20 @@ public class ProductInteractorImpl extends RecyclerView.OnScrollListener impleme
             Loggy.i(ProductInteractorImpl.class, "Scrolling down");
             Loggy.i(ProductInteractorImpl.class, dx + " " + dy);
         }
+    }
+
+    @Override
+    public void onNewItem(Context context, JSONArray jsonArray) {
+
+    }
+
+    @Override
+    public void onUpdateItem(Context context, JSONArray jsonArray) {
+
+    }
+
+    @Override
+    public void onDeleteItem(Context context, JSONArray jsonArray) {
+
     }
 }

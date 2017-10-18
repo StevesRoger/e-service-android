@@ -48,6 +48,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -78,9 +79,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     List<ImageButton> imageButtons;
 
     @BindViews({R.id.txtVillage, R.id.txtCommune, R.id.txtDistrict, R.id.txtHome, R.id.txtPhone, R.id.txtEmail, R.id.txtFacebook, R.id.txtOther})
-    List<EditText> editTexts;// txtVillage, txtCommune, txtDistrict;
-    //private EditText txtHome, txtPhone;
-    // private EditText txtEmail, txtFb, txtOther;
+    List<EditText> editTexts;
 
     @BindView(R.id.btn_submit)
     Button btnSubmit;
@@ -107,6 +106,10 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
 
     private boolean isLoaded = false;
     private boolean isVisibleToUser;
+
+    public RegisterFragment() {
+        super();
+    }
 
     public static RegisterFragment newInstance(Product product) {
         Bundle bundle = new Bundle();
@@ -143,13 +146,13 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
             isLoaded = true;
         }
         factory = new ComponentFactory(getContext(), view);
-        txtDate.setOnClickListener(this);
-        imageButtons.get(0).setOnClickListener(this);
         editTexts.get(editTexts.size() - 1).setOnFocusChangeListener(this);
+        /*txtDate.setOnClickListener(this);
+        imageButtons.get(0).setOnClickListener(this);
         imageButtons.get(1).setOnClickListener(this);
         imageButtons.get(2).setOnClickListener(this);
         imageButtons.get(3).setOnClickListener(this);
-        btnSubmit.setOnClickListener(this);
+        btnSubmit.setOnClickListener(this);*/
         requiredField();
     }
 
@@ -163,7 +166,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         }
     }
 
-    @Override
+    @OnClick({R.id.txtDate,R.id.imgDate,R.id.imgBack, R.id.imgMap, R.id.imgChoose,R.id.btn_submit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgDate:
@@ -349,4 +352,11 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     public void dismissProgressDialog() {
         progressDialog.dismissWithAnimation();
     }
+
+    @Override
+    public void onDestroyView() {
+        presenter.onDetach();
+        super.onDestroyView();
+    }
+
 }

@@ -3,7 +3,7 @@ package org.jarvis.code.network;
 import org.jarvis.code.model.read.Advertisement;
 import org.jarvis.code.model.read.Product;
 import org.jarvis.code.model.read.Promotion;
-import org.jarvis.code.model.read.ResponseEntity;
+import org.jarvis.code.model.ResponseEntity;
 
 import java.util.Map;
 

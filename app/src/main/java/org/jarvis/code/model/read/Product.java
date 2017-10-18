@@ -25,9 +25,10 @@ public class Product extends BaseResponse {
     @SerializedName("CONTACT")
     private Contact contact;
     @SerializedName("IMAGES")
-    private List<Integer> images;
+    protected List<Integer> images;
 
     public Product() {
+        super();
     }
 
     public Product(Parcel source) {

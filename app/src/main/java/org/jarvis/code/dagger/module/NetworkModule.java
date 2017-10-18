@@ -36,6 +36,7 @@ public class NetworkModule {
         return new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                //.addConverterFactory(JacksonConverterFactory.create())
                 .client(httpClient)
                 .build();
     }

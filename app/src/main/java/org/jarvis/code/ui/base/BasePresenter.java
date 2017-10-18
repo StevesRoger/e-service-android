@@ -22,4 +22,6 @@ public interface BasePresenter<V extends BaseView> {
     void showMessage(String message);
 
     void showSnackBar(String message);
+
+    BaseInteractor getInteractor();
 }

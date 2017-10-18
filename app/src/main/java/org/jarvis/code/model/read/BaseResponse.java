@@ -16,6 +16,7 @@ public abstract class BaseResponse implements Serializable, Parcelable {
     protected Integer id;
 
     public BaseResponse() {
+        super();
     }
 
     public Integer getId() {

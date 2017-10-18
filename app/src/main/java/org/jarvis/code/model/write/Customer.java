@@ -1,6 +1,8 @@
 package org.jarvis.code.model.write;
 
 
+import android.os.Parcel;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -8,6 +10,7 @@ import com.google.gson.annotations.SerializedName;
  */
 
 public class Customer extends BaseRequest {
+
     @SerializedName("GROOM_NAME")
     private String groomName;
     @SerializedName("GROOM_DAD_NAME")
@@ -40,6 +43,25 @@ public class Customer extends BaseRequest {
     private int productId;
 
     public Customer() {
+        super();
+    }
+
+    public Customer(Parcel source) {
+        groomName = source.readString();
+        groomDadName = source.readString();
+        groomMomName = source.readString();
+        brideName = source.readString();
+        brideDadName = source.readString();
+        brideMomName = source.readString();
+        home = source.readString();
+        address = source.readString();
+        date = source.readString();
+        email = source.readString();
+        phone = source.readString();
+        fb = source.readString();
+        map = source.readString();
+        other = source.readString();
+        productId = source.readInt();
     }
 
     public String getGroomName() {
@@ -160,5 +182,42 @@ public class Customer extends BaseRequest {
 
     public void setProductId(int productId) {
         this.productId = productId;
+    }
+
+
+    public static final Creator<Customer> CREATOR = new Creator<Customer>() {
+        @Override
+        public Customer createFromParcel(Parcel parcel) {
+            return new Customer(parcel);
+        }
+
+        @Override
+        public Customer[] newArray(int size) {
+            return new Customer[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(groomName);
+        dest.writeString(groomDadName);
+        dest.writeString(groomMomName);
+        dest.writeString(brideName);
+        dest.writeString(brideDadName);
+        dest.writeString(brideMomName);
+        dest.writeString(home);
+        dest.writeString(address);
+        dest.writeString(date);
+        dest.writeString(email);
+        dest.writeString(phone);
+        dest.writeString(fb);
+        dest.writeString(map);
+        dest.writeString(other);
+        dest.writeInt(productId);
     }
 }

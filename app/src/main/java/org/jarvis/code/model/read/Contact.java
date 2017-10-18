@@ -5,11 +5,13 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by KimChheng on 5/30/2017.
  */
 
-public class Contact implements Parcelable {
+public class Contact extends BaseResponse {
 
     @SerializedName("PHONE1")
     private String phone1 = "";
@@ -21,6 +23,7 @@ public class Contact implements Parcelable {
     private String facebook = "";
 
     public Contact() {
+        super();
     }
 
     public Contact(Parcel source) {

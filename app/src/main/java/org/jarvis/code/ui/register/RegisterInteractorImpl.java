@@ -1,6 +1,9 @@
 package org.jarvis.code.ui.register;
 
-import org.jarvis.code.model.read.ResponseEntity;
+import android.content.Context;
+
+import org.jarvis.code.model.ResponseEntity;
+import org.json.JSONArray;
 
 import java.util.Map;
 
@@ -15,7 +18,7 @@ public class RegisterInteractorImpl implements RegisterInteractor<Map<String, Ob
 
     private RegisterPresenter<RegisterView> presenter;
 
-    public RegisterInteractorImpl(RegisterPresenter<RegisterView> presenter) {
+    public RegisterInteractorImpl(RegisterPresenter presenter) {
         this.presenter = presenter;
     }
 
@@ -29,5 +32,20 @@ public class RegisterInteractorImpl implements RegisterInteractor<Map<String, Ob
     public void onFailure(Call<ResponseEntity<Map<String, Object>>> call, Throwable t) {
         if (presenter != null)
             presenter.onSubmitCustomerFailed(t.getMessage());
+    }
+
+    @Override
+    public void onNewItem(Context context, JSONArray jsonArray) {
+
+    }
+
+    @Override
+    public void onUpdateItem(Context context, JSONArray jsonArray) {
+
+    }
+
+    @Override
+    public void onDeleteItem(Context context, JSONArray jsonArray) {
+
     }
 }

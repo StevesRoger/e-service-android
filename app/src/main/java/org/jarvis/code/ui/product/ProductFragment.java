@@ -81,7 +81,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
             component.inject(this);
             setUnBinder(ButterKnife.bind(this, view));
             presenter.onAttach(this);
-            presenter.getInteractor().setLinearLayoutManager(linearLayoutManager);
+            ((ProductInteractorImpl) presenter.getInteractor()).setLinearLayoutManager(linearLayoutManager);
         }
         return view;
     }
@@ -97,7 +97,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(adapter);
-        recyclerView.addOnScrollListener(presenter.getInteractor());
+        recyclerView.addOnScrollListener((ProductInteractorImpl) presenter.getInteractor());
     }
 
     @Override
@@ -124,7 +124,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         recyclerView.post(new Runnable() {
             public void run() {
                 adapter.notifyItemInserted(adapter.size() - 1);
-                presenter.LoadMoreProduct(offset, LIMIT, type);
+                presenter.onLoadMoreProduct(offset, LIMIT, type);
             }
         });
     }
@@ -140,7 +140,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
             presenter.loadPromotion(page, 1);
             adapter.notifyDataSetChanged();
             offset++;
-            presenter.getInteractor().loaded();
+            ((ProductInteractorImpl) presenter.getInteractor()).loaded();
         }
     }
 
@@ -171,7 +171,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     @Override
     public void loadProductSucceed(List<Product> products) {
         Loggy.i(ProductFragment.class, products.toString());
-        presenter.getInteractor().loaded();
+        ((ProductInteractorImpl) presenter.getInteractor()).loaded();
         adapter.clear();
         adapter.addAll(products);
         adapter.notifyDataSetChanged();

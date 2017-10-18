@@ -13,9 +13,7 @@ import java.util.List;
 
 public interface MainView extends BaseView, ActivityCompat.OnRequestPermissionsResultCallback, SearchView.OnQueryTextListener {
 
-    void startAnimateAD(List<Integer> ads);
-
-    List<Integer> getAdvertisement();
+    void startAnimateAD();
 
     void refreshAD();
 }
