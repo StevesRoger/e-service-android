@@ -33,7 +33,7 @@ public class SplashActivity extends AbstractActivity implements SplashView {
                     startActivity(new Intent(SplashActivity.this, MainActivity.class));
                     finish();
                 }
-            }, 1 * 500);
+            }, 500);
 
             splashLoaded = true;
         } else {

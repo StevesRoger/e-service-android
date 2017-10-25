@@ -35,17 +35,17 @@ public class RegisterInteractorImpl implements RegisterInteractor<Map<String, Ob
     }
 
     @Override
-    public void onNewItem(Context context, JSONArray jsonArray) {
+    public void onNewItem(Context context, JSONArray jsonArray) throws Exception {
 
     }
 
     @Override
-    public void onUpdateItem(Context context, JSONArray jsonArray) {
+    public void onUpdateItem(Context context, JSONArray jsonArray) throws Exception {
 
     }
 
     @Override
-    public void onDeleteItem(Context context, JSONArray jsonArray) {
+    public void onDeleteItem(Context context, JSONArray jsonArray) throws Exception {
 
     }
 }

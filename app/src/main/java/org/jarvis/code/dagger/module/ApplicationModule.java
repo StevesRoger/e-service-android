@@ -2,13 +2,10 @@ package org.jarvis.code.dagger.module;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.ArrayMap;
 
 import org.jarvis.code.dagger.ApplicationContext;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -39,7 +36,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    List<Integer> provideListAdvertisement() {
-        return new ArrayList<>();
+    ArrayMap<Integer, Integer> provideListAdvertisement() {
+        return new ArrayMap<>();
     }
 }

@@ -1,13 +1,13 @@
 package org.jarvis.code.ui.main;
 
 import android.content.Context;
+import android.util.ArrayMap;
 
 import org.jarvis.code.model.ResponseEntity;
 import org.jarvis.code.model.read.Advertisement;
 import org.jarvis.code.util.Loggy;
 import org.json.JSONArray;
-
-import java.util.List;
+import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -19,7 +19,7 @@ import retrofit2.Response;
 public class AdvertisementInteractorImpl implements AdvertisementInteractor<Advertisement> {
 
     private MainPresenter<MainView> presenter;
-    private List<Integer> advertisement;
+    private ArrayMap<Integer, Integer> advertisement;
 
     public AdvertisementInteractorImpl(MainPresenter presenter) {
         this.presenter = presenter;
@@ -42,17 +42,22 @@ public class AdvertisementInteractorImpl implements AdvertisementInteractor<Adve
     }
 
     @Override
-    public void onNewItem(Context context, JSONArray jsonArray) {
-
+    public void onNewItem(Context context, JSONArray jsonArray) throws Exception {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            advertisement.put(jsonObject.getInt("ID"), jsonObject.getInt("IMAGE"));
+        }
     }
 
     @Override
-    public void onUpdateItem(Context context, JSONArray jsonArray) {
-
+    public void onUpdateItem(Context context, JSONArray jsonArray) throws Exception {
+        
     }
 
     @Override
-    public void onDeleteItem(Context context, JSONArray jsonArray) {
-
+    public void onDeleteItem(Context context, JSONArray jsonArray) throws Exception {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            advertisement.remove(jsonArray.getInt(i));
+        }
     }
 }

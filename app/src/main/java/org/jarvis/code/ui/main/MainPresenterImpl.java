@@ -35,7 +35,7 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     public void onAnimateAD(List<Advertisement> ads) {
         if (view != null && ads != null && !ads.isEmpty()) {
             for (Advertisement ad : ads)
-                ((MainActivity) activity()).advertisement.add(ad.getImage());
+                ((MainActivity) activity()).advertisement.put(ad.getId(), ad.getImage());
             view.startAnimateAD();
         }
     }

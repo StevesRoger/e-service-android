@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
+import android.util.ArrayMap;
 import android.widget.ImageView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -20,8 +21,6 @@ import org.jarvis.code.ui.product.ProductFragment;
 import org.jarvis.code.util.AnimateAD;
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
-
-import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -46,7 +45,7 @@ public class MainActivity extends AbstractActivity implements MainView {
     @Inject
     LocalBroadcastManager localBroadcastManager;
     @Inject
-    List<Integer> advertisement;
+    ArrayMap<Integer, Integer> advertisement;
     @Inject
     @Named("advertisement")
     FirebaseBroadcastReceiver advertisementReceiver;

@@ -99,7 +99,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.toastMessage(message);
     }
 
-    @Override
     public PromotionInteractorImpl getPromotionInteractor() {
         return promotionInteractor;
     }

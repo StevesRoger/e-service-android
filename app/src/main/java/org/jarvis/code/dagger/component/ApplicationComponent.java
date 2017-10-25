@@ -2,13 +2,12 @@ package org.jarvis.code.dagger.component;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.ArrayMap;
 
 import org.jarvis.code.dagger.ApplicationContext;
 import org.jarvis.code.dagger.module.ApplicationModule;
 import org.jarvis.code.dagger.module.NetworkModule;
 import org.jarvis.code.network.RequestClient;
-
-import java.util.List;
 
 import javax.inject.Singleton;
 
@@ -34,5 +33,5 @@ public interface ApplicationComponent {
 
     Retrofit retrofit();
 
-    List<Integer> advertisement();
+    ArrayMap<Integer, Integer> advertisement();
 }

@@ -30,6 +30,4 @@ public interface ProductPresenter<V extends BaseView> extends BasePresenter<V> {
     void onLoadPromotionSucceed(List<Promotion> promotions);
 
     void onLoadPromotionFailure(String message);
-
-    PromotionInteractorImpl getPromotionInteractor();
 }

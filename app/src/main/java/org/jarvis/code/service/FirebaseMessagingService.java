@@ -28,7 +28,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
             Map<String, String> data = remoteMessage.getData();
             Loggy.i(FirebaseMessagingService.class, "onMessageReceived");
             Loggy.i(FirebaseMessagingService.class, data.toString());
-            if (data != null && !data.isEmpty()) {
+            if (data != null && !data.isEmpty() && data.get("data") != null) {
                 String type = data.get("type");
                 int action = new Integer(data.get("action"));
                 JSONArray jsonArray = new JSONArray(data.get("data"));

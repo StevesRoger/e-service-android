@@ -44,26 +44,30 @@ public class FirebaseBroadcastReceiver extends BroadcastReceiver {
     }
 
     private void actionFilter(int action, Context context, JSONArray jsonArray) {
-        switch (action) {
-            case 1:
-                broadcastAction.onNewItem(context, jsonArray);
-                break;
-            case 2:
-                broadcastAction.onUpdateItem(context, jsonArray);
-                break;
-            case 3:
-                broadcastAction.onDeleteItem(context, jsonArray);
-                break;
-            default:
-                break;
+        try {
+            switch (action) {
+                case 1:
+                    broadcastAction.onNewItem(context, jsonArray);
+                    break;
+                case 2:
+                    broadcastAction.onUpdateItem(context, jsonArray);
+                    break;
+                case 3:
+                    broadcastAction.onDeleteItem(context, jsonArray);
+                    break;
+                default:
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     public interface BroadcastAction {
-        void onNewItem(Context context, JSONArray jsonArray);
+        void onNewItem(Context context, JSONArray jsonArray) throws Exception;
 
-        void onUpdateItem(Context context, JSONArray jsonArray);
+        void onUpdateItem(Context context, JSONArray jsonArray) throws Exception;
 
-        void onDeleteItem(Context context, JSONArray jsonArray);
+        void onDeleteItem(Context context, JSONArray jsonArray) throws Exception;
     }
 }
