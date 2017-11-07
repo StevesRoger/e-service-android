@@ -2,6 +2,7 @@ package org.jarvis.code.adapter;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.RecyclerView;
@@ -17,15 +18,13 @@ import com.squareup.picasso.Picasso;
 import org.jarvis.code.R;
 import org.jarvis.code.model.read.Product;
 import org.jarvis.code.model.read.Promotion;
-import org.jarvis.code.ui.control.DialogView;
+import org.jarvis.code.ui.custom.ColorView;
+import org.jarvis.code.ui.custom.DialogView;
 import org.jarvis.code.ui.register.RegisterFragment;
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,8 +40,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
     private final int VIEW_LOADING = 2;
 
     private List<Product> originalList;
-    private List<Product> copyList;
-    private Map<Integer, Product> map;
+    private ArrayMap<Integer, Product> copyList;
     private Context context;
 
     private static String imgUrl = Constants.BASE_URL + "mobile/image/view/";
@@ -50,8 +48,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
     public ProductAdapter(Context context, List<Product> products) {
         this.originalList = products;
         this.context = context;
-        this.copyList = new ArrayList();
-        this.map = new HashMap();
+        this.copyList = new ArrayMap();
     }
 
     @Override
@@ -75,7 +72,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             productViewHolder.product = product;
             productViewHolder.lblCode.setText(context.getResources().getString(R.string.string_code) + product.getCode());
-            productViewHolder.lblColor.setText(context.getResources().getString(R.string.string_color) + product.getColor());
+            productViewHolder.colorView.renderColor(product.getColor());
             productViewHolder.lblSize.setText(context.getResources().getString(R.string.string_size) + product.getSize());
             productViewHolder.lblPrice.setText(context.getResources().getString(R.string.string_price) + product.getPrice());
             productViewHolder.lblContact.setText(context.getResources().getString(R.string.string_contact) + product.getContact().getPhone1());
@@ -119,53 +116,47 @@ public class ProductAdapter extends RecyclerView.Adapter {
 
     public void addAll(List<Product> products) {
         originalList.addAll(products);
-        copyList.addAll(products);
-        for (Product product : products)
-            put(product);
+        putAll(products);
     }
 
     public void add(Product product) {
         originalList.add(product);
-        copyList.add(product);
         put(product);
     }
 
     public void add(int index, Product product) {
         originalList.add(index, product);
-        copyList.add(index, product);
         put(product);
+    }
+
+    public void put(int key, Product value) {
+        originalList.add(value);
+        copyList.put(key, value);
+    }
+
+    private void put(Product product) {
+        if (product != null)
+            copyList.put(product.getId(), product);
+       /*else
+            copyList.put(size() - 1, product);*/
+    }
+
+    private void putAll(List<Product> products) {
+        for (Product product : products) {
+            if (product != null)
+                copyList.put(product.getId(), product);
+        }
     }
 
     public void remove(int index) {
         Product product = originalList.remove(index);
-        copyList.remove(index);
         if (product != null)
-            map.remove(product.getId());
+            copyList.remove(product.getId());
     }
 
     public void clear() {
         originalList.clear();
         copyList.clear();
-        map.clear();
-    }
-
-    public void updateProduct(Product product) {
-        if (product != null) {
-            Product obj = map.get(product.getId());
-            obj.setCode(product.getCode());
-            obj.setColor(product.getColor());
-            obj.setPrice(product.getPrice());
-            obj.setSize(product.getSize());
-            obj.getContact().setPhone1(product.getContact().getPhone1());
-            notifyItemChanged(originalList.indexOf(obj));
-        }
-    }
-
-    public void newProduct(Product product) {
-        if (product != null) {
-            add(0, product);
-            notifyItemInserted(0);
-        }
     }
 
     public int size() {
@@ -176,16 +167,11 @@ public class ProductAdapter extends RecyclerView.Adapter {
         return originalList.isEmpty();
     }
 
-    private void put(Product product) {
-        if (product != null)
-            map.put(product.getId(), product);
-    }
-
     public void filter(String text) {
         Loggy.i(ProductAdapter.class, "Search product '" + text + "'");
         originalList.clear();
         if (!text.isEmpty()) {
-            for (Product product : copyList) {
+            for (Product product : copyList.values()) {
                 if (product instanceof Product) {
                     if (product.getCode().toLowerCase().contains(text) ||
                             product.getColor().toLowerCase().contains(text) ||
@@ -196,7 +182,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
                 }
             }
         } else {
-            originalList.addAll(copyList);
+            originalList.addAll(copyList.values());
         }
         notifyDataSetChanged();
     }
@@ -210,15 +196,16 @@ public class ProductAdapter extends RecyclerView.Adapter {
         TextView lblPrice;
         @BindView(R.id.lblSize)
         TextView lblSize;
-        @BindView(R.id.lblColor)
-        TextView lblColor;
         @BindView(R.id.lblContact)
         TextView lblContact;
         @BindView(R.id.btn_register)
         AppCompatButton btnRegister;
         @BindView(R.id.img_view_product)
         ImageView image;
+        @BindView(R.id.colorView)
+        ColorView colorView;
         private Product product;
+
 
         public ProductViewHolder(View itemView) {
             super(itemView);

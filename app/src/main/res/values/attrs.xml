@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="ColorView">
+        <attr name="text" format="string" localization="suggested" />
+        <attr name="array_view" format="integer" />
+        <attr name="view_color_width" format="integer" />
+        <attr name="view_color_height" format="integer" />
+    </declare-styleable>
+</resources>

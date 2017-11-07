@@ -1,7 +1,7 @@
 package org.jarvis.code.util;
 
 import android.content.Context;
-import android.util.ArrayMap;
+import android.support.v4.util.ArrayMap;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
@@ -23,14 +23,13 @@ public final class AnimateAD {
     private static String imgUrl = Constants.BASE_URL + "mobile/image/view/";
 
     public static void animate(final ImageView imageView, final ArrayMap<Integer, Integer> images, final int imageIndex, final boolean forever, final Context context) {
-
+        Loggy.i(AnimateAD.class, "Start Animate AD images at index:" + imageIndex);
         int fadeInDuration = 500; // Configure time values here
         int timeBetween = 6000;
         int fadeOutDuration = 1000;
-        int key = images.keyAt(imageIndex);
         imageView.setVisibility(View.INVISIBLE);    //Visible or invisible by default - this will apply when the animation ends
         //imageView.setImageResource(advertisements.get(imageIndex));
-        Picasso.with(context).load(imgUrl + images.get(key))
+        Picasso.with(context).load(imgUrl + images.valueAt(imageIndex))
                 .fit()
                 //.placeholder(R.drawable.progress_spinning_circle)
                 .error(R.drawable.no_ad_available)

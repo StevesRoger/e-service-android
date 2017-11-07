@@ -1,7 +1,7 @@
 package org.jarvis.code.ui.main;
 
 import android.content.Context;
-import android.util.ArrayMap;
+import android.support.v4.util.ArrayMap;
 
 import org.jarvis.code.model.ResponseEntity;
 import org.jarvis.code.model.read.Advertisement;

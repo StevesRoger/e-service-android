@@ -161,7 +161,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     @Override
     public void loadPromotionSucceed(List<Promotion> promotions) {
         if (promotions != null && !promotions.isEmpty()) {
-            adapter.add(position, promotions.get(0));
+            adapter.add(adapter.size(), promotions.get(0));
             Loggy.i(ProductFragment.class, type + " advertisement position:" + position);
             position = (position + 5) + 1;
             page = (position - 1) / 5;

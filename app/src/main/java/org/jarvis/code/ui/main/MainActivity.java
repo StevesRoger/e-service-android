@@ -5,9 +5,9 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v4.util.ArrayMap;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
-import android.util.ArrayMap;
 import android.widget.ImageView;
 
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -78,7 +78,7 @@ public class MainActivity extends AbstractActivity implements MainView {
         FirebaseInstanceId.getInstance().getToken();
 
         Loggy.i(MainActivity.class, "register receiver");
-        localBroadcastManager.registerReceiver(advertisementReceiver, new IntentFilter(Constants.FCM_BROADCAST_PRODUCT));
+        localBroadcastManager.registerReceiver(advertisementReceiver, new IntentFilter(Constants.FCM_BROADCAST_ADVERTISEMENT));
 
     }
 

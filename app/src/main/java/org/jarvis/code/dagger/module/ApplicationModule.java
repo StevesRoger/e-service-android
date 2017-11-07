@@ -2,7 +2,7 @@ package org.jarvis.code.dagger.module;
 
 import android.app.Application;
 import android.content.Context;
-import android.util.ArrayMap;
+import android.support.v4.util.ArrayMap;
 
 import org.jarvis.code.dagger.ApplicationContext;
 

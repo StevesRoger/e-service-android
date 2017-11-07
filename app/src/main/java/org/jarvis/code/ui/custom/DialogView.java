@@ -1,4 +1,4 @@
-package org.jarvis.code.ui.control;
+package org.jarvis.code.ui.custom;
 
 import android.app.Dialog;
 import android.content.res.Configuration;

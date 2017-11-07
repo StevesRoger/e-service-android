@@ -12,4 +12,6 @@
     <dimen name="tab_label">14sp</dimen>
     <dimen name="custom_tab_layout_height">72dp</dimen>
     <dimen name="advertisement_height">150dp</dimen>
+    <dimen name="view_color_width">25dp</dimen>
+    <dimen name="view_color_height">25dp</dimen>
 </resources>
