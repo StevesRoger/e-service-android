@@ -72,7 +72,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             productViewHolder.product = product;
             productViewHolder.lblCode.setText(context.getResources().getString(R.string.string_code) + product.getCode());
-            productViewHolder.colorView.renderColor(product.getColor());
+            productViewHolder.colorView.renderColor(product.getColors());
             productViewHolder.lblSize.setText(context.getResources().getString(R.string.string_size) + product.getSize());
             productViewHolder.lblPrice.setText(context.getResources().getString(R.string.string_price) + product.getPrice());
             productViewHolder.lblContact.setText(context.getResources().getString(R.string.string_contact) + product.getContact().getPhone1());

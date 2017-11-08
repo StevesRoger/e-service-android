@@ -21,12 +21,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 
 import org.jarvis.code.R;
+import org.jarvis.code.adapter.ColorAdapter;
 import org.jarvis.code.dagger.component.ActivityComponent;
 import org.jarvis.code.model.read.Product;
 import org.jarvis.code.model.write.Customer;
@@ -87,6 +89,10 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     LinearLayout gallery;
     @BindView(R.id.register_img_ad)
     ImageView imageAd;
+    @BindView(R.id.colorSpinner)
+    Spinner colorSpinner;
+    @BindView(R.id.lblProductCode)
+    TextView productCode;
 
     @Inject
     RegisterPresenter<RegisterView> presenter;
@@ -147,6 +153,8 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         }
         factory = new ComponentFactory(getContext(), view);
         editTexts.get(editTexts.size() - 1).setOnFocusChangeListener(this);
+        productCode.setText(getResources().getString(R.string.string_code) + product.getCode());
+        colorSpinner.setAdapter(new ColorAdapter(getContext(), product.getColors()));
         /*txtDate.setOnClickListener(this);
         imageButtons.get(0).setOnClickListener(this);
         imageButtons.get(1).setOnClickListener(this);
@@ -166,7 +174,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         }
     }
 
-    @OnClick({R.id.txtDate,R.id.imgDate,R.id.imgBack, R.id.imgMap, R.id.imgChoose,R.id.btn_submit})
+    @OnClick({R.id.txtDate, R.id.imgDate, R.id.imgBack, R.id.imgMap, R.id.imgChoose, R.id.btn_submit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgDate:
