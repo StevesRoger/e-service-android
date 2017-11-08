@@ -22,7 +22,7 @@ public class ColorAdapter extends ArrayAdapter {
 
     public ColorAdapter(Context context, String[] colors) {
         super(context, R.layout.spinner_item, colors);
-        inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
