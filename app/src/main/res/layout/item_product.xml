@@ -48,23 +48,15 @@
                     android:layout_height="match_parent"
                     android:padding="1dp">
 
-                    <HorizontalScrollView
+                    <org.jarvis.code.ui.custom.ColorView
+                        android:id="@+id/colorView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
-                        android:scrollbars="none">
-
-                        <org.jarvis.code.ui.custom.ColorView
-                            android:id="@+id/colorView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_vertical"
-                            android:orientation="horizontal"
-                            custom:text="@string/string_color"
-                            custom:view_color_height="@dimen/view_color_height"
-                            custom:view_color_width="@dimen/view_color_width" />
-
-                    </HorizontalScrollView>
+                        android:orientation="horizontal"
+                        custom:text="@string/string_color"
+                        custom:view_color_height="@dimen/view_color_height"
+                        custom:view_color_width="@dimen/view_color_width" />
 
                 </TableRow>
 

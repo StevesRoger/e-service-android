@@ -41,6 +41,8 @@ public class Customer extends BaseRequest {
     private String other;
     @SerializedName("PRODUCT_ID")
     private int productId;
+    @SerializedName("COLOR")
+    private String color;
 
     public Customer() {
         super();
@@ -62,6 +64,7 @@ public class Customer extends BaseRequest {
         map = source.readString();
         other = source.readString();
         productId = source.readInt();
+        color=source.readString();
     }
 
     public String getGroomName() {
@@ -184,6 +187,13 @@ public class Customer extends BaseRequest {
         this.productId = productId;
     }
 
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
 
     public static final Creator<Customer> CREATOR = new Creator<Customer>() {
         @Override
@@ -219,5 +229,6 @@ public class Customer extends BaseRequest {
         dest.writeString(map);
         dest.writeString(other);
         dest.writeInt(productId);
+        dest.writeString(color);
     }
 }

@@ -227,6 +227,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         customer.setFb(editTexts.get(6).getText().toString().trim());
         customer.setOther(editTexts.get(7).getText().toString().trim());
         customer.setProductId(product.getId());
+        customer.setColor(colorSpinner.getSelectedItem().toString());
         String json = new Gson().toJson(customer);
         Loggy.i(RegisterPresenterImpl.class, json);
         return RequestBody.create(MediaType.parse("text/plain"), json);
