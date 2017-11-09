@@ -12,6 +12,8 @@
     <string name="string_price">តម្លៃចាប់ពី :</string>
     <string name="string_contact">ទំនាក់ទំនង :</string>
     <string name="string_register">សូមចុះឈ្មោះ និងបំពេញពត័មាន</string>
+    <string name="string_quantity">ចំនួន :</string>
+    <string name="string_amount">តម្លៃ :</string>
     <!--Register form-->
     <string name="string_information">បំពេញពត៏មាន</string>
     <string name="string_groom_name">កូនប្រុសឈ្មោះ</string>
@@ -25,6 +27,7 @@
     <string name="string_month">ខែ</string>
     <string name="string_year">ឆ្នាំ</string>
     <string name="string_home">ផ្ទះ</string>
+    <string name="string_place_party">គេហដ្ឋាន</string>
     <string name="string_phone">លេខទូរស័ព្ទ</string>
     <string name="string_email">អ៊ីម៉ែល</string>
     <string name="string_facebook">Facebook</string>

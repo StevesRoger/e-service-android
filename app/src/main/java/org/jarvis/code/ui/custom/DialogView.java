@@ -35,7 +35,7 @@ public class DialogView extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         product = (Product) getArguments().getSerializable("product");
-        setStyle(DialogFragment.STYLE_NORMAL, R.style.dialog_theme);
+        setStyle(DialogFragment.STYLE_NORMAL, R.style.DialogTheme);
         setRetainInstance(true);
     }
 

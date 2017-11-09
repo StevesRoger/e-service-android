@@ -36,10 +36,10 @@
         <item name="android:shadowDy">1</item>
         <item name="android:shadowRadius">0.6</item>
         <!--<item  name="android:background">#09aef3</item>-->
-       <!-- <item name="android:padding">10dip</item>-->
+        <!-- <item name="android:padding">10dip</item>-->
     </style>
 
-    <style name="dialog_theme" parent="android:Theme" >
+    <style name="DialogTheme" parent="android:Theme">
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
     </style>

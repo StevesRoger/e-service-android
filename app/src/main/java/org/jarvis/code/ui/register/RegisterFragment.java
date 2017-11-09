@@ -93,6 +93,10 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     Spinner colorSpinner;
     @BindView(R.id.lblProductCode)
     TextView productCode;
+    @BindView(R.id.txtProductQty)
+    EditText productQty;
+    @BindView(R.id.lblProductAmount)
+    TextView productAmount;
 
     @Inject
     RegisterPresenter<RegisterView> presenter;
@@ -155,6 +159,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         editTexts.get(editTexts.size() - 1).setOnFocusChangeListener(this);
         productCode.setText(getResources().getString(R.string.string_code) + product.getCode());
         colorSpinner.setAdapter(new ColorAdapter(getContext(), product.getColors()));
+        Loggy.i(RegisterFragment.class, colorSpinner.getSelectedItem().toString());
         /*txtDate.setOnClickListener(this);
         imageButtons.get(0).setOnClickListener(this);
         imageButtons.get(1).setOnClickListener(this);

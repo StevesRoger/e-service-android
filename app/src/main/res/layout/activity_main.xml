@@ -1,90 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorButtonNormal"
     android:fitsSystemWindows="false"
-    tools:context="org.jarvis.code.ui.main.MainActivity"
-    tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="0dp">
+    tools:context="org.jarvis.code.ui.main.MainActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_constraintBottom_creator="1"
-        tools:layout_constraintLeft_creator="1"
-        tools:layout_constraintRight_creator="1"
-        tools:layout_constraintTop_creator="1">
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout"
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/img_ad"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="0dp">
+            android:layout_height="@dimen/advertisement_height"
+            android:adjustViewBounds="true"
+            android:background="@color/colorWhite"
+            android:src="@drawable/no_ad_available" />
 
-            <android.support.v7.widget.AppCompatImageView
-                android:id="@+id/img_ad"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/advertisement_height"
-                android:adjustViewBounds="true"
-                android:background="@color/colorWhite"
-                android:src="@drawable/no_ad_available" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/colorAccent">
 
-            <RelativeLayout
-                android:id="@+id/tab_panel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/img_ad"
-                android:background="@color/colorAccent">
+            <ImageView
+                android:id="@+id/imgVPrinting"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginRight="2dp"
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/ic_v_printing" />
 
-                <ImageView
-                    android:id="@+id/imgVPrinting"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_marginLeft="3dp"
-                    android:src="@drawable/ic_v_printing" />
-
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tab_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/imgVPrinting"
-                    android:background="@color/colorAccent"
-                    app:tabGravity="fill"
-                    app:tabIndicatorColor="@color/colorDarkBlue"
-                    app:tabIndicatorHeight="3dp"
-                    app:tabMode="fixed"
-                    app:tabSelectedTextColor="@android:color/white"
-                    app:tabTextColor="@android:color/white" />
-
-                <android.support.v7.widget.SearchView xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/search_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_below="@+id/tab_layout"
-                    android:background="@drawable/search_view" />
-
-            </RelativeLayout>
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/tab_pager"
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/tab_panel"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/vertical_line"
+                app:tabIndicatorHeight="3dp"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/colorWhite"
+                app:tabTextColor="@color/colorWhite"
+                app:tabBackground="@drawable/tab_color_selector"/>
+            <!--app:tabMode="scrollable"-->
 
-        </RelativeLayout>
+        </LinearLayout>
 
-    </FrameLayout>
-</android.support.constraint.ConstraintLayout>
+        <android.support.v7.widget.SearchView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/tab_layout"
+            android:background="@drawable/search_view" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/tab_pager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </LinearLayout>
+
+</FrameLayout>

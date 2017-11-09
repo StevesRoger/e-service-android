@@ -33,7 +33,7 @@
         <item name="android:padding">10dip</item>
     </style>
 
-    <style name="dialog_theme" parent="android:Theme" >
+    <style name="DialogTheme" parent="android:Theme" >
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">false</item>
     </style>

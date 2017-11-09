@@ -82,6 +82,7 @@ public class MainActivity extends AbstractActivity implements MainView {
 
     }
 
+
     @Override
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();

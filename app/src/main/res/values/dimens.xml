@@ -14,6 +14,6 @@
     <dimen name="advertisement_height">150dp</dimen>
     <dimen name="view_color_width">25dp</dimen>
     <dimen name="view_color_height">25dp</dimen>
-    <dimen name="spiner_color_width">90dp</dimen>
-    <dimen name="spiner_color_height">26dp</dimen>
+    <dimen name="spiner_color_width">60dp</dimen>
+    <dimen name="spiner_color_height">15dp</dimen>
 </resources>
