@@ -28,7 +28,7 @@ public class FirebaseBroadcastReceiver extends BroadcastReceiver {
             String data = intent.getStringExtra("data");
             JSONArray jsonArray = new JSONArray(data);
             Loggy.i(FirebaseBroadcastReceiver.class, data);
-            Loggy.i(FirebaseBroadcastReceiver.class, String.valueOf(action));
+            Loggy.i(FirebaseBroadcastReceiver.class, "Action "+String.valueOf(action));
             if (broadcastAction != null && action > 0 && jsonArray.length() > 0) {
                 if (intent.getAction().equals(Constants.FCM_BROADCAST_PRODUCT)) {
                     actionFilter(action, context, jsonArray);

@@ -6,9 +6,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import org.jarvis.code.dagger.ActivityContext;
-import org.jarvis.code.model.read.Advertisement;
+import org.jarvis.code.model.Advertisement;
 import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.ui.base.BasePresenterImpl;
+import org.jarvis.code.util.Constants;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     public void onAnimateAD(List<Advertisement> ads) {
         if (view != null && ads != null && !ads.isEmpty()) {
             for (Advertisement ad : ads)
-                ((MainActivity) activity()).advertisement.put(ad.getId(), ad.getImage());
+                Constants.advertisement.put(ad.getId(), ad.getImage());
             view.startAnimateAD();
         }
     }

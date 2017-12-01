@@ -16,8 +16,8 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
-import org.jarvis.code.model.read.Product;
-import org.jarvis.code.model.read.Promotion;
+import org.jarvis.code.model.Product;
+import org.jarvis.code.model.Promotion;
 import org.jarvis.code.ui.custom.ColorView;
 import org.jarvis.code.ui.custom.DialogView;
 import org.jarvis.code.ui.register.RegisterFragment;
@@ -39,16 +39,16 @@ public class ProductAdapter extends RecyclerView.Adapter {
     private final int VIEW_PROMOTION = 1;
     private final int VIEW_LOADING = 2;
 
-    private List<Product> originalList;
-    private ArrayMap<Integer, Product> copyList;
+    private List<Product> listData;
+    private ArrayMap<Integer, Product> listCopy;
     private Context context;
 
     private static String imgUrl = Constants.BASE_URL + "mobile/image/view/";
 
     public ProductAdapter(Context context, List<Product> products) {
-        this.originalList = products;
+        this.listData = products;
         this.context = context;
-        this.copyList = new ArrayMap();
+        this.listCopy = new ArrayMap();
     }
 
     @Override
@@ -68,11 +68,11 @@ public class ProductAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ProductViewHolder) {
-            Product product = originalList.get(position);
+            Product product = listData.get(position);
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             productViewHolder.product = product;
             productViewHolder.lblCode.setText(context.getResources().getString(R.string.string_code) + product.getCode());
-            productViewHolder.colorView.renderColor(product.getColors());
+            productViewHolder.colorView.setColor(product.getColors());
             productViewHolder.lblSize.setText(context.getResources().getString(R.string.string_size) + product.getSize());
             productViewHolder.lblPrice.setText(context.getResources().getString(R.string.string_price) + product.getPrice());
             productViewHolder.lblContact.setText(context.getResources().getString(R.string.string_contact) + product.getContact().getPhone1());
@@ -83,7 +83,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
                     .error(R.drawable.no_image_available)
                     .into(productViewHolder.image);
         } else if (holder instanceof PromotionViewHolder) {
-            Promotion promotion = (Promotion) originalList.get(position);
+            Promotion promotion = (Promotion) listData.get(position);
             PromotionViewHolder promotionViewHolder = (PromotionViewHolder) holder;
             Picasso.with(context).load(imgUrl + promotion.getImages().get(0))
                     .fit()
@@ -99,12 +99,12 @@ public class ProductAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return originalList == null ? 0 : originalList.size();
+        return listData == null ? 0 : listData.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        Product item = originalList.get(position);
+        Product item = listData.get(position);
         if (item != null) {
             if (item instanceof Promotion)
                 return VIEW_PROMOTION;
@@ -115,74 +115,95 @@ public class ProductAdapter extends RecyclerView.Adapter {
     }
 
     public void addAll(List<Product> products) {
-        originalList.addAll(products);
+        listData.addAll(products);
         putAll(products);
     }
 
     public void add(Product product) {
-        originalList.add(product);
+        listData.add(product);
         put(product);
     }
 
     public void add(int index, Product product) {
-        originalList.add(index, product);
+        listData.add(index, product);
         put(product);
     }
 
     public void put(int key, Product value) {
-        originalList.add(value);
-        copyList.put(key, value);
+        listData.add(value);
+        listCopy.put(key, value);
     }
 
     private void put(Product product) {
         if (product != null)
-            copyList.put(product.getId(), product);
+            listCopy.put(product.getId(), product);
        /*else
-            copyList.put(size() - 1, product);*/
+            listCopy.put(size() - 1, product);*/
     }
 
     private void putAll(List<Product> products) {
         for (Product product : products) {
             if (product != null)
-                copyList.put(product.getId(), product);
+                listCopy.put(product.getId(), product);
         }
     }
 
     public void remove(int index) {
-        Product product = originalList.remove(index);
+        Product product = listData.remove(index);
         if (product != null)
-            copyList.remove(product.getId());
+            removeByKey(product.getId());
+    }
+
+    public void removeByKey(int key) {
+        Product product = listCopy.remove(key);
+        if (product != null)
+            remove(product.getId());
     }
 
     public void clear() {
-        originalList.clear();
-        copyList.clear();
+        listData.clear();
+        listCopy.clear();
+    }
+
+    public void updateListItem(List<Product> products) {
+        for (Product product : products)
+            updateListItem(product);
+    }
+
+    public void updateListItem(Product product) {
+        if (product != null) {
+            Product tmp = listCopy.get(product.getId());
+            if (tmp != null)
+                tmp.update(product);
+            else if (product.getId() == null || !listCopy.containsKey(product.getId()))
+                add(0, product);
+        }
     }
 
     public int size() {
-        return originalList.size();
+        return listData.size();
     }
 
     public boolean isEmpty() {
-        return originalList.isEmpty();
+        return listData.isEmpty();
     }
 
     public void filter(String text) {
         Loggy.i(ProductAdapter.class, "Search product '" + text + "'");
-        originalList.clear();
+        listData.clear();
         if (!text.isEmpty()) {
-            for (Product product : copyList.values()) {
+            for (Product product : listCopy.values()) {
                 if (product instanceof Product) {
                     if (product.getCode().toLowerCase().contains(text) ||
                             product.getColor().toLowerCase().contains(text) ||
                             product.getPrice().toLowerCase().contains(text) ||
                             product.getSize().toLowerCase().contains(text)) {
-                        originalList.add(product);
+                        listData.add(product);
                     }
                 }
             }
         } else {
-            originalList.addAll(copyList.values());
+            listData.addAll(listCopy.values());
         }
         notifyDataSetChanged();
     }

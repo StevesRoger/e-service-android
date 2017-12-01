@@ -3,7 +3,7 @@ package org.jarvis.code.ui.product;
 import android.content.Context;
 
 import org.jarvis.code.model.ResponseEntity;
-import org.jarvis.code.model.read.Promotion;
+import org.jarvis.code.model.Promotion;
 import org.json.JSONArray;
 
 import retrofit2.Call;

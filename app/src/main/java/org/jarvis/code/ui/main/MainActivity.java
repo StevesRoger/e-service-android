@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v4.util.ArrayMap;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.widget.ImageView;
@@ -23,7 +22,6 @@ import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 
 import javax.inject.Inject;
-import javax.inject.Named;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,12 +42,8 @@ public class MainActivity extends AbstractActivity implements MainView {
     MainPresenter<MainView> presenter;
     @Inject
     LocalBroadcastManager localBroadcastManager;
-    @Inject
-    ArrayMap<Integer, Integer> advertisement;
-    @Inject
-    @Named("advertisement")
-    FirebaseBroadcastReceiver advertisementReceiver;
 
+    FirebaseBroadcastReceiver advertisementReceiver;
     private boolean isLoad;
 
     @Override
@@ -78,6 +72,7 @@ public class MainActivity extends AbstractActivity implements MainView {
         FirebaseInstanceId.getInstance().getToken();
 
         Loggy.i(MainActivity.class, "register receiver");
+        advertisementReceiver = new FirebaseBroadcastReceiver(presenter.getInteractor());
         localBroadcastManager.registerReceiver(advertisementReceiver, new IntentFilter(Constants.FCM_BROADCAST_ADVERTISEMENT));
 
     }
@@ -117,15 +112,13 @@ public class MainActivity extends AbstractActivity implements MainView {
 
     @Override
     public void refreshAD() {
-        if (advertisement.isEmpty()) {
-            presenter.fetchAdvertisement();
-        }
+        presenter.fetchAdvertisement();
     }
 
     @Override
     public void startAnimateAD() {
-        if (!isLoad && !advertisement.isEmpty()) {
-            AnimateAD.animate(imageAd, advertisement, 0, true, this);
+        if (!isLoad && !Constants.advertisement.isEmpty()) {
+            AnimateAD.animate(imageAd, Constants.advertisement, 0, true, this);
             isLoad = true;
         }
     }

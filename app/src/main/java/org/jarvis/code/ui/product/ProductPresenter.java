@@ -1,9 +1,8 @@
 package org.jarvis.code.ui.product;
 
 import org.jarvis.code.dagger.PerActivity;
-import org.jarvis.code.model.read.Product;
-import org.jarvis.code.model.read.Promotion;
-import org.jarvis.code.ui.base.BaseInteractor;
+import org.jarvis.code.model.Product;
+import org.jarvis.code.model.Promotion;
 import org.jarvis.code.ui.base.BasePresenter;
 import org.jarvis.code.ui.base.BaseView;
 
@@ -30,4 +29,10 @@ public interface ProductPresenter<V extends BaseView> extends BasePresenter<V> {
     void onLoadPromotionSucceed(List<Promotion> promotions);
 
     void onLoadPromotionFailure(String message);
+
+    void refreshView();
+
+    void updateListItem(Product product);
+
+
 }

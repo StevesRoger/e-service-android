@@ -1,6 +1,7 @@
 package org.jarvis.code.util;
 
 import android.Manifest;
+import android.support.v4.util.ArrayMap;
 
 /**
  * Created by KimChheng on 5/28/2017.
@@ -21,5 +22,5 @@ public final class Constants {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION};
 
-
+    public static final ArrayMap<Integer, Integer> advertisement = new ArrayMap<>();
 }

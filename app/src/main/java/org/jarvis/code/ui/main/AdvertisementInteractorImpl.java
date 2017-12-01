@@ -3,11 +3,13 @@ package org.jarvis.code.ui.main;
 import android.content.Context;
 import android.support.v4.util.ArrayMap;
 
+import com.google.gson.Gson;
+
+import org.jarvis.code.model.Advertisement;
 import org.jarvis.code.model.ResponseEntity;
-import org.jarvis.code.model.read.Advertisement;
+import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -20,11 +22,12 @@ public class AdvertisementInteractorImpl implements AdvertisementInteractor<Adve
 
     private MainPresenter<MainView> presenter;
     private ArrayMap<Integer, Integer> advertisement;
+    private Gson gson;
 
     public AdvertisementInteractorImpl(MainPresenter presenter) {
         this.presenter = presenter;
-        if (presenter != null)
-            this.advertisement = ((MainActivity) presenter.activity()).advertisement;
+        this.advertisement = Constants.advertisement;
+        this.gson = new Gson();
     }
 
     @Override
@@ -44,14 +47,14 @@ public class AdvertisementInteractorImpl implements AdvertisementInteractor<Adve
     @Override
     public void onNewItem(Context context, JSONArray jsonArray) throws Exception {
         for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            advertisement.put(jsonObject.getInt("ID"), jsonObject.getInt("IMAGE"));
+            Advertisement ad = gson.fromJson(jsonArray.getString(i), Advertisement.class);
+            advertisement.put(ad.getId(), ad.getImage());
         }
     }
 
     @Override
     public void onUpdateItem(Context context, JSONArray jsonArray) throws Exception {
-        
+
     }
 
     @Override

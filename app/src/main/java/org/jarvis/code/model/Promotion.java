@@ -1,4 +1,4 @@
-package org.jarvis.code.model.read;
+package org.jarvis.code.model;
 
 import android.os.Parcel;
 

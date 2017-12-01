@@ -1,4 +1,4 @@
-package org.jarvis.code.model.write;
+package org.jarvis.code.model;
 
 import android.os.Parcelable;
 

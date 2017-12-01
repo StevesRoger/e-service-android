@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import org.jarvis.code.R;
 import org.jarvis.code.adapter.ImageAdapter;
-import org.jarvis.code.model.read.Product;
+import org.jarvis.code.model.Product;
 
 /**
  * Created by KimChheng on 6/19/2017.

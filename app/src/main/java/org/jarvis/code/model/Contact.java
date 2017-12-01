@@ -1,11 +1,8 @@
-package org.jarvis.code.model.read;
+package org.jarvis.code.model;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
-
-import java.io.Serializable;
 
 /**
  * Created by KimChheng on 5/30/2017.

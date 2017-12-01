@@ -32,6 +32,4 @@ public interface ApplicationComponent {
     OkHttpClient okHttpClient();
 
     Retrofit retrofit();
-
-    ArrayMap<Integer, Integer> advertisement();
 }

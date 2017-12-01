@@ -1,4 +1,4 @@
-package org.jarvis.code.model.read;
+package org.jarvis.code.model;
 
 import android.os.Parcel;
 
@@ -147,5 +147,36 @@ public class Product extends BaseResponse {
         if (color != null && !color.isEmpty())
             return color.split(",");
         return new String[0];
+    }
+
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        Product product = new Product();
+        product.setId(this.id);
+        product.setCode(this.code);
+        product.setSize(this.size);
+        product.setPrice(this.price);
+        product.setColor(this.color);
+        product.setContact(this.contact);
+        product.setImages(this.images);
+        return product;
+    }
+
+    public void update(Product product) {
+        if (!product.getId().equals(this.id))
+            this.setId(product.getId());
+        if (!product.getCode().equals(this.code))
+            this.setCode(product.getCode());
+        if (!product.getSize().equals(this.size))
+            this.setSize(product.getSize());
+        if (!product.getPrice().equals(this.price))
+            this.setPrice(product.getPrice());
+        if (!product.getColor().equals(this.color))
+            this.setColor(product.getColor());
+        if (!product.getContact().equals(this.contact))
+            this.setContact(product.getContact());
+        if (product.getImages() != null && !product.getImages().isEmpty())
+            this.setImages(product.getImages());
     }
 }

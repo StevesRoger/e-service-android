@@ -506,6 +506,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:padding="5dp"
                         android:orientation="horizontal">
 
@@ -543,6 +544,7 @@
                     <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
                         android:scrollbars="none">
 
                         <LinearLayout

@@ -1,8 +1,10 @@
 package org.jarvis.code.ui.product;
 
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,10 +17,12 @@ import android.widget.TextView;
 import org.jarvis.code.R;
 import org.jarvis.code.adapter.ProductAdapter;
 import org.jarvis.code.dagger.component.ActivityComponent;
-import org.jarvis.code.model.read.Product;
-import org.jarvis.code.model.read.Promotion;
+import org.jarvis.code.model.Product;
+import org.jarvis.code.model.Promotion;
+import org.jarvis.code.service.FirebaseBroadcastReceiver;
 import org.jarvis.code.ui.base.AbstractFragment;
 import org.jarvis.code.ui.main.MainView;
+import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 
 import java.util.List;
@@ -48,7 +52,10 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     ProductAdapter adapter;
     @Inject
     ProductPresenter<ProductView> presenter;
+    @Inject
+    LocalBroadcastManager localBroadcastManager;
 
+    FirebaseBroadcastReceiver productReceiver;
     private boolean isLoaded = false;
     private boolean isVisibleToUser;
     private String type;
@@ -81,6 +88,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
             component.inject(this);
             setUnBinder(ButterKnife.bind(this, view));
             presenter.onAttach(this);
+            productReceiver = new FirebaseBroadcastReceiver(presenter.getInteractor());
             ((ProductInteractorImpl) presenter.getInteractor()).setLinearLayoutManager(linearLayoutManager);
         }
         return view;
@@ -92,6 +100,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         if (isVisibleToUser && (!isLoaded)) {
             presenter.loadProduct(LIMIT, type);
             isLoaded = true;
+            localBroadcastManager.registerReceiver(productReceiver, new IntentFilter(Constants.FCM_BROADCAST_PRODUCT));
         }
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setHasFixedSize(true);
@@ -159,6 +168,17 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     }
 
     @Override
+    public void notifyDataSetChanged() {
+        if (adapter != null)
+            adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateListItem(Product product) {
+        adapter.updateListItem(product);
+    }
+
+    @Override
     public void loadPromotionSucceed(List<Promotion> promotions) {
         if (promotions != null && !promotions.isEmpty()) {
             adapter.add(adapter.size(), promotions.get(0));
@@ -195,12 +215,14 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
+        lblMessage.setVisibility(View.GONE);
     }
 
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
+        lblMessage.setVisibility(View.GONE);
     }
 
     @Override
@@ -223,6 +245,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
 
     @Override
     public void onDestroyView() {
+        localBroadcastManager.unregisterReceiver(productReceiver);
         presenter.onDetach();
         super.onDestroyView();
     }

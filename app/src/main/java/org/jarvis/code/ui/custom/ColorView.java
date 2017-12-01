@@ -22,6 +22,7 @@ public class ColorView extends LinearLayout {
     private int count;
     private int colorWidth;
     private int colorHeight;
+    private LinearLayout container;
 
     public ColorView(Context context) {
         this(context, null);
@@ -40,33 +41,30 @@ public class ColorView extends LinearLayout {
         colorHeight = attributes.getLayoutDimension(R.styleable.ColorView_view_color_height, 0);
         attributes.recycle();
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.view_color, this, true);
-        TextView lable = (TextView) view.findViewById(R.id.lblColor);
-        lable.setText(text);
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater.inflate(R.layout.view_color, this, true);
+
+        ((TextView) getChildAt(0)).setText(text);
+        container = (LinearLayout) getChildAt(1);
     }
 
-    public void renderColor(String value) {
+    public void setColor(String value) {
         if (value != null && !value.isEmpty())
-            renderColor(value.split(","));
+            setColor(value.split(","));
     }
 
-    public void renderColor(String[] values) {
-        if (getChildCount() > 2)
-            removeViews(1, values.length);
+    public void setColor(String[] values) {
+        if (container != null)
+            container.removeAllViews();
         for (String str : values) {
             int color = Color.parseColor(str);
             View view = new View(getContext());
             LayoutParams params = new LayoutParams(colorWidth, colorHeight);
-            params.setMargins(10, 20, 0, 0);
+            params.setMargins(10, 0, 0, 0);
             view.setLayoutParams(params);
             view.setBackgroundColor(color);
-            this.addView(view);
+            container.addView(view);
         }
     }
-
-    public void renderColor(int[] colors) {
-
-    }
-
 }

@@ -4,7 +4,9 @@ import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import org.jarvis.code.model.read.Product;
+import com.google.gson.Gson;
+
+import org.jarvis.code.model.Product;
 import org.jarvis.code.model.ResponseEntity;
 import org.jarvis.code.util.Loggy;
 import org.json.JSONArray;
@@ -22,9 +24,11 @@ public class ProductInteractorImpl extends RecyclerView.OnScrollListener impleme
     private LinearLayoutManager linearLayoutManager;
     private boolean isLoading;
     private int visibleItemCount, totalItemCount, pastVisiblesItems;
+    private Gson gson;
 
     public ProductInteractorImpl(ProductPresenter presenter) {
         this.presenter = presenter;
+        this.gson = new Gson();
     }
 
     @Override
@@ -76,16 +80,23 @@ public class ProductInteractorImpl extends RecyclerView.OnScrollListener impleme
 
     @Override
     public void onNewItem(Context context, JSONArray jsonArray) throws Exception {
-
+        onUpdateItem(context, jsonArray);
     }
 
     @Override
     public void onUpdateItem(Context context, JSONArray jsonArray) throws Exception {
-
+        Loggy.i(ProductInteractorImpl.class, "onUpdateItem");
+        if (presenter != null) {
+            for (int i = 0; i < jsonArray.length(); i++)
+                presenter.updateListItem(gson.fromJson(jsonArray.getString(i), Product.class));
+            presenter.refreshView();
+        }
     }
 
     @Override
     public void onDeleteItem(Context context, JSONArray jsonArray) throws Exception {
+        Loggy.i(ProductInteractorImpl.class, "onDeleteItem");
+        Loggy.i(ProductInteractorImpl.class, jsonArray.toString());
 
     }
 }

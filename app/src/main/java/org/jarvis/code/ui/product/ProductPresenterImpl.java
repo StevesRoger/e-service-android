@@ -5,8 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.model.ResponseEntity;
-import org.jarvis.code.model.read.Product;
-import org.jarvis.code.model.read.Promotion;
+import org.jarvis.code.model.Product;
+import org.jarvis.code.model.Promotion;
 import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.ui.base.BasePresenterImpl;
 
@@ -97,6 +97,18 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     public void onLoadPromotionFailure(String message) {
         if (view != null)
             view.toastMessage(message);
+    }
+
+    @Override
+    public void refreshView() {
+        if (view != null)
+            view.notifyDataSetChanged();
+    }
+
+    @Override
+    public void updateListItem(Product product) {
+        if (view != null)
+            view.updateListItem(product);
     }
 
     public PromotionInteractorImpl getPromotionInteractor() {

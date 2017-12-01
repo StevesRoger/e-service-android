@@ -34,9 +34,4 @@ public class ApplicationModule {
         return application;
     }
 
-    @Provides
-    @Singleton
-    ArrayMap<Integer, Integer> provideListAdvertisement() {
-        return new ArrayMap<>();
-    }
 }
