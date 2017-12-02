@@ -102,14 +102,15 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Override
     public void refreshView() {
         if (view != null)
-            view.notifyDataSetChanged();
+            view.updateView();
     }
 
     @Override
-    public void updateListItem(Product product) {
+    public void updateProduct(Product product) {
         if (view != null)
-            view.updateListItem(product);
+            view.updateProduct(product);
     }
+
 
     public PromotionInteractorImpl getPromotionInteractor() {
         return promotionInteractor;

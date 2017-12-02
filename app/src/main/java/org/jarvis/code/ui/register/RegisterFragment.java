@@ -30,11 +30,12 @@ import com.google.gson.Gson;
 import org.jarvis.code.R;
 import org.jarvis.code.adapter.ColorAdapter;
 import org.jarvis.code.dagger.component.ActivityComponent;
-import org.jarvis.code.model.Product;
 import org.jarvis.code.model.Customer;
+import org.jarvis.code.model.Product;
 import org.jarvis.code.ui.base.AbstractFragment;
-import org.jarvis.code.ui.custom.ImageCross;
-import org.jarvis.code.ui.custom.JDatePicker;
+import org.jarvis.code.ui.custom_controls.ImageCross;
+import org.jarvis.code.ui.custom_controls.JDatePicker;
+import org.jarvis.code.ui.custom_controls.JTimePicker;
 import org.jarvis.code.util.ComponentFactory;
 import org.jarvis.code.util.FileUtil;
 import org.jarvis.code.util.Loggy;
@@ -76,8 +77,10 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     EditText txtMomBrideName;
     @BindView(R.id.txtDate)
     EditText txtDate;
+    @BindView(R.id.txtTimeEat)
+    EditText txtTimeEat;
 
-    @BindViews({R.id.imgDate, R.id.imgBack, R.id.imgMap, R.id.imgChoose})
+    @BindViews({R.id.imgBack, R.id.imgMap, R.id.imgChoose})
     List<ImageButton> imageButtons;
 
     @BindViews({R.id.txtVillage, R.id.txtCommune, R.id.txtDistrict, R.id.txtHome, R.id.txtPhone, R.id.txtEmail, R.id.txtFacebook, R.id.txtOther})
@@ -101,14 +104,15 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     @Inject
     RegisterPresenter<RegisterView> presenter;
     @Inject
-    JDatePicker jDatePicker;
-    @Inject
     FragmentManager fragmentManager;
     @Inject
     Validator validator;
     @Inject
     SweetAlertDialog progressDialog;
 
+
+    private JDatePicker datePicker;
+    private JTimePicker timePicker;
     private ComponentFactory factory;
     private Uri uri;
     private File file;
@@ -157,6 +161,8 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         }
         factory = new ComponentFactory(getContext(), view);
         editTexts.get(editTexts.size() - 1).setOnFocusChangeListener(this);
+        timePicker = new JTimePicker(txtTimeEat, getContext());
+        datePicker = new JDatePicker(txtDate, getContext());
         productCode.setText(getResources().getString(R.string.string_code) + product.getCode());
         colorSpinner.setAdapter(new ColorAdapter(getContext(), product.getColors()));
         Loggy.i(RegisterFragment.class, colorSpinner.getSelectedItem().toString());
@@ -179,13 +185,9 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         }
     }
 
-    @OnClick({R.id.txtDate, R.id.imgDate, R.id.imgBack, R.id.imgMap, R.id.imgChoose, R.id.btn_submit})
+    @OnClick({R.id.txtDate, R.id.imgBack, R.id.imgMap, R.id.imgChoose, R.id.btn_submit})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.imgDate:
-            case R.id.txtDate:
-                showDialogDatePicker();
-                break;
             case R.id.imgMap:
                 toastMessage("Sorry for this feature will release on next version.");
                 break;
@@ -212,7 +214,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     }
 
     @Override
-    public RequestBody requestJson() {
+    public RequestBody createCustomerJson() {
         Customer customer = new Customer();
         customer.setGroomName(txtGroomName.getText().toString().trim());
         customer.setGroomDadName(txtDadGroomName.getText().toString().trim());
@@ -221,6 +223,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         customer.setBrideDadName(txtDadBrideName.getText().toString().trim());
         customer.setBrideMomName(txtMomBrideName.getText().toString().trim());
         customer.setDate(txtDate.getText().toString().trim());
+        customer.setTime(txtTimeEat.getText().toString().trim());
         StringBuilder address = new StringBuilder();
         address.append(editTexts.get(0).getText().toString().trim()).append(" ");
         address.append(editTexts.get(1).getText().toString().trim()).append(" ");
@@ -340,12 +343,6 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     public void onFocusChange(View view, boolean hasFocus) {
         if (hasFocus)
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-    }
-
-    @Override
-    public void showDialogDatePicker() {
-        jDatePicker.show(fragmentManager, "datePicker");
-        jDatePicker.setCancelable(false);
     }
 
     @Override

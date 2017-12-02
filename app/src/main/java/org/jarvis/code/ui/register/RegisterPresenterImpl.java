@@ -35,7 +35,7 @@ public class RegisterPresenterImpl extends BasePresenterImpl<RegisterView> imple
     public void submitCustomer() throws Exception {
         view.validate();
         view.showProgressDialog();
-        RequestBody requestJson = view.requestJson();
+        RequestBody requestJson = view.createCustomerJson();
         MultipartBody.Part[] requestFiles = view.requestFiles();
         requestClient.submitCustomer(requestJson, requestFiles).enqueue(interactor);
     }

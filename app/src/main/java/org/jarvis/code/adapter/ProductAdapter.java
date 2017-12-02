@@ -18,8 +18,8 @@ import com.squareup.picasso.Picasso;
 import org.jarvis.code.R;
 import org.jarvis.code.model.Product;
 import org.jarvis.code.model.Promotion;
-import org.jarvis.code.ui.custom.ColorView;
-import org.jarvis.code.ui.custom.DialogView;
+import org.jarvis.code.ui.custom_controls.ColorView;
+import org.jarvis.code.ui.custom_controls.DialogView;
 import org.jarvis.code.ui.register.RegisterFragment;
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
@@ -165,18 +165,18 @@ public class ProductAdapter extends RecyclerView.Adapter {
         listCopy.clear();
     }
 
-    public void updateListItem(List<Product> products) {
+    public void updateItems(List<Product> products) {
         for (Product product : products)
-            updateListItem(product);
+            updateItem(product);
     }
 
-    public void updateListItem(Product product) {
+    public void updateItem(Product product) {
         if (product != null) {
             Product tmp = listCopy.get(product.getId());
             if (tmp != null)
                 tmp.update(product);
             else if (product.getId() == null || !listCopy.containsKey(product.getId()))
-                add(0, product);
+                add(product);
         }
     }
 

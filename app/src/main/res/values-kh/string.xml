@@ -27,8 +27,8 @@
     <string name="string_month">ខែ</string>
     <string name="string_year">ឆ្នាំ</string>
     <string name="string_home">ផ្ទះ</string>
-    <string name="string_place_party">គេហដ្ឋាន</string>
-    <string name="string_time_eat">ទទួលទានអាហារ</string>
+    <string name="string_place">គេហដ្ឋានខាង</string>
+    <string name="string_time_eat">ម៉ោងទទួលទានអាហារ</string>
     <string name="string_phone">លេខទូរស័ព្ទ</string>
     <string name="string_email">អ៊ីម៉ែល</string>
     <string name="string_facebook">Facebook</string>

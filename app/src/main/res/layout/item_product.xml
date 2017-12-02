@@ -48,7 +48,7 @@
                     android:layout_height="match_parent"
                     android:padding="1dp">
 
-                    <org.jarvis.code.ui.custom.ColorView
+                    <org.jarvis.code.ui.custom_controls.ColorView
                         android:id="@+id/colorView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

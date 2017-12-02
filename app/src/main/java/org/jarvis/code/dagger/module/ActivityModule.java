@@ -13,7 +13,7 @@ import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.dagger.PerActivity;
 import org.jarvis.code.model.Product;
 import org.jarvis.code.service.FirebaseBroadcastReceiver;
-import org.jarvis.code.ui.custom.JDatePicker;
+import org.jarvis.code.ui.custom_controls.JDatePicker;
 import org.jarvis.code.ui.product.ProductPresenterImpl;
 import org.jarvis.code.util.Validator;
 
@@ -74,11 +74,6 @@ public class ActivityModule {
     @PerActivity
     TabAdapter provideTabAdapter(FragmentManager fragmentManager, @Named("titles") List<String> titles) {
         return new TabAdapter(fragmentManager, titles);
-    }
-
-    @Provides
-    JDatePicker provideJDatePicker() {
-        return new JDatePicker();
     }
 
     @Provides

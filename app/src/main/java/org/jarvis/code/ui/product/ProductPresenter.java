@@ -32,7 +32,6 @@ public interface ProductPresenter<V extends BaseView> extends BasePresenter<V> {
 
     void refreshView();
 
-    void updateListItem(Product product);
-
+    void updateProduct(Product product);
 
 }

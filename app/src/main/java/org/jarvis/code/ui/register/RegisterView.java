@@ -13,11 +13,9 @@ import okhttp3.RequestBody;
 
 public interface RegisterView extends BaseView, View.OnFocusChangeListener {
 
-    void showDialogDatePicker();
-
     void backToMainActivity();
 
-    RequestBody requestJson();
+    RequestBody createCustomerJson();
 
     MultipartBody.Part[] requestFiles();
 

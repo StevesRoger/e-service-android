@@ -285,21 +285,22 @@
                         <EditText
                             android:id="@+id/txtDate"
                             style="@style/EditTextStyle"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/lblWeddingDate"
-                            android:ems="10"
+                            android:layout_marginLeft="5dp"
+                            android:ems="17"
                             android:hint="@string/string_date_hint"
                             android:inputType="text" />
 
-                        <ImageButton
+                        <!--<ImageButton
                             android:id="@+id/imgDate"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignBottom="@+id/txtDate"
                             android:layout_toRightOf="@+id/txtDate"
                             android:background="@null"
-                            android:src="@drawable/ic_date" />
+                            android:src="@drawable/ic_date" />-->
 
                     </RelativeLayout>
 
@@ -383,7 +384,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_place_party" />
+                            android:text="@string/string_place" />
 
                         <EditText
                             android:id="@+id/txtHome"
@@ -393,7 +394,7 @@
                             android:layout_below="@+id/lblHome"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
-                            android:hint="@string/string_place_party"
+                            android:hint="@string/string_place"
                             android:inputType="text" />
 
                     </LinearLayout>

@@ -88,7 +88,7 @@ public class ProductInteractorImpl extends RecyclerView.OnScrollListener impleme
         Loggy.i(ProductInteractorImpl.class, "onUpdateItem");
         if (presenter != null) {
             for (int i = 0; i < jsonArray.length(); i++)
-                presenter.updateListItem(gson.fromJson(jsonArray.getString(i), Product.class));
+                presenter.updateProduct(gson.fromJson(jsonArray.getString(i), Product.class));
             presenter.refreshView();
         }
     }

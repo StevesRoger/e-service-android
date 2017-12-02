@@ -13,6 +13,6 @@
     <color name="colorDarkBlue">#0006ff</color>
     <color name="colorBluePrimary">#3f51b5</color>
     <color name="colorBluePrimaryDark">#303F9F</color>
-    <color name="tab_background_selected">#00aeff</color>
+    <color name="tab_background_selected">@android:color/holo_red_dark</color>
     <color name="tab_background_unselected">#fd0365</color>
 </resources>

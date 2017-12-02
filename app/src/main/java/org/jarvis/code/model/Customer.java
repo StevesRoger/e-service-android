@@ -29,6 +29,8 @@ public class Customer extends BaseRequest {
     private String address;
     @SerializedName("DATE")
     private String date;
+    @SerializedName("TIME")
+    private String time;
     @SerializedName("EMAIL")
     private String email;
     @SerializedName("PHONE")
@@ -58,6 +60,7 @@ public class Customer extends BaseRequest {
         home = source.readString();
         address = source.readString();
         date = source.readString();
+        time=source.readString();
         email = source.readString();
         phone = source.readString();
         fb = source.readString();
@@ -137,6 +140,14 @@ public class Customer extends BaseRequest {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getPhone() {
@@ -223,6 +234,7 @@ public class Customer extends BaseRequest {
         dest.writeString(home);
         dest.writeString(address);
         dest.writeString(date);
+        dest.writeString(time);
         dest.writeString(email);
         dest.writeString(phone);
         dest.writeString(fb);

@@ -11,10 +11,10 @@
          android:layout_height="match_parent">
      </android.support.v4.view.ViewPager>-->
 
-    <org.jarvis.code.ui.custom.ImageViewTouchViewPager
+    <org.jarvis.code.ui.custom_controls.ImageViewTouchViewPager
         android:id="@+id/image_view_touch"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </org.jarvis.code.ui.custom.ImageViewTouchViewPager>
+    </org.jarvis.code.ui.custom_controls.ImageViewTouchViewPager>
 
 </RelativeLayout>

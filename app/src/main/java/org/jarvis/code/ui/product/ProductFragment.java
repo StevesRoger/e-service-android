@@ -168,14 +168,15 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     }
 
     @Override
-    public void notifyDataSetChanged() {
+    public void updateView() {
         if (adapter != null)
             adapter.notifyDataSetChanged();
     }
 
     @Override
-    public void updateListItem(Product product) {
-        adapter.updateListItem(product);
+    public void updateProduct(Product product) {
+        if (adapter != null)
+            adapter.updateItem(product);
     }
 
     @Override

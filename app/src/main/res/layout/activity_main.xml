@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     app:tabBackground="@drawable/tab_color_selector"
                     app:tabGravity="fill"
-                    app:tabIndicatorColor="@color/vertical_line"
+                    app:tabIndicatorColor="@android:color/holo_red_dark"
                     app:tabIndicatorHeight="3dp"
                     app:tabMode="fixed"
                     app:tabSelectedTextColor="@color/colorWhite"
