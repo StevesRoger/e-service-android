@@ -28,7 +28,7 @@
     <string name="string_year">ឆ្នាំ</string>
     <string name="string_home">ផ្ទះ</string>
     <string name="string_place">គេហដ្ឋានខាង</string>
-    <string name="string_time_eat">ម៉ោងទទួលទានអាហារ</string>
+    <string name="string_time_eat">ម៉ោងពិសាភោជនាអាហារ</string>
     <string name="string_phone">លេខទូរស័ព្ទ</string>
     <string name="string_email">អ៊ីម៉ែល</string>
     <string name="string_facebook">Facebook</string>
@@ -38,6 +38,8 @@
     <string name="string_village">ភូមិ</string>
     <string name="string_commune">ឃុំ</string>
     <string name="string_district">ស្រុក</string>
+    <string name="string_provice">ខេត្ត</string>
+    <string name="string_address">ភូមិ\u0020\u0020\u0020\u0020\u0020ឃុំ\u0020\u0020\u0020\u0020\u0020ស្រុក\u0020\u0020\u0020\u0020\u0020ខេត្ត</string>
     <string name="choose_image">ជ្រើសរើស រូបភាព</string>
     <string name="string_date_hint">Sun/16/Aug/2017</string>
     <string name="string_submit">បព្ជូានព័ត៌មាន</string>

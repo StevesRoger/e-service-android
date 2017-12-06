@@ -19,7 +19,7 @@ public interface BasePresenter<V extends BaseView> {
 
     V getView();
 
-    void showMessage(String message);
+    void showMessage(String message, int duration);
 
     void showSnackBar(String message);
 

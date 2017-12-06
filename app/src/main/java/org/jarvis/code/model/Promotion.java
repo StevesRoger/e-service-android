@@ -15,6 +15,10 @@ public class Promotion extends Product {
     @SerializedName("DESC")
     private String desc;
 
+    public Promotion() {
+        super();
+    }
+
     public Promotion(Parcel source) {
         super();
         id = source.readInt();

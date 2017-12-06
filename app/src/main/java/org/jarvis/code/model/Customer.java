@@ -45,6 +45,8 @@ public class Customer extends BaseRequest {
     private int productId;
     @SerializedName("COLOR")
     private String color;
+    @SerializedName("QTY")
+    private int qty;
 
     public Customer() {
         super();
@@ -68,6 +70,7 @@ public class Customer extends BaseRequest {
         other = source.readString();
         productId = source.readInt();
         color=source.readString();
+        qty=source.readInt();
     }
 
     public String getGroomName() {
@@ -206,6 +209,14 @@ public class Customer extends BaseRequest {
         this.color = color;
     }
 
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
     public static final Creator<Customer> CREATOR = new Creator<Customer>() {
         @Override
         public Customer createFromParcel(Parcel parcel) {
@@ -242,5 +253,6 @@ public class Customer extends BaseRequest {
         dest.writeString(other);
         dest.writeInt(productId);
         dest.writeString(color);
+        dest.writeInt(qty);
     }
 }

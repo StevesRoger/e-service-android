@@ -36,7 +36,7 @@ public interface ProductView extends BaseView, SwipeRefreshLayout.OnRefreshListe
 
     void search(String text);
 
-    void updateView();
+    void notifyDataSetChanged();
 
     void updateProduct(Product product);
 }

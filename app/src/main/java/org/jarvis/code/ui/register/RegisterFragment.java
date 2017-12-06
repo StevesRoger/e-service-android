@@ -29,14 +29,15 @@ import com.google.gson.Gson;
 
 import org.jarvis.code.R;
 import org.jarvis.code.adapter.ColorAdapter;
-import org.jarvis.code.dagger.component.ActivityComponent;
 import org.jarvis.code.model.Customer;
 import org.jarvis.code.model.Product;
 import org.jarvis.code.ui.base.AbstractFragment;
-import org.jarvis.code.ui.custom_controls.ImageCross;
-import org.jarvis.code.ui.custom_controls.JDatePicker;
-import org.jarvis.code.ui.custom_controls.JTimePicker;
+import org.jarvis.code.ui.widget.ImageCross;
+import org.jarvis.code.ui.widget.JDatePicker;
+import org.jarvis.code.ui.widget.JTimePicker;
+import org.jarvis.code.util.Animator;
 import org.jarvis.code.util.ComponentFactory;
+import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.FileUtil;
 import org.jarvis.code.util.Loggy;
 import org.jarvis.code.util.Validator;
@@ -52,6 +53,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.OnTextChanged;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -79,11 +81,13 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     EditText txtDate;
     @BindView(R.id.txtTimeEat)
     EditText txtTimeEat;
+    @BindView(R.id.txtProductQty)
+    EditText txtProductQty;
 
     @BindViews({R.id.imgBack, R.id.imgMap, R.id.imgChoose})
     List<ImageButton> imageButtons;
 
-    @BindViews({R.id.txtVillage, R.id.txtCommune, R.id.txtDistrict, R.id.txtHome, R.id.txtPhone, R.id.txtEmail, R.id.txtFacebook, R.id.txtOther})
+    @BindViews({R.id.txtAddress, R.id.txtHome, R.id.txtPhone, R.id.txtEmail, R.id.txtFacebook, R.id.txtOther})
     List<EditText> editTexts;
 
     @BindView(R.id.btn_submit)
@@ -96,8 +100,6 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     Spinner colorSpinner;
     @BindView(R.id.lblProductCode)
     TextView productCode;
-    @BindView(R.id.txtProductQty)
-    EditText productQty;
     @BindView(R.id.lblProductAmount)
     TextView productAmount;
 
@@ -107,19 +109,12 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     FragmentManager fragmentManager;
     @Inject
     Validator validator;
-    @Inject
-    SweetAlertDialog progressDialog;
 
-
-    private JDatePicker datePicker;
-    private JTimePicker timePicker;
+    private SweetAlertDialog progressDialog;
     private ComponentFactory factory;
     private Uri uri;
     private File file;
     private Product product;
-
-    private boolean isLoaded = false;
-    private boolean isVisibleToUser;
 
     public RegisterFragment() {
         super();
@@ -143,53 +138,30 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.register_fragment, container, false);
-        ActivityComponent component = getActivityComponent();
-        if (component != null) {
-            component.inject(this);
-            setUnBinder(ButterKnife.bind(this, view));
-            presenter.onAttach(this);
-        }
+        getActivityComponent().inject(this);
+        setUnBinder(ButterKnife.bind(this, view));
+        presenter.onAttach(this);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (isVisibleToUser && (!isLoaded)) {
-            //AnimateAD.animate(imageAd, MainActivity.advertisements, 0, true, getContext());
-            isLoaded = true;
-        }
+        new Animator(imageAd, Constants.advertisement, getContext()).animateAD(0, true);
         factory = new ComponentFactory(getContext(), view);
         editTexts.get(editTexts.size() - 1).setOnFocusChangeListener(this);
-        timePicker = new JTimePicker(txtTimeEat, getContext());
-        datePicker = new JDatePicker(txtDate, getContext());
+        new JTimePicker(txtTimeEat, getContext());
+        new JDatePicker(txtDate, getContext());
         productCode.setText(getResources().getString(R.string.string_code) + product.getCode());
         colorSpinner.setAdapter(new ColorAdapter(getContext(), product.getColors()));
-        Loggy.i(RegisterFragment.class, colorSpinner.getSelectedItem().toString());
-        /*txtDate.setOnClickListener(this);
-        imageButtons.get(0).setOnClickListener(this);
-        imageButtons.get(1).setOnClickListener(this);
-        imageButtons.get(2).setOnClickListener(this);
-        imageButtons.get(3).setOnClickListener(this);
-        btnSubmit.setOnClickListener(this);*/
-        requiredField();
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        this.isVisibleToUser = isVisibleToUser;
-        if (isVisibleToUser && isAdded()) {
-            //AnimateAD.animate(imageAd, MainActivity.advertisements, 0, true, getContext());
-            isLoaded = true;
-        }
+        setRequiredField();
     }
 
     @OnClick({R.id.txtDate, R.id.imgBack, R.id.imgMap, R.id.imgChoose, R.id.btn_submit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgMap:
-                toastMessage("Sorry for this feature will release on next version.");
+                showMessage("Sorry for this feature will release on next version.", Toast.LENGTH_SHORT);
                 break;
             case R.id.imgChoose:
                 browseImage();
@@ -224,18 +196,15 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         customer.setBrideMomName(txtMomBrideName.getText().toString().trim());
         customer.setDate(txtDate.getText().toString().trim());
         customer.setTime(txtTimeEat.getText().toString().trim());
-        StringBuilder address = new StringBuilder();
-        address.append(editTexts.get(0).getText().toString().trim()).append(" ");
-        address.append(editTexts.get(1).getText().toString().trim()).append(" ");
-        address.append(editTexts.get(2).getText().toString().trim());
-        customer.setAddress(address.toString());
-        customer.setHome(editTexts.get(3).getText().toString().trim());
-        customer.setPhone(editTexts.get(4).getText().toString().trim());
-        customer.setEmail(editTexts.get(5).getText().toString().trim());
-        customer.setFb(editTexts.get(6).getText().toString().trim());
-        customer.setOther(editTexts.get(7).getText().toString().trim());
+        customer.setAddress(editTexts.get(0).getText().toString().trim());
+        customer.setHome(editTexts.get(1).getText().toString().trim());
+        customer.setPhone(editTexts.get(2).getText().toString().trim());
+        customer.setEmail(editTexts.get(3).getText().toString().trim());
+        customer.setFb(editTexts.get(4).getText().toString().trim());
+        customer.setOther(editTexts.get(5).getText().toString().trim());
         customer.setProductId(product.getId());
         customer.setColor(colorSpinner.getSelectedItem().toString());
+        customer.setQty(new Integer(txtProductQty.getText().toString().trim()));
         String json = new Gson().toJson(customer);
         Loggy.i(RegisterPresenterImpl.class, json);
         return RequestBody.create(MediaType.parse("text/plain"), json);
@@ -254,7 +223,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     }
 
     @Override
-    public void requiredField() {
+    public void setRequiredField() {
         Map<Integer, TextView> controls = new HashMap<>();
         controls.put(R.string.string_groom_name, factory.build(TextView.class, R.id.lblGroomName));
         controls.put(R.string.string_dad_groom_name, factory.build(TextView.class, R.id.lblDadGroomName));
@@ -265,6 +234,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         controls.put(R.string.string_wedding_date, factory.build(TextView.class, R.id.lblWeddingDate));
         controls.put(R.string.string_wedding_address, factory.build(TextView.class, R.id.lblAddress));
         controls.put(R.string.string_phone, factory.build(TextView.class, R.id.lblPhone));
+        controls.put(R.string.string_quantity, factory.build(TextView.class, R.id.lblProductQty));
         //controls.put(R.string.string_email, factory.build(TextView.class, R.id.lblEmail));
         //controls.put(R.string.string_facebook, factory.build(TextView.class, R.id.lblFacebook));
         validator.setRequired(controls);
@@ -283,6 +253,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         validator.isEmptyTextField(editTexts.get(1));
         validator.isEmptyTextField(editTexts.get(2));
         validator.isEmptyTextField(editTexts.get(3));
+        validator.isEmptyTextField(txtProductQty, getString(R.string.string_quantity));
         //validator.isEmptyTextField(txtEmail);
         //validator.isEmptyTextField(txtFb);
         if (!validator.isValid())
@@ -354,6 +325,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
 
     @Override
     public void showProgressDialog() {
+        progressDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
         progressDialog.setTitleText(getString(R.string.string_submitting));
         progressDialog.setCancelable(false);
         progressDialog.show();
@@ -370,4 +342,21 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         super.onDestroyView();
     }
 
+
+    @OnTextChanged(R.id.txtProductQty)
+    void calculateAmount(CharSequence text, int start, int count, int after) {
+        try {
+            long amount = 0;
+            int qty = 0;
+            if (text != null && !text.toString().isEmpty()) {
+                qty = Integer.parseInt(text.toString().trim());
+                amount = qty * 7;
+            }
+            productAmount.setText(getString(R.string.string_amount) + "$" + amount);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showMessage("Invalid input!", Toast.LENGTH_SHORT);
+            txtProductQty.setText("");
+        }
+    }
 }

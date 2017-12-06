@@ -118,11 +118,11 @@ public abstract class AbstractActivity extends AppCompatActivity implements Base
     }
 
     @Override
-    public void toastMessage(String message) {
+    public void showMessage(String message, int duration) {
         if (message != null) {
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, message, duration).show();
         } else {
-            Toast.makeText(this, getString(R.string.some_error), Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.some_error), duration).show();
         }
     }
 
@@ -139,11 +139,12 @@ public abstract class AbstractActivity extends AppCompatActivity implements Base
 
     @Override
     public void showSweetAlert(int type, String title, String content) {
-        new SweetAlertDialog(this, type)
+        SweetAlertDialog dialog = new SweetAlertDialog(this, type)
                 .setTitleText(title)
-                .setContentText(content)
-                // .findViewById(R.id.confirm_button).setVisibility(View.GONE)
-                .show();
+                .setContentText(content);
+        //dialog.findViewById(R.id.confirm_button).setVisibility(View.GONE);
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
     }
 
     @Override

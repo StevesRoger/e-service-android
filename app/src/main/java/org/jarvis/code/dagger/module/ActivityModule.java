@@ -13,7 +13,6 @@ import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.dagger.PerActivity;
 import org.jarvis.code.model.Product;
 import org.jarvis.code.service.FirebaseBroadcastReceiver;
-import org.jarvis.code.ui.custom_controls.JDatePicker;
 import org.jarvis.code.ui.product.ProductPresenterImpl;
 import org.jarvis.code.util.Validator;
 
@@ -79,11 +78,6 @@ public class ActivityModule {
     @Provides
     Validator provideValidator() {
         return new Validator(activity);
-    }
-
-    @Provides
-    SweetAlertDialog provideSweetAlertProgressDialog() {
-        return new SweetAlertDialog(activity, SweetAlertDialog.PROGRESS_TYPE);
     }
 
     @Provides

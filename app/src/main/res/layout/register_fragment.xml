@@ -56,69 +56,77 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
+                        android:shrinkColumns="*"
+                        android:stretchColumns="*">
 
-                        <TextView
-                            android:id="@+id/lblProductCode"
-                            style="@style/LabelStyle"
+                        <TableRow
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/string_code"
-                            android:textSize="8pt" />
+                            android:layout_height="wrap_content">
 
-                        <TextView
-                            android:id="@+id/lblProductColor"
-                            style="@style/LabelStyle"
+                            <TextView
+                                android:id="@+id/lblProductCode"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_code" />
+
+                            <LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/lblProductColor"
+                                    style="@style/LabelStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/string_color" />
+
+                                <Spinner
+                                    android:id="@+id/colorSpinner"
+                                    android:layout_width="80dp"
+                                    android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="100dp"
-                            android:text="@string/string_color"
-                            android:textSize="8pt" />
+                            android:layout_height="wrap_content">
 
-                        <Spinner
-                            android:id="@+id/colorSpinner"
-                            android:layout_width="80dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp" />
+                            <LinearLayout>
 
-                    </LinearLayout>
+                                <TextView
+                                    android:id="@+id/lblProductQty"
+                                    style="@style/LabelStyle"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/string_quantity"
+                                    android:digits="0123456789."
+                                    android:inputType="numberDecimal"/>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="horizontal">
+                                <EditText
+                                    android:id="@+id/txtProductQty"
+                                    style="@style/EditTextStyle"
+                                    android:layout_width="100dp"
+                                    android:layout_height="wrap_content"
+                                    android:ems="17"
+                                    android:inputType="text" />
 
-                        <TextView
-                            android:id="@+id/lblProductQty"
-                            style="@style/LabelStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/string_quantity"
-                            android:textSize="8pt" />
+                            </LinearLayout>
 
-                        <EditText
-                            android:id="@+id/txtProductQty"
-                            style="@style/EditTextStyle"
-                            android:layout_width="120dp"
-                            android:layout_height="wrap_content"
-                            android:ems="17"
-                            android:inputType="text" />
+                            <TextView
+                                android:id="@+id/lblProductAmount"
+                                style="@style/LabelStyle"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/string_amount"
+                                android:layout_marginTop="16dp"/>
 
-                        <TextView
-                            android:id="@+id/lblProductAmount"
-                            style="@style/LabelStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="25dp"
-                            android:text="@string/string_amount"
-                            android:textSize="8pt" />
+                        </TableRow>
 
-                    </LinearLayout>
+                    </TableLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -343,33 +351,13 @@
                             android:text="@string/string_wedding_address" />
 
                         <EditText
-                            android:id="@+id/txtVillage"
+                            android:id="@+id/txtAddress"
                             style="@style/EditTextStyle"
-                            android:layout_width="115dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/lblAddress"
                             android:layout_marginLeft="5dp"
-                            android:hint="@string/string_village" />
-
-                        <EditText
-                            android:id="@+id/txtCommune"
-                            style="@style/EditTextStyle"
-                            android:layout_width="115dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/lblAddress"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@+id/txtVillage"
-                            android:hint="@string/string_commune" />
-
-                        <EditText
-                            android:id="@+id/txtDistrict"
-                            style="@style/EditTextStyle"
-                            android:layout_width="115dp"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@id/lblAddress"
-                            android:layout_marginLeft="5dp"
-                            android:layout_toRightOf="@+id/txtCommune"
-                            android:hint="@string/string_district" />
+                            android:hint="@string/string_address" />
 
                     </RelativeLayout>
 
@@ -421,7 +409,7 @@
                             android:layout_marginLeft="5dp"
                             android:ems="17"
                             android:hint="@string/string_phone"
-                            android:inputType="number" />
+                            android:inputType="text" />
 
                     </LinearLayout>
 
@@ -506,10 +494,10 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
                         android:layout_marginBottom="5dp"
-                        android:padding="5dp"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:padding="5dp">
 
                         <Button
                             android:id="@+id/btn_submit"
@@ -524,8 +512,8 @@
                             android:id="@+id/imgChoose"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="2dp"
                             android:layout_marginLeft="10dp"
+                            android:layout_marginTop="2dp"
                             android:background="@null"
                             android:scaleType="centerCrop"
                             android:src="@drawable/img_choose_src" />
@@ -534,8 +522,8 @@
                             android:id="@+id/imgMap"
                             android:layout_width="51dp"
                             android:layout_height="43dp"
-                            android:layout_marginTop="2dp"
                             android:layout_marginLeft="10dp"
+                            android:layout_marginTop="2dp"
                             android:background="@null"
                             android:scaleType="centerCrop"
                             android:src="@drawable/img_google_map_src" />

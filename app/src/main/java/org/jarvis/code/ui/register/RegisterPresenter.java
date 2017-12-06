@@ -17,7 +17,7 @@ public interface RegisterPresenter<V extends BaseView> extends BasePresenter<V> 
 
     void submitCustomer() throws Exception;
 
-    void onSubmitCustomerSucceed(Response<ResponseEntity<Map<String, Object>>> response);
+    void onSubmitCustomerSucceed(Response<ResponseEntity<String>> response);
 
     void onSubmitCustomerFailed(String message);
 }

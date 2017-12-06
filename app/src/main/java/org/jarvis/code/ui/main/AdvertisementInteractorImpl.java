@@ -41,7 +41,7 @@ public class AdvertisementInteractorImpl implements AdvertisementInteractor<Adve
         Loggy.e(MainActivity.class, t.getMessage());
         if (presenter != null)
             presenter.showSnackBar(t.getMessage());
-        //presenter.toastMessage(t.getMessage());
+        //presenter.showMessage(t.getMessage());
     }
 
     @Override

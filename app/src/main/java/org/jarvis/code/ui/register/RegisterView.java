@@ -21,7 +21,7 @@ public interface RegisterView extends BaseView, View.OnFocusChangeListener {
 
     void validate() throws Exception;
 
-    void requiredField();
+    void setRequiredField();
 
     void browseImage();
 

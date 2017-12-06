@@ -41,11 +41,11 @@ public class RegisterPresenterImpl extends BasePresenterImpl<RegisterView> imple
     }
 
     @Override
-    public void onSubmitCustomerSucceed(Response<ResponseEntity<Map<String, Object>>> response) {
+    public void onSubmitCustomerSucceed(Response<ResponseEntity<String>> response) {
         if (view != null) {
             view.dismissProgressDialog();
             view.showSweetAlert(SweetAlertDialog.SUCCESS_TYPE, activity().getString(R.string.string_sending_infor), activity().getString(R.string.string_success));
-            ResponseEntity<Map<String, Object>> responseEntity = response.body();
+            ResponseEntity<String> responseEntity = response.body();
             Loggy.i(RegisterFragment.class, responseEntity.getMessage());
         }
     }

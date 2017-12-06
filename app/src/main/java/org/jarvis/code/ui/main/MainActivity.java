@@ -17,7 +17,7 @@ import org.jarvis.code.adapter.TabAdapter;
 import org.jarvis.code.service.FirebaseBroadcastReceiver;
 import org.jarvis.code.ui.base.AbstractActivity;
 import org.jarvis.code.ui.product.ProductFragment;
-import org.jarvis.code.util.AnimateAD;
+import org.jarvis.code.util.Animator;
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 
@@ -43,7 +43,7 @@ public class MainActivity extends AbstractActivity implements MainView {
     @Inject
     LocalBroadcastManager localBroadcastManager;
 
-    FirebaseBroadcastReceiver advertisementReceiver;
+    private FirebaseBroadcastReceiver advertisementReceiver;
     private boolean isLoad;
 
     @Override
@@ -118,7 +118,7 @@ public class MainActivity extends AbstractActivity implements MainView {
     @Override
     public void startAnimateAD() {
         if (!isLoad && !Constants.advertisement.isEmpty()) {
-            AnimateAD.animate(imageAd, Constants.advertisement, 0, true, this);
+            new Animator(imageAd, Constants.advertisement, this).animateAD(0, true);
             isLoad = true;
         }
     }

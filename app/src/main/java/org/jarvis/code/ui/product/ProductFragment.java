@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import org.jarvis.code.R;
 import org.jarvis.code.adapter.ProductAdapter;
-import org.jarvis.code.dagger.component.ActivityComponent;
 import org.jarvis.code.model.Product;
 import org.jarvis.code.model.Promotion;
 import org.jarvis.code.service.FirebaseBroadcastReceiver;
@@ -55,7 +54,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     @Inject
     LocalBroadcastManager localBroadcastManager;
 
-    FirebaseBroadcastReceiver productReceiver;
+    private FirebaseBroadcastReceiver productReceiver;
     private boolean isLoaded = false;
     private boolean isVisibleToUser;
     private String type;
@@ -83,14 +82,11 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.product_fragment, container, false);
-        ActivityComponent component = getActivityComponent();
-        if (component != null) {
-            component.inject(this);
-            setUnBinder(ButterKnife.bind(this, view));
-            presenter.onAttach(this);
-            productReceiver = new FirebaseBroadcastReceiver(presenter.getInteractor());
-            ((ProductInteractorImpl) presenter.getInteractor()).setLinearLayoutManager(linearLayoutManager);
-        }
+        getActivityComponent().inject(this);
+        setUnBinder(ButterKnife.bind(this, view));
+        presenter.onAttach(this);
+        productReceiver = new FirebaseBroadcastReceiver(presenter.getInteractor());
+        ((ProductInteractorImpl) presenter.getInteractor()).setLinearLayoutManager(linearLayoutManager);
         return view;
     }
 
@@ -147,7 +143,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         if (!products.isEmpty()) {
             adapter.addAll(products);
             presenter.loadPromotion(page, 1);
-            adapter.notifyDataSetChanged();
+            notifyDataSetChanged();
             offset++;
             ((ProductInteractorImpl) presenter.getInteractor()).loaded();
         }
@@ -157,7 +153,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     public void loadMoreProductFailed(String message) {
         Loggy.e(ProductFragment.class, type + " On load more failure");
         Loggy.e(ProductFragment.class, message);
-        toastMessage(message);
+        showMessage(message, 0);
         adapter.remove(adapter.size() - 1);
         adapter.notifyItemRemoved(adapter.size());
     }
@@ -168,7 +164,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     }
 
     @Override
-    public void updateView() {
+    public void notifyDataSetChanged() {
         if (adapter != null)
             adapter.notifyDataSetChanged();
     }
@@ -182,10 +178,11 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     @Override
     public void loadPromotionSucceed(List<Promotion> promotions) {
         if (promotions != null && !promotions.isEmpty()) {
-            adapter.add(adapter.size(), promotions.get(0));
-            Loggy.i(ProductFragment.class, type + " advertisement position:" + position);
+            adapter.add(promotions.get(0));
+            Loggy.i(ProductFragment.class, type + " promotion position:" + position);
             position = (position + 5) + 1;
             page = (position - 1) / 5;
+            notifyDataSetChanged();
         }
     }
 
@@ -195,7 +192,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         ((ProductInteractorImpl) presenter.getInteractor()).loaded();
         adapter.clear();
         adapter.addAll(products);
-        adapter.notifyDataSetChanged();
+        notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
         offset = 2;
         position = 5;
@@ -209,7 +206,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         Loggy.e(ProductFragment.class, message);
         showErrorMessage();
         swipeRefreshLayout.setRefreshing(false);
-        toastMessage(message);
+        showMessage(message, 0);
     }
 
     @Override

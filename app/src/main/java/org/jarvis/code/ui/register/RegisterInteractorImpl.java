@@ -14,7 +14,7 @@ import retrofit2.Response;
  * Created by ki.kao on 10/10/2017.
  */
 
-public class RegisterInteractorImpl implements RegisterInteractor<Map<String, Object>> {
+public class RegisterInteractorImpl implements RegisterInteractor<String> {
 
     private RegisterPresenter<RegisterView> presenter;
 
@@ -23,13 +23,13 @@ public class RegisterInteractorImpl implements RegisterInteractor<Map<String, Ob
     }
 
     @Override
-    public void onResponse(Call<ResponseEntity<Map<String, Object>>> call, Response<ResponseEntity<Map<String, Object>>> response) {
+    public void onResponse(Call<ResponseEntity<String>> call, Response<ResponseEntity<String>> response) {
         if (presenter != null && response.isSuccessful())
             presenter.onSubmitCustomerSucceed(response);
     }
 
     @Override
-    public void onFailure(Call<ResponseEntity<Map<String, Object>>> call, Throwable t) {
+    public void onFailure(Call<ResponseEntity<String>> call, Throwable t) {
         if (presenter != null)
             presenter.onSubmitCustomerFailed(t.getMessage());
     }

@@ -10,7 +10,7 @@ public interface BaseView {
 
     void hideKeyboard();
 
-    void toastMessage(String message);
+    void showMessage(String message, int duration);
 
     void showSnackBar(String message);
 

@@ -38,7 +38,8 @@ public abstract class AbstractFragment extends Fragment implements BaseView {
 
     @Override
     public void onDestroyView() {
-        unbinder.unbind();
+        if (unbinder != null)
+            unbinder.unbind();
         super.onDestroyView();
     }
 
@@ -56,9 +57,9 @@ public abstract class AbstractFragment extends Fragment implements BaseView {
     }
 
     @Override
-    public void toastMessage(String message) {
+    public void showMessage(String message, int duration) {
         if (activity != null)
-            activity.toastMessage(message);
+            activity.showMessage(message, duration);
     }
 
     @Override

@@ -4,7 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by KimChheng on 5/29/2017.
@@ -22,6 +24,8 @@ public class ResponseEntity<T> implements Serializable {
     private String httpStatus;
     @SerializedName("DATA")
     private List<T> data = new ArrayList<>();
+    @SerializedName("MAP")
+    private Map<String, T> map = new HashMap();
 
     public String getMessage() {
         return message;
@@ -61,5 +65,13 @@ public class ResponseEntity<T> implements Serializable {
 
     public void setData(List<T> data) {
         this.data = data;
+    }
+
+    public Map<String, T> getMap() {
+        return map;
+    }
+
+    public void setMap(Map<String, T> map) {
+        this.map = map;
     }
 }

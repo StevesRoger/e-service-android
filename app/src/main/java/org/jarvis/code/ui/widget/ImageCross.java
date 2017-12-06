@@ -1,4 +1,4 @@
-package org.jarvis.code.ui.custom_controls;
+package org.jarvis.code.ui.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;

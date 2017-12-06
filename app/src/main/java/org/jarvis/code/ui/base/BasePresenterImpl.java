@@ -3,7 +3,6 @@ package org.jarvis.code.ui.base;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
-import org.jarvis.code.adapter.ProductAdapter;
 import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.network.RequestClient;
 
@@ -55,9 +54,9 @@ public class BasePresenterImpl<V extends BaseView> implements BasePresenter<V> {
     }
 
     @Override
-    public void showMessage(String message) {
+    public void showMessage(String message, int duration) {
         if (view != null)
-            view.toastMessage(message);
+            view.showMessage(message, duration);
 
     }
 
