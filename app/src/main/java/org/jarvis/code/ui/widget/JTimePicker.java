@@ -3,9 +3,12 @@ package org.jarvis.code.ui.widget;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TimePicker;
+
+import org.jarvis.code.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -16,32 +19,25 @@ import java.util.Date;
  * Created by ki.kao on 12/2/2017.
  */
 
-public class JTimePicker implements View.OnFocusChangeListener, TimePickerDialog.OnTimeSetListener {
+public class JTimePicker implements View.OnTouchListener, TimePickerDialog.OnTimeSetListener {
 
     private EditText txtTime;
     private Calendar calendar;
     private Context context;
+    private String value;
 
     public JTimePicker(EditText txtTime, Context context) {
         this.txtTime = txtTime;
         this.context = context;
-        this.txtTime.setOnFocusChangeListener(this);
+        this.txtTime.setOnTouchListener(this);
         this.calendar = Calendar.getInstance();
     }
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         String time = hourOfDay + ":" + minute;
-        this.txtTime.setText(convertTo12Hour(time));
-    }
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus) {
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minute = calendar.get(Calendar.MINUTE);
-            new TimePickerDialog(context, AlertDialog.THEME_HOLO_LIGHT, this, hour, minute, false).show();
-        }
+        value = convertTo12Hour(time);
+        this.txtTime.setText(value);
     }
 
     public String convertTo12Hour(String time) {
@@ -53,5 +49,23 @@ public class JTimePicker implements View.OnFocusChangeListener, TimePickerDialog
             e.printStackTrace();
             return "";
         }
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            switch (v.getId()) {
+                case R.id.txtTimeEat:
+                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                    int minute = calendar.get(Calendar.MINUTE);
+                    new TimePickerDialog(context, AlertDialog.THEME_HOLO_LIGHT, this, hour, minute, false).show();
+                    break;
+            }
+        }
+        return false;
     }
 }

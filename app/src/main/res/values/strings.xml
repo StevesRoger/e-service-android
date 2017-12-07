@@ -43,6 +43,7 @@
     <string name="choose_image">ជ្រើសរើស រូបភាព</string>
     <string name="string_date_hint">Sun/16/Aug/2017</string>
     <string name="string_submit">បព្ជូានព័ត៌មាន</string>
+    <string name="days">{"Mon":"ថ្ងៃចន្ទ","Tue":"ថ្ងៃអង្គារ","Wed":"ថ្ងៃពុធ","Thu":"ថ្ងៃព្រហស្បតិ៍","Fri":"ថ្ងៃសុក្រ","Sat":"ថ្ងៃសៅរ៍","Sun":"ថ្ងៃអាទិត្យ"}</string>
     <!--App message KH-->
     <string name="string_empty_kh">មិនអាចទទេ</string>
     <string name="string_search_hint">ស្វែងរកផលិតផល</string>
@@ -51,9 +52,8 @@
     <string name="string_fail">បរាជ័យ</string>
     <string name="string_sending_infor">បព្ជូានព័ត៌មាន</string>
     <string name="string_problem">ព័ត៌មានមិនត្រឹមត្រូវ</string>
-    <!--App message EN-->
     <string name="api_retry_error">Please retry!</string>
     <string name="api_default_error">Something wrong happened!</string>
     <string name="some_error">Some Error Occurred!</string>
-    <string name="connection_error">Internet connection lost!</string>
+    <string name="connection_lost">Internet connection lost!</string>
 </resources>

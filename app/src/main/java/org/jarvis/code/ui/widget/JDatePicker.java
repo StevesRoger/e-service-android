@@ -3,9 +3,12 @@ package org.jarvis.code.ui.widget;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.text.format.DateFormat;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+
+import org.jarvis.code.R;
 
 import java.util.Calendar;
 
@@ -13,12 +16,13 @@ import java.util.Calendar;
  * Created by KimChheng on 6/7/2017.
  */
 
-public class JDatePicker implements View.OnFocusChangeListener, DatePickerDialog.OnDateSetListener {
+public class JDatePicker implements View.OnTouchListener, DatePickerDialog.OnDateSetListener {
 
     private ImageButton imageButton;
     private EditText txtDate;
     private Calendar calendar;
     private Context context;
+    private String value;
 
     public JDatePicker(EditText txtDate, Context context) {
         this(null, txtDate, context);
@@ -29,7 +33,7 @@ public class JDatePicker implements View.OnFocusChangeListener, DatePickerDialog
         this.txtDate = txtDate;
         this.context = context;
         this.calendar = Calendar.getInstance();
-        this.txtDate.setOnFocusChangeListener(this);
+        this.txtDate.setOnTouchListener(this);
     }
 
     @Override
@@ -40,17 +44,26 @@ public class JDatePicker implements View.OnFocusChangeListener, DatePickerDialog
         calSet.set(Calendar.MONTH, month);
         calSet.set(Calendar.YEAR, year);
         long time_val = calSet.getTimeInMillis();
-        String formatted_date = (DateFormat.format("EE/d/MMM/yyyy", time_val)).toString();
-        txtDate.setText(formatted_date);
+        value = (DateFormat.format("EE/d/MMM/yyyy", time_val)).toString();
+        txtDate.setText(value);
+    }
+
+    public String getValue() {
+        return value;
     }
 
     @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if (hasFocus) {
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-            new DatePickerDialog(context, this, year, month, day).show();
+    public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            switch (v.getId()) {
+                case R.id.txtDate:
+                    int year = calendar.get(Calendar.YEAR);
+                    int month = calendar.get(Calendar.MONTH);
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+                    new DatePickerDialog(context, this, year, month, day).show();
+                    break;
+            }
         }
+        return false;
     }
 }

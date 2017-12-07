@@ -10,7 +10,7 @@ import java.io.Serializable;
  * Created by KimChheng on 5/29/2017.
  */
 
-public abstract class BaseResponse implements Serializable, Parcelable {
+public abstract class BaseResponse implements Serializable, Parcelable, Cloneable {
 
     @SerializedName("ID")
     protected Integer id;
