@@ -10,8 +10,6 @@ import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.ui.base.BasePresenterImpl;
 import org.jarvis.code.util.Loggy;
 
-import java.util.Map;
-
 import javax.inject.Inject;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -44,7 +42,7 @@ public class RegisterPresenterImpl extends BasePresenterImpl<RegisterView> imple
     public void onSubmitCustomerSucceed(Response<ResponseEntity<String>> response) {
         if (view != null) {
             view.dismissProgressDialog();
-            view.showSweetAlert(SweetAlertDialog.SUCCESS_TYPE, activity().getString(R.string.string_sending_infor), activity().getString(R.string.string_success));
+            view.showSweetAlert(SweetAlertDialog.SUCCESS_TYPE, activity().getString(R.string.send_information), activity().getString(R.string.successed));
             ResponseEntity<String> responseEntity = response.body();
             Loggy.i(RegisterFragment.class, responseEntity.getMessage());
         }
@@ -54,7 +52,7 @@ public class RegisterPresenterImpl extends BasePresenterImpl<RegisterView> imple
     public void onSubmitCustomerFailed(String message) {
         if (view != null) {
             view.dismissProgressDialog();
-            view.showSweetAlert(SweetAlertDialog.ERROR_TYPE, activity().getString(R.string.string_fail), message);
+            view.showSweetAlert(SweetAlertDialog.ERROR_TYPE, activity().getString(R.string.fail), message);
             Loggy.e(RegisterPresenterImpl.class, message);
         }
     }

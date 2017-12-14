@@ -1,9 +1,13 @@
 package org.jarvis.code.ui.base;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 
 import org.jarvis.code.dagger.component.ActivityComponent;
+import org.jarvis.code.service.FirebaseBroadcastReceiver;
 
 import butterknife.Unbinder;
 
@@ -15,9 +19,17 @@ public abstract class AbstractFragment extends Fragment implements BaseView {
 
     private AbstractActivity activity;
     private Unbinder unbinder;
+    protected FirebaseBroadcastReceiver receiver;
+    protected LocalBroadcastManager localBroadcastManager;
 
     public AbstractFragment() {
         super();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        localBroadcastManager = LocalBroadcastManager.getInstance(getContext());
     }
 
     @Override
@@ -32,6 +44,8 @@ public abstract class AbstractFragment extends Fragment implements BaseView {
     @Override
     public void onDetach() {
         this.activity = null;
+        if (receiver != null)
+            localBroadcastManager.unregisterReceiver(receiver);
         super.onDetach();
 
     }
@@ -40,6 +54,8 @@ public abstract class AbstractFragment extends Fragment implements BaseView {
     public void onDestroyView() {
         if (unbinder != null)
             unbinder.unbind();
+        if (receiver != null)
+            localBroadcastManager.unregisterReceiver(receiver);
         super.onDestroyView();
     }
 

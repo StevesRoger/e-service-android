@@ -60,11 +60,11 @@ public class ProductViewHolder extends BaseViewHolder implements View.OnClickLis
 
     public void render(Product product) {
         setData(product);
-        this.lblCode.setText(context.getResources().getString(R.string.string_code) + product.getCode());
+        this.lblCode.setText(context.getResources().getString(R.string.code) + product.getCode());
         this.colorView.setColor(product.getColors());
-        this.lblSize.setText(context.getResources().getString(R.string.string_size) + product.getSize());
-        this.lblPrice.setText(context.getResources().getString(R.string.string_price) + product.getPrice());
-        this.lblContact.setText(context.getResources().getString(R.string.string_contact) + product.getContact().getPhone1());
+        this.lblSize.setText(context.getResources().getString(R.string.size) + product.getSize());
+        this.lblPrice.setText(context.getResources().getString(R.string.price_between) + product.getPrice());
+        this.lblContact.setText(context.getResources().getString(R.string.contact) + product.getContact().getPhone1());
     }
 
     public ImageView getImage() {

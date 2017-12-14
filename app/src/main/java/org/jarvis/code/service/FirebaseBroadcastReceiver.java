@@ -3,6 +3,7 @@ package org.jarvis.code.service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.Toast;
 
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
@@ -28,9 +29,13 @@ public class FirebaseBroadcastReceiver extends BroadcastReceiver {
             String data = intent.getStringExtra("data");
             JSONArray jsonArray = new JSONArray(data);
             Loggy.i(FirebaseBroadcastReceiver.class, data);
-            Loggy.i(FirebaseBroadcastReceiver.class, "Action "+String.valueOf(action));
+            Loggy.i(FirebaseBroadcastReceiver.class, "Action " + String.valueOf(action));
             if (broadcastAction != null && action > 0 && jsonArray.length() > 0) {
-                if (intent.getAction().equals(Constants.FCM_BROADCAST_PRODUCT)) {
+                if (intent.getAction().equals(Constants.FCM_BROADCAST_PRODUCT_WED)) {
+                    actionFilter(action, context, jsonArray);
+                } else if (intent.getAction().equals(Constants.FCM_BROADCAST_PRODUCT_DES)) {
+                    actionFilter(action, context, jsonArray);
+                } else if (intent.getAction().equals(Constants.FCM_BROADCAST_PRODUCT_CER)) {
                     actionFilter(action, context, jsonArray);
                 } else if (intent.getAction().equals(Constants.FCM_BROADCAST_PROMOTION)) {
                     actionFilter(action, context, jsonArray);
@@ -60,6 +65,7 @@ public class FirebaseBroadcastReceiver extends BroadcastReceiver {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -111,7 +111,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
             view.updateProduct(product);
     }
 
-
     public PromotionInteractorImpl getPromotionInteractor() {
         return promotionInteractor;
     }

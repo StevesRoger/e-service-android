@@ -2,11 +2,8 @@ package org.jarvis.code.dagger.module;
 
 import android.app.Application;
 import android.content.Context;
-import android.support.v4.util.ArrayMap;
 
 import org.jarvis.code.dagger.ApplicationContext;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -33,5 +30,4 @@ public class ApplicationModule {
     Application provideApplication() {
         return application;
     }
-
 }

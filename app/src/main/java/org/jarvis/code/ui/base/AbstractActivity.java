@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -23,6 +24,7 @@ import org.jarvis.code.dagger.VPrintApplication;
 import org.jarvis.code.dagger.component.ActivityComponent;
 import org.jarvis.code.dagger.component.DaggerActivityComponent;
 import org.jarvis.code.dagger.module.ActivityModule;
+import org.jarvis.code.service.FirebaseBroadcastReceiver;
 import org.jarvis.code.ui.main.MainActivity;
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
@@ -38,10 +40,13 @@ public abstract class AbstractActivity extends AppCompatActivity implements Base
 
     private ActivityComponent activityComponent;
     private Unbinder unbinder;
+    protected LocalBroadcastManager localBroadcastManager;
+    protected FirebaseBroadcastReceiver receiver;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        localBroadcastManager = LocalBroadcastManager.getInstance(this);
         activityComponent = DaggerActivityComponent.builder()
                 .activityModule(new ActivityModule(this))
                 .applicationComponent(VPrintApplication.get(this).getComponent())
@@ -61,6 +66,8 @@ public abstract class AbstractActivity extends AppCompatActivity implements Base
     protected void onDestroy() {
         if (unbinder != null)
             unbinder.unbind();
+        if (receiver != null)
+            localBroadcastManager.unregisterReceiver(receiver);
         super.onDestroy();
     }
 

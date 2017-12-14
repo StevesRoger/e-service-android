@@ -47,7 +47,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_margin="5dp"
-                    android:text="@string/string_information"
+                    android:text="@string/fill_information"
                     android:textColor="@color/colorBlack"
                     android:textSize="25dp" />
 
@@ -71,7 +71,7 @@
                                 style="@style/LabelStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/string_code" />
+                                android:text="@string/code" />
 
                             <LinearLayout>
 
@@ -80,12 +80,12 @@
                                     style="@style/LabelStyle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/string_color" />
+                                    android:text="@string/color" />
 
                                 <Spinner
                                     android:id="@+id/colorSpinner"
                                     android:layout_width="80dp"
-                                    android:layout_height="wrap_content"/>
+                                    android:layout_height="wrap_content" />
 
                             </LinearLayout>
 
@@ -102,9 +102,9 @@
                                     style="@style/LabelStyle"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/string_quantity"
                                     android:digits="0123456789."
-                                    android:inputType="numberDecimal"/>
+                                    android:inputType="numberDecimal"
+                                    android:text="@string/quantity" />
 
                                 <EditText
                                     android:id="@+id/txtProductQty"
@@ -121,8 +121,8 @@
                                 style="@style/LabelStyle"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="@string/string_amount"
-                                android:layout_marginTop="16dp"/>
+                                android:layout_marginTop="16dp"
+                                android:text="@string/price" />
 
                         </TableRow>
 
@@ -139,7 +139,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_groom_name" />
+                            android:text="@string/groom_name" />
 
                         <EditText
                             android:id="@+id/txtGroomName"
@@ -148,7 +148,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/lblGroomName"
                             android:ems="17"
-                            android:hint="@string/string_groom_name"
+                            android:hint="@string/groom_name"
                             android:inputType="text" />
 
                     </LinearLayout>
@@ -164,7 +164,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_dad_groom_name" />
+                            android:text="@string/dad_groom_name" />
 
                         <EditText
                             android:id="@+id/txtDadGroomName"
@@ -173,7 +173,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/lblDadGroomName"
                             android:ems="17"
-                            android:hint="@string/string_dad_groom_name"
+                            android:hint="@string/dad_groom_name"
                             android:inputType="text" />
 
                     </LinearLayout>
@@ -189,7 +189,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_mom_groom_name" />
+                            android:text="@string/mom_groom_name" />
 
                         <EditText
                             android:id="@+id/txtMomGroomName"
@@ -198,7 +198,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/lblMomGroomName"
                             android:ems="17"
-                            android:hint="@string/string_mom_groom_name"
+                            android:hint="@string/mom_groom_name"
                             android:inputType="text" />
 
                     </LinearLayout>
@@ -214,7 +214,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_bride_name" />
+                            android:text="@string/bride_name" />
 
                         <EditText
                             android:id="@+id/txtBrideName"
@@ -223,7 +223,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/lblBrideName"
                             android:ems="17"
-                            android:hint="@string/string_bride_name"
+                            android:hint="@string/bride_name"
                             android:inputType="text" />
 
                     </LinearLayout>
@@ -239,7 +239,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_dad_bride_name" />
+                            android:text="@string/dad_bride_name" />
 
                         <EditText
                             android:id="@+id/txtDadBrideName"
@@ -248,7 +248,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/lblDadBrideName"
                             android:ems="17"
-                            android:hint="@string/string_dad_bride_name"
+                            android:hint="@string/dad_bride_name"
                             android:inputType="text" />
 
                     </LinearLayout>
@@ -264,7 +264,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_mom_bride_name" />
+                            android:text="@string/mom_bride_name" />
 
                         <EditText
                             android:id="@+id/txtMomBrideName"
@@ -273,7 +273,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/lblMomBrideName"
                             android:ems="17"
-                            android:hint="@string/string_mom_bride_name"
+                            android:hint="@string/mom_bride_name"
                             android:inputType="text" />
 
                     </LinearLayout>
@@ -288,7 +288,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_wedding_date" />
+                            android:text="@string/wedding_date" />
 
                         <EditText
                             android:id="@+id/txtDate"
@@ -298,7 +298,7 @@
                             android:layout_below="@id/lblWeddingDate"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
-                            android:hint="@string/string_date_hint"
+                            android:hint="@string/date_format"
                             android:inputType="text" />
 
                         <!--<ImageButton
@@ -323,7 +323,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_time_eat" />
+                            android:text="@string/time_eat" />
 
                         <EditText
                             android:id="@+id/txtTimeEat"
@@ -333,7 +333,33 @@
                             android:layout_below="@+id/lblHome"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
-                            android:hint="@string/string_time_eat"
+                            android:hint="@string/time_eat"
+                            android:inputType="text" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lblHome"
+                            style="@style/LabelStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/eat_place" />
+
+                        <EditText
+                            android:id="@+id/txtHome"
+                            style="@style/EditTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/lblHome"
+                            android:layout_marginLeft="5dp"
+                            android:ems="17"
+                            android:hint="@string/eat_place"
                             android:inputType="text" />
 
                     </LinearLayout>
@@ -348,7 +374,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_wedding_address" />
+                            android:text="@string/wedding_address" />
 
                         <EditText
                             android:id="@+id/txtAddress"
@@ -357,35 +383,9 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/lblAddress"
                             android:layout_marginLeft="5dp"
-                            android:hint="@string/string_address" />
+                            android:hint="@string/address" />
 
                     </RelativeLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/lblHome"
-                            style="@style/LabelStyle"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/string_place" />
-
-                        <EditText
-                            android:id="@+id/txtHome"
-                            style="@style/EditTextStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblHome"
-                            android:layout_marginLeft="5dp"
-                            android:ems="17"
-                            android:hint="@string/string_place"
-                            android:inputType="text" />
-
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -398,7 +398,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_phone" />
+                            android:text="@string/phone" />
 
                         <EditText
                             android:id="@+id/txtPhone"
@@ -408,7 +408,7 @@
                             android:layout_below="@+id/lblPhone"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
-                            android:hint="@string/string_phone"
+                            android:hint="@string/phone"
                             android:inputType="text" />
 
                     </LinearLayout>
@@ -424,7 +424,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_email" />
+                            android:text="@string/email" />
 
                         <EditText
                             android:id="@+id/txtEmail"
@@ -434,7 +434,7 @@
                             android:layout_below="@+id/lblEmail"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
-                            android:hint="@string/string_email"
+                            android:hint="@string/email"
                             android:inputType="textWebEmailAddress" />
 
                     </LinearLayout>
@@ -450,7 +450,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_facebook" />
+                            android:text="@string/facebook" />
 
                         <EditText
                             android:id="@+id/txtFacebook"
@@ -460,7 +460,7 @@
                             android:layout_below="@+id/lblFacebook"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
-                            android:hint="@string/string_facebook"
+                            android:hint="@string/facebook"
                             android:inputType="text" />
 
                     </LinearLayout>
@@ -476,7 +476,7 @@
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/string_other" />
+                            android:text="@string/other" />
 
                         <EditText
                             android:id="@+id/txtOther"
@@ -486,7 +486,7 @@
                             android:layout_below="@+id/lblOther"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
-                            android:hint="@string/string_other"
+                            android:hint="@string/other"
                             android:inputType="text" />
 
                     </LinearLayout>
@@ -504,7 +504,7 @@
                             android:layout_width="140dp"
                             android:layout_height="wrap_content"
                             android:background="@color/colorAccent"
-                            android:text="@string/string_submit"
+                            android:text="@string/send_information"
                             android:textColor="@color/colorWhite"
                             android:textSize="18dp" />
 

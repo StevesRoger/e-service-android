@@ -39,7 +39,7 @@
                         android:id="@+id/lblCode"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/string_code"
+                        android:text="@string/code"
                         android:textColor="@android:color/black" />
                 </TableRow>
 
@@ -54,7 +54,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center_vertical"
                         android:orientation="horizontal"
-                        custom:text="@string/string_color"
+                        custom:text="@string/color"
                         custom:view_color_height="@dimen/view_color_height"
                         custom:view_color_width="@dimen/view_color_width" />
 
@@ -69,7 +69,7 @@
                         android:id="@+id/lblSize"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/string_size"
+                        android:text="@string/size"
                         android:textColor="@android:color/black" />
                 </TableRow>
 
@@ -82,7 +82,7 @@
                         android:id="@+id/lblPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/string_price"
+                        android:text="@string/price_between"
                         android:textColor="@android:color/black" />
 
                 </TableRow>
@@ -96,7 +96,7 @@
                         android:id="@+id/lblContact"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="@string/string_contact"
+                        android:text="@string/contact"
                         android:textColor="@android:color/black" />
 
                 </TableRow>
@@ -112,7 +112,7 @@
                         android:layout_width="@dimen/button_register_width"
                         android:layout_height="@dimen/button_register_height"
                         android:background="@color/colorAccent"
-                        android:text="@string/string_register"
+                        android:text="@string/register"
                         android:textColor="@color/colorWhite"
                         android:textStyle="bold" />
 

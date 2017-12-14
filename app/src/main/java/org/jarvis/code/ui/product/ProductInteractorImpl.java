@@ -24,11 +24,9 @@ public class ProductInteractorImpl extends RecyclerView.OnScrollListener impleme
     private LinearLayoutManager linearLayoutManager;
     private boolean isLoading;
     private int visibleItemCount, totalItemCount, pastVisiblesItems;
-    private Gson gson;
 
     public ProductInteractorImpl(ProductPresenter presenter) {
         this.presenter = presenter;
-        this.gson = new Gson();
     }
 
     @Override
@@ -87,6 +85,7 @@ public class ProductInteractorImpl extends RecyclerView.OnScrollListener impleme
     public void onUpdateItem(Context context, JSONArray jsonArray) throws Exception {
         Loggy.i(ProductInteractorImpl.class, "onUpdateItem");
         if (presenter != null) {
+            Gson gson = new Gson();
             for (int i = 0; i < jsonArray.length(); i++)
                 presenter.updateProduct(gson.fromJson(jsonArray.getString(i), Product.class));
             presenter.refreshView();

@@ -4,7 +4,6 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +20,6 @@ import org.jarvis.code.model.Promotion;
 import org.jarvis.code.service.FirebaseBroadcastReceiver;
 import org.jarvis.code.ui.base.AbstractFragment;
 import org.jarvis.code.ui.main.MainView;
-import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 
 import java.util.List;
@@ -51,10 +49,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     ProductAdapter adapter;
     @Inject
     ProductPresenter<ProductView> presenter;
-    @Inject
-    LocalBroadcastManager localBroadcastManager;
 
-    private FirebaseBroadcastReceiver productReceiver;
     private boolean isLoaded = false;
     private boolean isVisibleToUser;
     private String type;
@@ -85,8 +80,11 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         getActivityComponent().inject(this);
         setUnBinder(ButterKnife.bind(this, view));
         presenter.onAttach(this);
-        productReceiver = new FirebaseBroadcastReceiver(presenter.getInteractor());
         ((ProductInteractorImpl) presenter.getInteractor()).setLinearLayoutManager(linearLayoutManager);
+        if (!isLoaded) {
+            receiver = new FirebaseBroadcastReceiver(presenter.getInteractor());
+            localBroadcastManager.registerReceiver(receiver, new IntentFilter("org.jarvis.code.broadcast_product_" + type.toLowerCase()));
+        }
         return view;
     }
 
@@ -96,7 +94,6 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         if (isVisibleToUser && (!isLoaded)) {
             presenter.loadProduct(LIMIT, type);
             isLoaded = true;
-            localBroadcastManager.registerReceiver(productReceiver, new IntentFilter(Constants.FCM_BROADCAST_PRODUCT));
         }
         swipeRefreshLayout.setOnRefreshListener(this);
         recyclerView.setHasFixedSize(true);
@@ -243,7 +240,6 @@ public class ProductFragment extends AbstractFragment implements ProductView {
 
     @Override
     public void onDestroyView() {
-        localBroadcastManager.unregisterReceiver(productReceiver);
         presenter.onDetach();
         super.onDestroyView();
     }

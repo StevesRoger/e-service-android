@@ -4,7 +4,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.widget.ImageView;
@@ -40,10 +39,7 @@ public class MainActivity extends AbstractActivity implements MainView {
     TabAdapter tabAdapter;
     @Inject
     MainPresenter<MainView> presenter;
-    @Inject
-    LocalBroadcastManager localBroadcastManager;
 
-    private FirebaseBroadcastReceiver advertisementReceiver;
     private boolean isLoad;
 
     @Override
@@ -65,18 +61,16 @@ public class MainActivity extends AbstractActivity implements MainView {
 
         tabLayout.setupWithViewPager(viewPager);
 
-        searchView.setQueryHint(getString(R.string.string_search_hint));
+        searchView.setQueryHint(getString(R.string.search_product));
         searchView.setOnQueryTextListener(this);
 
         FirebaseMessaging.getInstance().subscribeToTopic("V-Printing");
         FirebaseInstanceId.getInstance().getToken();
 
         Loggy.i(MainActivity.class, "register receiver");
-        advertisementReceiver = new FirebaseBroadcastReceiver(presenter.getInteractor());
-        localBroadcastManager.registerReceiver(advertisementReceiver, new IntentFilter(Constants.FCM_BROADCAST_ADVERTISEMENT));
-
+        receiver = new FirebaseBroadcastReceiver(presenter.getInteractor());
+        localBroadcastManager.registerReceiver(receiver, new IntentFilter(Constants.FCM_BROADCAST_ADVERTISEMENT));
     }
-
 
     @Override
     public void onBackPressed() {
@@ -103,12 +97,9 @@ public class MainActivity extends AbstractActivity implements MainView {
 
     @Override
     protected void onDestroy() {
-        Loggy.i(MainActivity.class, "unregister receiver");
-        localBroadcastManager.unregisterReceiver(advertisementReceiver);
         presenter.onDetach();
         super.onDestroy();
     }
-
 
     @Override
     public void refreshAD() {

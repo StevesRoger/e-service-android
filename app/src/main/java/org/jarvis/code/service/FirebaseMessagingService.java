@@ -32,8 +32,12 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 String type = data.get("type");
                 int action = new Integer(data.get("action"));
                 JSONArray jsonArray = new JSONArray(data.get("data"));
-                if (type.equals("PRODUCT"))
-                    sendBroadcast(Constants.FCM_BROADCAST_PRODUCT, action, jsonArray.toString());
+                if (type.equals("Wedding"))
+                    sendBroadcast(Constants.FCM_BROADCAST_PRODUCT_WED, action, jsonArray.toString());
+                else if (type.equals("Ceremony"))
+                    sendBroadcast(Constants.FCM_BROADCAST_PRODUCT_CER, action, jsonArray.toString());
+                else if (type.equals("Design"))
+                    sendBroadcast(Constants.FCM_BROADCAST_PRODUCT_DES, action, jsonArray.toString());
                 else if (type.equals("PROMOTION"))
                     sendBroadcast(Constants.FCM_BROADCAST_PROMOTION, action, jsonArray.toString());
                 else

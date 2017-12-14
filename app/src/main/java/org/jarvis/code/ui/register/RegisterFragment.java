@@ -152,7 +152,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         editTexts.get(editTexts.size() - 1).setOnFocusChangeListener(this);
         new JTimePicker(txtTimeEat, getContext());
         new JDatePicker(txtDate, getContext());
-        productCode.setText(getResources().getString(R.string.string_code) + product.getCode());
+        productCode.setText(getResources().getString(R.string.code) + product.getCode());
         colorSpinner.setAdapter(new ColorAdapter(getContext(), product.getColors()));
         setRequiredField();
     }
@@ -225,16 +225,16 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     @Override
     public void setRequiredField() {
         Map<Integer, TextView> controls = new HashMap<>();
-        controls.put(R.string.string_groom_name, factory.build(TextView.class, R.id.lblGroomName));
-        controls.put(R.string.string_dad_groom_name, factory.build(TextView.class, R.id.lblDadGroomName));
-        controls.put(R.string.string_mom_groom_name, factory.build(TextView.class, R.id.lblMomGroomName));
-        controls.put(R.string.string_bride_name, factory.build(TextView.class, R.id.lblBrideName));
-        controls.put(R.string.string_dad_bride_name, factory.build(TextView.class, R.id.lblDadBrideName));
-        controls.put(R.string.string_mom_bride_name, factory.build(TextView.class, R.id.lblMomBrideName));
-        controls.put(R.string.string_wedding_date, factory.build(TextView.class, R.id.lblWeddingDate));
-        controls.put(R.string.string_wedding_address, factory.build(TextView.class, R.id.lblAddress));
-        controls.put(R.string.string_phone, factory.build(TextView.class, R.id.lblPhone));
-        controls.put(R.string.string_quantity, factory.build(TextView.class, R.id.lblProductQty));
+        controls.put(R.string.groom_name, factory.build(TextView.class, R.id.lblGroomName));
+        controls.put(R.string.dad_groom_name, factory.build(TextView.class, R.id.lblDadGroomName));
+        controls.put(R.string.mom_groom_name, factory.build(TextView.class, R.id.lblMomGroomName));
+        controls.put(R.string.bride_name, factory.build(TextView.class, R.id.lblBrideName));
+        controls.put(R.string.dad_bride_name, factory.build(TextView.class, R.id.lblDadBrideName));
+        controls.put(R.string.mom_bride_name, factory.build(TextView.class, R.id.lblMomBrideName));
+        controls.put(R.string.wedding_date, factory.build(TextView.class, R.id.lblWeddingDate));
+        controls.put(R.string.wedding_address, factory.build(TextView.class, R.id.lblAddress));
+        controls.put(R.string.phone, factory.build(TextView.class, R.id.lblPhone));
+        controls.put(R.string.quantity, factory.build(TextView.class, R.id.lblProductQty));
         //controls.put(R.string.string_email, factory.build(TextView.class, R.id.lblEmail));
         //controls.put(R.string.string_facebook, factory.build(TextView.class, R.id.lblFacebook));
         validator.setRequired(controls);
@@ -248,16 +248,16 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         validator.requiredTextField(txtBrideName);
         validator.requiredTextField(txtDadBrideName);
         validator.requiredTextField(txtMomBrideName);
-        validator.isEmptyTextField(txtDate, getString(R.string.string_wedding_date));
+        validator.isEmptyTextField(txtDate, getString(R.string.wedding_date));
         validator.isEmptyTextField(editTexts.get(0));
         validator.isEmptyTextField(editTexts.get(1));
         validator.isEmptyTextField(editTexts.get(2));
         validator.isEmptyTextField(editTexts.get(3));
-        validator.isEmptyTextField(txtProductQty, getString(R.string.string_quantity));
+        validator.isEmptyTextField(txtProductQty, getString(R.string.quantity));
         //validator.isEmptyTextField(txtEmail);
         //validator.isEmptyTextField(txtFb);
         if (!validator.isValid())
-            throw new Exception(getString(R.string.string_problem));
+            throw new Exception(getString(R.string.invalid_information));
     }
 
     @Override
@@ -326,7 +326,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     @Override
     public void showProgressDialog() {
         progressDialog = new SweetAlertDialog(getContext(), SweetAlertDialog.PROGRESS_TYPE);
-        progressDialog.setTitleText(getString(R.string.string_submitting));
+        progressDialog.setTitleText(getString(R.string.submitting));
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
@@ -352,7 +352,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
                 qty = Integer.parseInt(text.toString().trim());
                 amount = qty * 7;
             }
-            productAmount.setText(getString(R.string.string_amount) + "$" + amount);
+            productAmount.setText(getString(R.string.price) + "$" + amount);
         } catch (Exception e) {
             e.printStackTrace();
             showMessage("Invalid input!", Toast.LENGTH_SHORT);

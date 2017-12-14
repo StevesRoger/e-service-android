@@ -2,6 +2,7 @@ package org.jarvis.code.dagger.component;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.ArrayMap;
 
 import org.jarvis.code.dagger.ApplicationContext;

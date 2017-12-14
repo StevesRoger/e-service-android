@@ -5,7 +5,7 @@
         android:id="@+id/lblColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/string_color"
+        android:text="@string/color"
         android:textColor="@android:color/black" />
 
     <LinearLayout

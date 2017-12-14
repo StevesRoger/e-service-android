@@ -59,12 +59,6 @@ public class ActivityModule {
     }
 
     @Provides
-    @PerActivity
-    LocalBroadcastManager provideLocalBroadcastManager() {
-        return LocalBroadcastManager.getInstance(activity);
-    }
-
-    @Provides
     LinearLayoutManager provideLinearLayoutManager() {
         return new LinearLayoutManager(activity);
     }

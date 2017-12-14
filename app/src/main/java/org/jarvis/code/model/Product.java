@@ -144,7 +144,7 @@ public class Product extends BaseResponse {
     }
 
     public String[] getColors() {
-        if (color != null && !color.isEmpty())
+        if (color != null && !color.isEmpty() && color.contains("#"))
             return color.split(",");
         return new String[0];
     }
