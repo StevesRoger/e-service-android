@@ -383,7 +383,8 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/lblAddress"
                             android:layout_marginLeft="5dp"
-                            android:hint="@string/address" />
+                            android:hint="@string/address"
+                            android:inputType="text"/>
 
                     </RelativeLayout>
 
