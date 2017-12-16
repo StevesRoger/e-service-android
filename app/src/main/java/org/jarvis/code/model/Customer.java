@@ -24,11 +24,13 @@ public class Customer extends BaseRequest {
     @SerializedName("BRIDE_MOM_NAME")
     private String brideMomName;
     @SerializedName("HOME")
-    private String home;
+    private String placeEat;
     @SerializedName("ADDRESS")
     private String address;
     @SerializedName("DATE")
     private String date;
+    @SerializedName("KH_DATE")
+    private String khdate;
     @SerializedName("TIME")
     private String time;
     @SerializedName("EMAIL")
@@ -59,9 +61,10 @@ public class Customer extends BaseRequest {
         brideName = source.readString();
         brideDadName = source.readString();
         brideMomName = source.readString();
-        home = source.readString();
+        placeEat = source.readString();
         address = source.readString();
         date = source.readString();
+        khdate=source.readString();
         time=source.readString();
         email = source.readString();
         phone = source.readString();
@@ -121,12 +124,12 @@ public class Customer extends BaseRequest {
         this.brideMomName = brideMomName;
     }
 
-    public String getHome() {
-        return home;
+    public String getPlaceEat() {
+        return placeEat;
     }
 
-    public void setHome(String home) {
-        this.home = home;
+    public void setPlaceEat(String placeEat) {
+        this.placeEat = placeEat;
     }
 
     public String getAddress() {
@@ -143,6 +146,14 @@ public class Customer extends BaseRequest {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getKhdate() {
+        return khdate;
+    }
+
+    public void setKhdate(String khdate) {
+        this.khdate = khdate;
     }
 
     public String getTime() {
@@ -242,9 +253,10 @@ public class Customer extends BaseRequest {
         dest.writeString(brideName);
         dest.writeString(brideDadName);
         dest.writeString(brideMomName);
-        dest.writeString(home);
+        dest.writeString(placeEat);
         dest.writeString(address);
         dest.writeString(date);
+        dest.writeString(khdate);
         dest.writeString(time);
         dest.writeString(email);
         dest.writeString(phone);

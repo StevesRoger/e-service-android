@@ -1,5 +1,6 @@
 package org.jarvis.code.ui.widget;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.text.format.DateFormat;
@@ -60,7 +61,9 @@ public class JDatePicker implements View.OnTouchListener, DatePickerDialog.OnDat
                     int year = calendar.get(Calendar.YEAR);
                     int month = calendar.get(Calendar.MONTH);
                     int day = calendar.get(Calendar.DAY_OF_MONTH);
-                    new DatePickerDialog(context, this, year, month, day).show();
+                    AlertDialog dialog = new DatePickerDialog(context, this, year, month, day);
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
                     break;
             }
         }

@@ -14,10 +14,12 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -57,6 +59,15 @@ public final class FileUtil {
     }
 
     public static File createImageFile() {
+        return new File(createDirectoryEService() + File.separator + generateFileName());
+    }
+
+    private static String generateFileName() {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        return "IMG_" + timeStamp + ".jpg";
+    }
+
+    private static String createDirectoryEService() {
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory(), "e-service");
 
         if (!mediaStorageDir.exists()) {
@@ -65,9 +76,7 @@ public final class FileUtil {
                 return null;
             }
         }
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        return new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+        return mediaStorageDir.getPath();
     }
 
     private static Bitmap rotateImageIfRequired(Context context, Bitmap img, Uri selectedImage) throws IOException {
@@ -163,7 +172,6 @@ public final class FileUtil {
         return filePath;
     }
 
-    @NonNull
     public static String getMimeType(@NonNull File file) {
         String type = null;
         final String url = file.toString();
@@ -175,5 +183,26 @@ public final class FileUtil {
             type = "image/*"; // fallback type. You might set it to */*
         }
         return type;
+    }
+
+    public static File createFileFromBitmap(Bitmap bitmap) {
+        File file = null;
+        OutputStream outputStream = null;
+        try {
+            String path = createDirectoryEService() + File.separator + generateFileName();
+            file = new File(path);
+            outputStream = new BufferedOutputStream(new FileOutputStream(file));
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Loggy.e(FileUtil.class, e.getMessage());
+        } finally {
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
     }
 }

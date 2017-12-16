@@ -28,13 +28,14 @@
     <string name="year">ឆ្នាំ</string>
     <string name="home">ផ្ទះ</string>
     <string name="house">គេហដ្ឋានខាង</string>
-    <string name="eat_place">ទីតាំងពិសាភោជនាអាហារ</string>
+    <string name="place_eat">ទីតាំងពិសាភោជនាអាហារ</string>
     <string name="time_eat">ម៉ោងពិសាភោជនាអាហារ</string>
     <string name="phone">លេខទូរស័ព្ទ</string>
     <string name="email">អ៊ីម៉ែល</string>
     <string name="facebook">Facebook</string>
     <string name="other">ផ្សេងៗ</string>
     <string name="wedding_date">ថ្ងៃរៀបអាពាហ៍ពិពាហ៍</string>
+    <string name="wedding_date_khmer">ថ្ងៃចន្ទគតិ​ខ្មែរ</string>
     <string name="wedding_address">អាសយដ្ឋាន</string>
     <string name="village">ភូមិ</string>
     <string name="commune">ឃុំ</string>
@@ -43,6 +44,7 @@
     <string name="address">ភូមិ\u0020\u0020\u0020\u0020\u0020ឃុំ\u0020\u0020\u0020\u0020\u0020ស្រុក\u0020\u0020\u0020\u0020\u0020ខេត្ត</string>
     <string name="choose_image">ជ្រើសរើស រូបភាព</string>
     <string name="date_format">Sun/16/Aug/2017</string>
+    <string name="date_format_kh">ថ្ងៃ ១៥រោច ខែ មាឃ ឆ្នាំរកា នព្វ​ស័ក​ ព.ស.​២៥៦១</string>
     <string name="send_information">បព្ជូានព័ត៌មាន</string>
     <string name="days">{"Mon":"ថ្ងៃចន្ទ","Tue":"ថ្ងៃអង្គារ","Wed":"ថ្ងៃពុធ","Thu":"ថ្ងៃព្រហស្បតិ៍","Fri":"ថ្ងៃសុក្រ","Sat":"ថ្ងៃសៅរ៍","Sun":"ថ្ងៃអាទិត្យ"}</string>
     <!--App message KH-->

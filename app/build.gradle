@@ -81,6 +81,8 @@ dependencies {
     compile 'com.google.android.gms:play-services-location:11.2.0'
     // fcm
     compile 'com.google.firebase:firebase-messaging:11.2.0'
+    //gif drawable
+    //compile 'pl.droidsonroids.gif:android-gif-drawable:1.2.8'
 }
 
 apply plugin: 'com.google.gms.google-services'

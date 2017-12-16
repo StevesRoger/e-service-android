@@ -133,7 +133,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
 
     @Override
     public void loadMoreProductSucceed(List<Product> products) {
-        adapter.remove(adapter.size() - 1);
+        adapter.removeByIndex(adapter.size() - 1);
         adapter.notifyItemRemoved(adapter.size());
         Loggy.i(ProductFragment.class, type + " On load more success");
         Loggy.i(ProductFragment.class, products.toString());
@@ -151,7 +151,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         Loggy.e(ProductFragment.class, type + " On load more failure");
         Loggy.e(ProductFragment.class, message);
         showMessage(message, 0);
-        adapter.remove(adapter.size() - 1);
+        adapter.removeByIndex(adapter.size() - 1);
         adapter.notifyItemRemoved(adapter.size());
     }
 

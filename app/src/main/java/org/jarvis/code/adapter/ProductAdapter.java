@@ -73,7 +73,10 @@ public class ProductAdapter extends RecyclerView.Adapter {
             PromotionViewHolder promotionViewHolder = (PromotionViewHolder) holder;
             promotionViewHolder.setContext(context);
             promotionViewHolder.setData(promotion);
-            new Animator(promotionViewHolder.getImage(), promotion.getImages(), context).animatePromotion(0, true);
+            if (promotion.getImages() != null && !promotion.getImages().isEmpty())
+                new Animator(promotionViewHolder.getImage(), promotion.getImages(), context).animatePromotion(0, true);
+            else
+                promotionViewHolder.getImage().setImageResource(R.drawable.no_ad_available);
         } else {
             ((LoadingViewHolder) holder).getProgressBar().setIndeterminate(true);
         }
@@ -129,16 +132,18 @@ public class ProductAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public void remove(int index) {
+    public void removeByIndex(int index) {
         Product product = data.remove(index);
-        if (product != null)
-            removeByKey(product.getId());
+        if (product != null && product.getId() != null)
+            map.remove(product.getId());
     }
 
     public void removeByKey(int key) {
         Product product = map.remove(key);
-        if (product != null)
-            remove(product.getId());
+        if (product != null) {
+            int index = data.indexOf(product);
+            data.remove(index);
+        }
     }
 
     public void clear() {
@@ -174,7 +179,7 @@ public class ProductAdapter extends RecyclerView.Adapter {
         data.clear();
         if (!text.isEmpty()) {
             for (Product product : map.values()) {
-                if (product instanceof Product) {
+                if (!(product instanceof Promotion)) {
                     if (product.getCode().toLowerCase().contains(text) ||
                             product.getColor().toLowerCase().contains(text) ||
                             product.getPrice().toLowerCase().contains(text) ||

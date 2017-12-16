@@ -60,9 +60,9 @@ public abstract class AbstractFragment extends Fragment implements BaseView {
     }
 
     @Override
-    public boolean isNetworkConnected() {
+    public boolean isNetworkAvailable() {
         if (activity != null)
-            return activity.isNetworkConnected();
+            return activity.isNetworkAvailable();
         return false;
     }
 

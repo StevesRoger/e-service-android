@@ -179,4 +179,6 @@ public class Product extends BaseResponse {
         if (product.getImages() != null && !product.getImages().isEmpty())
             this.setImages(product.getImages());
     }
+
+
 }

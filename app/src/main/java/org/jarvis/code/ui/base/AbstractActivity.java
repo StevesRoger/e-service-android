@@ -107,7 +107,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements Base
     }
 
     @Override
-    public boolean isNetworkConnected() {
+    public boolean isNetworkAvailable() {
         ConnectivityManager cm =
                 (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();

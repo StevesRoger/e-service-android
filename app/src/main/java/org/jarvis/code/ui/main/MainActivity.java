@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -50,7 +51,10 @@ public class MainActivity extends AbstractActivity implements MainView {
         setUnBinder(ButterKnife.bind(this));
 
         presenter.onAttach(this);
-        presenter.fetchAdvertisement();
+        if (isNetworkAvailable())
+            presenter.fetchAdvertisement();
+        else
+            showMessage("No internet access", Toast.LENGTH_SHORT);
 
         tabAdapter.addFragment(ProductFragment.newInstance("WED"));
         tabAdapter.addFragment(ProductFragment.newInstance("CER"));

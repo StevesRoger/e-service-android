@@ -79,6 +79,8 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     EditText txtMomBrideName;
     @BindView(R.id.txtDate)
     EditText txtDate;
+    @BindView(R.id.txtDateKh)
+    EditText txtDateKh;
     @BindView(R.id.txtTimeEat)
     EditText txtTimeEat;
     @BindView(R.id.txtProductQty)
@@ -87,7 +89,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     @BindViews({R.id.imgBack, R.id.imgMap, R.id.imgChoose})
     List<ImageButton> imageButtons;
 
-    @BindViews({R.id.txtAddress, R.id.txtHome, R.id.txtPhone, R.id.txtEmail, R.id.txtFacebook, R.id.txtOther})
+    @BindViews({R.id.txtAddress, R.id.txtPlaceEat, R.id.txtPhone, R.id.txtEmail, R.id.txtFacebook, R.id.txtOther})
     List<EditText> editTexts;
 
     @BindView(R.id.btn_submit)
@@ -99,9 +101,9 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     @BindView(R.id.colorSpinner)
     Spinner colorSpinner;
     @BindView(R.id.lblProductCode)
-    TextView productCode;
+    TextView txtProductCode;
     @BindView(R.id.lblProductAmount)
-    TextView productAmount;
+    TextView txtProductAmount;
 
     @Inject
     RegisterPresenter<RegisterView> presenter;
@@ -152,7 +154,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         editTexts.get(editTexts.size() - 1).setOnFocusChangeListener(this);
         new JTimePicker(txtTimeEat, getContext());
         new JDatePicker(txtDate, getContext());
-        productCode.setText(getResources().getString(R.string.code) + product.getCode());
+        txtProductCode.setText(getResources().getString(R.string.code) + product.getCode());
         colorSpinner.setAdapter(new ColorAdapter(getContext(), product.getColors()));
         setRequiredField();
     }
@@ -195,9 +197,10 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         customer.setBrideDadName(txtDadBrideName.getText().toString().trim());
         customer.setBrideMomName(txtMomBrideName.getText().toString().trim());
         customer.setDate(txtDate.getText().toString().trim());
+        customer.setKhdate(txtDateKh.getText().toString().trim());
         customer.setTime(txtTimeEat.getText().toString().trim());
         customer.setAddress(editTexts.get(0).getText().toString().trim());
-        customer.setHome(editTexts.get(1).getText().toString().trim());
+        customer.setPlaceEat(editTexts.get(1).getText().toString().trim());
         customer.setPhone(editTexts.get(2).getText().toString().trim());
         customer.setEmail(editTexts.get(3).getText().toString().trim());
         customer.setFb(editTexts.get(4).getText().toString().trim());
@@ -235,6 +238,9 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         controls.put(R.string.wedding_address, factory.build(TextView.class, R.id.lblAddress));
         controls.put(R.string.phone, factory.build(TextView.class, R.id.lblPhone));
         controls.put(R.string.quantity, factory.build(TextView.class, R.id.lblProductQty));
+        controls.put(R.string.wedding_date_khmer, factory.build(TextView.class, R.id.lblWeddingDateKh));
+        controls.put(R.string.time_eat, factory.build(TextView.class, R.id.lblTimeEat));
+        controls.put(R.string.place_eat, factory.build(TextView.class, R.id.lblPlaceEat));
         //controls.put(R.string.string_email, factory.build(TextView.class, R.id.lblEmail));
         //controls.put(R.string.string_facebook, factory.build(TextView.class, R.id.lblFacebook));
         validator.setRequired(controls);
@@ -254,6 +260,9 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         validator.isEmptyTextField(editTexts.get(2));
         validator.isEmptyTextField(editTexts.get(3));
         validator.isEmptyTextField(txtProductQty, getString(R.string.quantity));
+        validator.isEmptyTextField(txtDateKh, getString(R.string.wedding_date_khmer));
+        validator.isEmptyTextField(txtTimeEat);
+        validator.isEmptyTextField(editTexts.get(1));
         //validator.isEmptyTextField(txtEmail);
         //validator.isEmptyTextField(txtFb);
         if (!validator.isValid())
@@ -349,10 +358,10 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
             long amount = 0;
             int qty = 0;
             if (text != null && !text.toString().isEmpty()) {
-                qty = Integer.parseInt(text.toString().trim());
-                amount = qty * 7;
+                //qty = Integer.parseInt(text.toString().trim());
+                //amount = qty * 7;
             }
-            productAmount.setText(getString(R.string.price) + "$" + amount);
+            txtProductAmount.setText(getString(R.string.price) + "$00");
         } catch (Exception e) {
             e.printStackTrace();
             showMessage("Invalid input!", Toast.LENGTH_SHORT);

@@ -11,7 +11,8 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/advertisement_background">
 
             <ImageView
                 android:id="@+id/register_img_ad"
@@ -73,7 +74,8 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/code" />
 
-                            <LinearLayout>
+                            <LinearLayout
+                                android:orientation="horizontal">
 
                                 <TextView
                                     android:id="@+id/lblProductColor"
@@ -84,8 +86,10 @@
 
                                 <Spinner
                                     android:id="@+id/colorSpinner"
-                                    android:layout_width="80dp"
-                                    android:layout_height="wrap_content" />
+                                    android:layout_width="@dimen/spiner_color_width"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_gravity="center_horizontal"/>
 
                             </LinearLayout>
 
@@ -146,7 +150,6 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblGroomName"
                             android:ems="17"
                             android:hint="@string/groom_name"
                             android:inputType="text" />
@@ -171,7 +174,6 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblDadGroomName"
                             android:ems="17"
                             android:hint="@string/dad_groom_name"
                             android:inputType="text" />
@@ -196,7 +198,6 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblMomGroomName"
                             android:ems="17"
                             android:hint="@string/mom_groom_name"
                             android:inputType="text" />
@@ -221,7 +222,6 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblBrideName"
                             android:ems="17"
                             android:hint="@string/bride_name"
                             android:inputType="text" />
@@ -246,7 +246,6 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblDadBrideName"
                             android:ems="17"
                             android:hint="@string/dad_bride_name"
                             android:inputType="text" />
@@ -271,17 +270,17 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblMomBrideName"
                             android:ems="17"
                             android:hint="@string/mom_bride_name"
                             android:inputType="text" />
 
                     </LinearLayout>
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/lblWeddingDate"
@@ -295,7 +294,6 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/lblWeddingDate"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
                             android:hint="@string/date_format"
@@ -310,7 +308,32 @@
                             android:background="@null"
                             android:src="@drawable/ic_date" />-->
 
-                    </RelativeLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lblWeddingDateKh"
+                            style="@style/LabelStyle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/wedding_date_khmer" />
+
+                        <EditText
+                            android:id="@+id/txtDateKh"
+                            style="@style/EditTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:ems="17"
+                            android:hint="@string/date_format_kh"
+                            android:inputType="text" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -330,7 +353,6 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblHome"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
                             android:hint="@string/time_eat"
@@ -345,29 +367,29 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/lblHome"
+                            android:id="@+id/lblPlaceEat"
                             style="@style/LabelStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="@string/eat_place" />
+                            android:text="@string/place_eat" />
 
                         <EditText
-                            android:id="@+id/txtHome"
+                            android:id="@+id/txtPlaceEat"
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblHome"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
-                            android:hint="@string/eat_place"
+                            android:hint="@string/place_eat"
                             android:inputType="text" />
 
                     </LinearLayout>
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_weight="1"
+                        android:orientation="vertical">
 
                         <TextView
                             android:id="@+id/lblAddress"
@@ -381,12 +403,11 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/lblAddress"
                             android:layout_marginLeft="5dp"
                             android:hint="@string/address"
                             android:inputType="text"/>
 
-                    </RelativeLayout>
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -406,7 +427,6 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblPhone"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
                             android:hint="@string/phone"
@@ -432,7 +452,6 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblEmail"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
                             android:hint="@string/email"
@@ -458,7 +477,6 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblFacebook"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
                             android:hint="@string/facebook"
@@ -484,7 +502,6 @@
                             style="@style/EditTextStyle"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/lblOther"
                             android:layout_marginLeft="5dp"
                             android:ems="17"
                             android:hint="@string/other"

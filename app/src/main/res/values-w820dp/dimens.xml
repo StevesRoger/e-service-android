@@ -1,2 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <dimen name="spiner_color_width">100dp</dimen>
+    <dimen name="spiner_color_height">15dp</dimen>
+</resources>

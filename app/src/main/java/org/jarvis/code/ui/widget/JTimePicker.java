@@ -62,7 +62,9 @@ public class JTimePicker implements View.OnTouchListener, TimePickerDialog.OnTim
                 case R.id.txtTimeEat:
                     int hour = calendar.get(Calendar.HOUR_OF_DAY);
                     int minute = calendar.get(Calendar.MINUTE);
-                    new TimePickerDialog(context, AlertDialog.THEME_HOLO_LIGHT, this, hour, minute, false).show();
+                    AlertDialog dialog = new TimePickerDialog(context, AlertDialog.THEME_HOLO_LIGHT, this, hour, minute, false);
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
                     break;
             }
         }

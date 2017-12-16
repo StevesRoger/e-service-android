@@ -6,7 +6,7 @@ package org.jarvis.code.ui.base;
 
 public interface BaseView {
 
-    boolean isNetworkConnected();
+    boolean isNetworkAvailable();
 
     void hideKeyboard();
 

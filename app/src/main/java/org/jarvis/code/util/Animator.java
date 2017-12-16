@@ -1,12 +1,14 @@
 package org.jarvis.code.util;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v4.util.ArrayMap;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
@@ -102,7 +104,7 @@ public final class Animator {
         //imageView.setImageResource(advertisements.get(imageIndex));
 
         Picasso.with(context).load(imgUrl + images.get(imageIndex)).fit().centerCrop()
-                .placeholder(R.drawable.progress_animation)
+                //.placeholder(R.drawable.progress_animation)
                 .error(R.drawable.no_image_available)
                 .into(imageView);
 
