@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.jarvis.code.R;
+import org.jarvis.code.adapter.ListAdapter;
 import org.jarvis.code.model.Product;
 import org.jarvis.code.ui.register.RegisterFragment;
 import org.jarvis.code.ui.widget.ColorView;
@@ -46,20 +47,22 @@ public class ProductViewHolder extends BaseViewHolder implements View.OnClickLis
     public void onClick(View view) {
         FragmentManager fragmentManager = ((AppCompatActivity) context).getSupportFragmentManager();
         if (view.getId() == R.id.btn_register) {
-            RegisterFragment registerFragment = RegisterFragment.newInstance((Product) object);
+            RegisterFragment registerFragment = RegisterFragment.newInstance((Product) item);
             fragmentManager.beginTransaction()
                     .replace(R.id.container, registerFragment)
                     .addToBackStack("registerFragment")
                     .commit();
         } else {
-            DialogView dialogView = DialogView.newInstance((Product) object);
+            DialogView dialogView = DialogView.newInstance((Product) item);
             dialogView.show(fragmentManager.beginTransaction(), "Image Gallery");
             //dialogView.setCancelable(false);
         }
     }
 
-    public void render(Product product) {
-        setData(product);
+    @Override
+    public void setItem(ListAdapter.ListAdapterItem item) {
+        super.setItem(item);
+        Product product = (Product) this.item;
         this.lblCode.setText(context.getResources().getString(R.string.code) + product.getCode());
         this.colorView.setColor(product.getColors());
         this.lblSize.setText(context.getResources().getString(R.string.size) + product.getSize());
@@ -67,7 +70,7 @@ public class ProductViewHolder extends BaseViewHolder implements View.OnClickLis
         this.lblContact.setText(context.getResources().getString(R.string.contact) + product.getContact().getPhone1());
     }
 
-    public ImageView getImage() {
+    public ImageView getImageView() {
         return image;
     }
 }

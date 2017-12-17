@@ -2,6 +2,7 @@ package org.jarvis.code.ui.main;
 
 import android.content.Context;
 import android.support.v4.util.ArrayMap;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 
@@ -38,10 +39,9 @@ public class AdvertisementInteractorImpl implements AdvertisementInteractor<Adve
 
     @Override
     public void onFailure(Call<ResponseEntity<Advertisement>> call, Throwable t) {
-        Loggy.e(MainActivity.class, t.getMessage());
+        Loggy.e(AdvertisementInteractorImpl.class, t.getMessage());
         if (presenter != null)
-            presenter.showSnackBar(t.getMessage());
-        //presenter.showMessage(t.getMessage());
+            presenter.showMessage(t.getMessage(), Toast.LENGTH_SHORT);
     }
 
     @Override

@@ -1,8 +1,14 @@
 package org.jarvis.code.model;
 
+import android.content.Context;
 import android.os.Parcel;
+import android.widget.ImageView;
 
 import com.google.gson.annotations.SerializedName;
+import com.squareup.picasso.Picasso;
+
+import org.jarvis.code.R;
+import org.jarvis.code.adapter.ListAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +17,7 @@ import java.util.List;
  * Created by KimChheng on 5/29/2017.
  */
 
-public class Product extends BaseResponse {
+public class Product extends BaseResponse implements ListAdapter.ListAdapterItem {
 
     private static final long serialVersionUID = 1L;
     @SerializedName("CODE")
@@ -123,15 +129,6 @@ public class Product extends BaseResponse {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof Product) {
-            Product tmp = (Product) obj;
-            return this.id.equals(tmp.id);
-        }
-        return false;
-    }
-
-    @Override
     public String toString() {
         return "Product{" +
                 "code='" + code + '\'' +
@@ -180,5 +177,14 @@ public class Product extends BaseResponse {
             this.setImages(product.getImages());
     }
 
-
+    @Override
+    public void viewImage(Context context, ImageView imageView) {
+        int index = 1;
+        if (images != null && !images.isEmpty())
+            index = images.get(0);
+        Picasso.with(context).load(imgUrl + index).fit().centerCrop()
+                .placeholder(R.drawable.progress_animation)
+                .error(R.drawable.no_image_available)
+                .into(imageView);
+    }
 }

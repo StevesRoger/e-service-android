@@ -2,16 +2,14 @@ package org.jarvis.code.dagger.module;
 
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 
 import org.jarvis.code.R;
-import org.jarvis.code.adapter.ProductAdapter;
+import org.jarvis.code.adapter.ListAdapter;
 import org.jarvis.code.adapter.TabAdapter;
 import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.dagger.PerActivity;
-import org.jarvis.code.model.Product;
 import org.jarvis.code.service.FirebaseBroadcastReceiver;
 import org.jarvis.code.ui.product.ProductPresenterImpl;
 import org.jarvis.code.util.Validator;
@@ -21,7 +19,6 @@ import java.util.List;
 
 import javax.inject.Named;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import dagger.Module;
 import dagger.Provides;
 
@@ -54,8 +51,8 @@ public class ActivityModule {
     }
 
     @Provides
-    ProductAdapter provideProductAdapter() {
-        return new ProductAdapter(activity, new ArrayList<Product>());
+    ListAdapter provideListAdapter() {
+        return new ListAdapter(activity);
     }
 
     @Provides

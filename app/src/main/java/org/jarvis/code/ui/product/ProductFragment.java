@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.jarvis.code.R;
-import org.jarvis.code.adapter.ProductAdapter;
+import org.jarvis.code.adapter.ListAdapter;
 import org.jarvis.code.model.Product;
 import org.jarvis.code.model.Promotion;
 import org.jarvis.code.service.FirebaseBroadcastReceiver;
@@ -22,6 +22,7 @@ import org.jarvis.code.ui.base.AbstractFragment;
 import org.jarvis.code.ui.main.MainView;
 import org.jarvis.code.util.Loggy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,7 +47,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     @Inject
     LinearLayoutManager linearLayoutManager;
     @Inject
-    ProductAdapter adapter;
+    ListAdapter adapter;
     @Inject
     ProductPresenter<ProductView> presenter;
 
@@ -133,7 +134,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
 
     @Override
     public void loadMoreProductSucceed(List<Product> products) {
-        adapter.removeByIndex(adapter.size() - 1);
+        adapter.remove(adapter.size() - 1);
         adapter.notifyItemRemoved(adapter.size());
         Loggy.i(ProductFragment.class, type + " On load more success");
         Loggy.i(ProductFragment.class, products.toString());
@@ -151,7 +152,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         Loggy.e(ProductFragment.class, type + " On load more failure");
         Loggy.e(ProductFragment.class, message);
         showMessage(message, 0);
-        adapter.removeByIndex(adapter.size() - 1);
+        adapter.remove(adapter.size() - 1);
         adapter.notifyItemRemoved(adapter.size());
     }
 
@@ -201,7 +202,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     @Override
     public void loadProductFailed(String message) {
         Loggy.e(ProductFragment.class, message);
-        showErrorMessage();
+        showErrorMessage(message);
         swipeRefreshLayout.setRefreshing(false);
         showMessage(message, 0);
     }
@@ -221,10 +222,10 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     }
 
     @Override
-    public void showErrorMessage() {
+    public void showErrorMessage(String message) {
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
-        lblMessage.setText("Oop...There are somethings went wrong!");
+        lblMessage.setText(message);
         lblMessage.setTextColor(Color.parseColor("#f80606"));
         lblMessage.setVisibility(View.VISIBLE);
     }

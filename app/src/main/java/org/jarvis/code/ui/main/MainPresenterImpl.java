@@ -1,5 +1,6 @@
 package org.jarvis.code.ui.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -10,9 +11,7 @@ import org.jarvis.code.model.Advertisement;
 import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.ui.base.BasePresenterImpl;
 import org.jarvis.code.util.Constants;
-
 import java.util.List;
-
 import javax.inject.Inject;
 
 /**
@@ -41,12 +40,4 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
         }
     }
 
-    @Override
-    public Fragment getCurrentFragment(int index) {
-        FragmentManager fragmentManager = activity().getSupportFragmentManager();
-        List<Fragment> fragments = fragmentManager.getFragments();
-        if (fragments != null && !fragments.isEmpty())
-            return fragments.get(index);
-        else return null;
-    }
 }

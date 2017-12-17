@@ -72,7 +72,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
                 } else
                     view.noProductAvailable();
             } else
-                view.showErrorMessage();
+                view.showErrorMessage("load more product error");
         }
     }
 

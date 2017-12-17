@@ -1,19 +1,29 @@
 package org.jarvis.code.model;
 
+import android.content.Context;
 import android.os.Parcel;
+import android.widget.ImageView;
 
 import com.google.gson.annotations.SerializedName;
+import com.squareup.picasso.Picasso;
+
+import org.jarvis.code.R;
+import org.jarvis.code.adapter.ListAdapter;
+import org.jarvis.code.util.Animator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ki.kao on 8/26/2017.
  */
 
-public class Promotion extends Product {
+public class Promotion extends BaseResponse implements ListAdapter.ListAdapterItem {
 
     @SerializedName("DESC")
-    private String desc;
+    private String link;
+    @SerializedName("IMAGES")
+    protected List<Integer> images;
 
     public Promotion() {
         super();
@@ -23,7 +33,7 @@ public class Promotion extends Product {
         super();
         id = source.readInt();
         images = (ArrayList<Integer>) source.readSerializable();
-        desc = source.readString();
+        link = source.readString();
     }
 
     public static final Creator<Promotion> CREATOR = new Creator<Promotion>() {
@@ -47,21 +57,41 @@ public class Promotion extends Product {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeList(images);
-        dest.writeString(desc);
+        dest.writeString(link);
     }
 
-    public String getDesc() {
-        return desc;
+    public String getLink() {
+        return link;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public List<Integer> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Integer> images) {
+        this.images = images;
     }
 
     @Override
     public String toString() {
         return "Promotion{" +
-                "desc='" + desc + '\'' +
+                "link='" + link + '\'' +
                 '}';
+    }
+
+    @Override
+    public void viewImage(Context context, ImageView imageView) {
+        if (images != null && images.size() > 1) {
+            new Animator(imageView, images, context).animatePromotion(0, true);
+        } else if (!images.isEmpty()) {
+            Picasso.with(context).load(imgUrl + images.get(0)).fit().centerCrop()
+                    .placeholder(R.drawable.progress_animation)
+                    .error(R.drawable.no_image_available)
+                    .into(imageView);
+        }
     }
 }

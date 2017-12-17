@@ -1,13 +1,11 @@
 package org.jarvis.code.adapter;
 
 import android.content.Context;
-import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.squareup.picasso.Picasso;
+import android.widget.ImageView;
 
 import org.jarvis.code.R;
 import org.jarvis.code.adapter.viewholder.LoadingViewHolder;
@@ -15,32 +13,29 @@ import org.jarvis.code.adapter.viewholder.ProductViewHolder;
 import org.jarvis.code.adapter.viewholder.PromotionViewHolder;
 import org.jarvis.code.model.Product;
 import org.jarvis.code.model.Promotion;
-import org.jarvis.code.util.Animator;
-import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by KimChheng on 6/2/2017.
  */
 
-public class ProductAdapter extends RecyclerView.Adapter {
+public class ListAdapter extends RecyclerView.Adapter {
 
     private final int VIEW_PRODUCT = 0;
     private final int VIEW_PROMOTION = 1;
     private final int VIEW_LOADING = 2;
 
-    private List<Product> data;
-    private ArrayMap<Integer, Product> map;
+    private List<ListAdapterItem> list;
+    private List<ListAdapterItem> listCopy;
     private Context context;
 
-    private static String imgUrl = Constants.BASE_URL + "mobile/image/view/";
-
-    public ProductAdapter(Context context, List<Product> products) {
-        this.data = products;
+    public ListAdapter(Context context) {
+        this.list = new ArrayList();
+        this.listCopy = new ArrayList();
         this.context = context;
-        this.map = new ArrayMap();
     }
 
     @Override
@@ -59,24 +54,19 @@ public class ProductAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        ListAdapterItem item = null;
         if (holder instanceof ProductViewHolder) {
-            Product product = data.get(position);
+            item = list.get(position);
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             productViewHolder.setContext(context);
-            productViewHolder.render(product);
-            Picasso.with(context).load(imgUrl + product.getImages().get(0)).fit().centerCrop()
-                    .placeholder(R.drawable.progress_animation)
-                    .error(R.drawable.no_image_available)
-                    .into(productViewHolder.getImage());
+            productViewHolder.setItem(item);
+            item.viewImage(context, productViewHolder.getImageView());
         } else if (holder instanceof PromotionViewHolder) {
-            Promotion promotion = (Promotion) data.get(position);
+            item = list.get(position);
             PromotionViewHolder promotionViewHolder = (PromotionViewHolder) holder;
             promotionViewHolder.setContext(context);
-            promotionViewHolder.setData(promotion);
-            if (promotion.getImages() != null && !promotion.getImages().isEmpty())
-                new Animator(promotionViewHolder.getImage(), promotion.getImages(), context).animatePromotion(0, true);
-            else
-                promotionViewHolder.getImage().setImageResource(R.drawable.no_ad_available);
+            promotionViewHolder.setItem(item);
+           item.viewImage(context,promotionViewHolder.getImageView());
         } else {
             ((LoadingViewHolder) holder).getProgressBar().setIndeterminate(true);
         }
@@ -85,12 +75,12 @@ public class ProductAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return data == null ? 0 : data.size();
+        return list == null ? 0 : list.size();
     }
 
     @Override
     public int getItemViewType(int position) {
-        Product item = data.get(position);
+        ListAdapterItem item = list.get(position);
         if (item != null) {
             if (item instanceof Promotion)
                 return VIEW_PROMOTION;
@@ -100,55 +90,29 @@ public class ProductAdapter extends RecyclerView.Adapter {
             return VIEW_LOADING;
     }
 
-    public void addAll(List<Product> products) {
-        data.addAll(products);
-        putAll(products);
+    public void addAll(List items) {
+        list.addAll(items);
+        listCopy.addAll(items);
     }
 
-    public void add(Product product) {
-        data.add(product);
-        put(product);
+    public void add(ListAdapterItem item) {
+        list.add(item);
+        listCopy.add(item);
     }
 
-    public void add(int index, Product product) {
-        data.add(index, product);
-        put(product);
+    public void add(int index, ListAdapterItem item) {
+        list.add(index, item);
+        listCopy.add(index, item);
     }
 
-    public void put(int key, Product value) {
-        data.add(value);
-        map.put(key, value);
-    }
-
-    private void put(Product product) {
-        if (product != null && product.getId() != null)
-            map.put(product.getId(), product);
-    }
-
-    private void putAll(List<Product> products) {
-        for (Product product : products) {
-            if (product != null)
-                map.put(product.getId(), product);
-        }
-    }
-
-    public void removeByIndex(int index) {
-        Product product = data.remove(index);
-        if (product != null && product.getId() != null)
-            map.remove(product.getId());
-    }
-
-    public void removeByKey(int key) {
-        Product product = map.remove(key);
-        if (product != null) {
-            int index = data.indexOf(product);
-            data.remove(index);
-        }
+    public void remove(int index) {
+        list.remove(index);
+        listCopy.remove(index);
     }
 
     public void clear() {
-        data.clear();
-        map.clear();
+        list.clear();
+        listCopy.clear();
     }
 
     public void updateItems(List<Product> products) {
@@ -157,40 +121,46 @@ public class ProductAdapter extends RecyclerView.Adapter {
     }
 
     public void updateItem(Product product) {
-        if (product != null) {
+        /*if (product != null) {
             Product tmp = map.get(product.getId());
             if (tmp != null)
                 tmp.update(product);
             else if (product.getId() == null || !map.containsKey(product.getId()))
                 add(product);
-        }
+        }*/
     }
 
     public int size() {
-        return data.size();
+        return list.size();
     }
 
     public boolean isEmpty() {
-        return data.isEmpty();
+        return list.isEmpty();
     }
 
     public void filter(String text) {
-        Loggy.i(ProductAdapter.class, "Search product '" + text + "'");
-        data.clear();
+        Loggy.i(ListAdapter.class, "Search product '" + text + "'");
+        list.clear();
         if (!text.isEmpty()) {
-            for (Product product : map.values()) {
-                if (!(product instanceof Promotion)) {
+            for (ListAdapterItem item : listCopy) {
+                if (item instanceof Product) {
+                    Product product = (Product) item;
                     if (product.getCode().toLowerCase().contains(text) ||
                             product.getColor().toLowerCase().contains(text) ||
                             product.getPrice().toLowerCase().contains(text) ||
                             product.getSize().toLowerCase().contains(text)) {
-                        data.add(product);
+                        list.add(product);
                     }
                 }
             }
         } else {
-            data.addAll(map.values());
+            list.addAll(listCopy);
         }
         notifyDataSetChanged();
+    }
+
+    public interface ListAdapterItem {
+
+        void viewImage(Context context, ImageView imageView);
     }
 }

@@ -24,16 +24,16 @@ public class PromotionViewHolder extends BaseViewHolder implements View.OnClickL
         itemView.setOnClickListener(this);
     }
 
-    public ImageView getImage() {
+    public ImageView getImageView() {
         return image;
     }
 
     @Override
     public void onClick(View v) {
-        Promotion promotion = (Promotion) object;
+        Promotion promotion = (Promotion) item;
         String url = "http://www.google.com";
-        if (promotion != null && promotion.getDesc() != null && !promotion.getDesc().isEmpty()) {
-            url = promotion.getDesc();
+        if (promotion != null && promotion.getLink() != null && !promotion.getLink().isEmpty()) {
+            url = promotion.getLink();
             if (!url.startsWith("http") || !url.startsWith("https"))
                 url = "http://" + url;
             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));

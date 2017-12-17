@@ -4,7 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import org.jarvis.code.model.BaseResponse;
+import org.jarvis.code.adapter.ListAdapter;
 
 import butterknife.ButterKnife;
 
@@ -15,7 +15,7 @@ import butterknife.ButterKnife;
 public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
 
     protected Context context;
-    protected BaseResponse object;
+    protected ListAdapter.ListAdapterItem item;
 
     public BaseViewHolder(View itemView) {
         super(itemView);
@@ -26,7 +26,7 @@ public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
         this.context = context;
     }
 
-    public void setData(BaseResponse object) {
-        this.object = object;
+    public void setItem(ListAdapter.ListAdapterItem item) {
+        this.item = item;
     }
 }
