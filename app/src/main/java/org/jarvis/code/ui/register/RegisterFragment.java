@@ -86,7 +86,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     @BindView(R.id.txtProductQty)
     EditText txtProductQty;
 
-    @BindViews({R.id.imgBack, R.id.imgMap, R.id.imgChoose})
+    @BindViews({R.id.imgMap, R.id.imgChoose})
     List<ImageButton> imageButtons;
 
     @BindViews({R.id.txtAddress, R.id.txtPlaceEat, R.id.txtPhone, R.id.txtEmail, R.id.txtFacebook, R.id.txtOther})
@@ -96,8 +96,8 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     Button btnSubmit;
     @BindView(R.id.img_gallery)
     LinearLayout gallery;
-    @BindView(R.id.register_img_ad)
-    ImageView imageAd;
+    /*@BindView(R.id.register_img_ad)
+    ImageView imageAd;*/
     @BindView(R.id.colorSpinner)
     Spinner colorSpinner;
     @BindView(R.id.lblProductCode)
@@ -149,7 +149,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        new Animator(imageAd, Constants.advertisement, getContext()).animateAD(0, true);
+        //new Animator(imageAd, Constants.advertisement, getContext()).animateAD(0, true);
         factory = new ComponentFactory(getContext(), view);
         editTexts.get(editTexts.size() - 1).setOnFocusChangeListener(this);
         new JTimePicker(txtTimeEat, getContext());
@@ -159,7 +159,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         setRequiredField();
     }
 
-    @OnClick({R.id.txtDate, R.id.imgBack, R.id.imgMap, R.id.imgChoose, R.id.btn_submit})
+    @OnClick({R.id.txtDate, R.id.imgMap, R.id.imgChoose, R.id.btn_submit})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgMap:
@@ -168,9 +168,9 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
             case R.id.imgChoose:
                 browseImage();
                 break;
-            case R.id.imgBack:
-                backToMainActivity();
-                break;
+            //case R.id.imgBack:
+                //backToMainActivity();
+               // break;
             case R.id.btn_submit:
                 try {
                     presenter.submitCustomer();

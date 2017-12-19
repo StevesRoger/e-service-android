@@ -82,8 +82,8 @@ public class ActivityModule {
     @Named("titles")
     List<String> provideTabTitle() {
         List<String> titles = new ArrayList<>();
+        titles.add(activity.getString(R.string.general_fragment));
         titles.add(activity.getString(R.string.wedding_fragment));
-        titles.add(activity.getString(R.string.ceremony_fragment));
         titles.add(activity.getString(R.string.design_fragment));
         return titles;
     }

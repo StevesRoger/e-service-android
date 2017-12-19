@@ -14,7 +14,7 @@ public final class Constants {
     public static final String TAG = "=====>>> V-Printing:";
     public static final String FCM_BROADCAST_PRODUCT_WED = "org.jarvis.code.broadcast_product_wed";
     public static final String FCM_BROADCAST_PRODUCT_DES = "org.jarvis.code.broadcast_product_des";
-    public static final String FCM_BROADCAST_PRODUCT_CER = "org.jarvis.code.broadcast_product_cer";
+    public static final String FCM_BROADCAST_PRODUCT_GEN = "org.jarvis.code.broadcast_product_cer";
     public static final String FCM_BROADCAST_PROMOTION = "org.jarvis.code.broadcast_promotion";
     public static final String FCM_BROADCAST_ADVERTISEMENT = "org.jarvis.code.broadcast_advertisement";
     public static final int REQUEST_PERMISSIONS_CODE = 200;

@@ -3,7 +3,7 @@
     <string name="app_name">V-Printing</string>
     <!--Tab title-->
     <string name="wedding_fragment">សំបុត្រការ</string>
-    <string name="ceremony_fragment">សំបុត្របុណ្យ</string>
+    <string name="general_fragment">សំបុត្រ</string>
     <string name="design_fragment">សំបុត្រច្នៃ</string>
     <!--Item product-->
     <string name="code">លេខកូដស៏ :</string>

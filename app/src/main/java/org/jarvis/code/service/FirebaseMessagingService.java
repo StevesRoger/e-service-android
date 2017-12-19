@@ -35,7 +35,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
                 if (type.equals("Wedding"))
                     sendBroadcast(Constants.FCM_BROADCAST_PRODUCT_WED, action, jsonArray.toString());
                 else if (type.equals("Ceremony"))
-                    sendBroadcast(Constants.FCM_BROADCAST_PRODUCT_CER, action, jsonArray.toString());
+                    sendBroadcast(Constants.FCM_BROADCAST_PRODUCT_GEN, action, jsonArray.toString());
                 else if (type.equals("Design"))
                     sendBroadcast(Constants.FCM_BROADCAST_PRODUCT_DES, action, jsonArray.toString());
                 else if (type.equals("PROMOTION"))

@@ -35,7 +35,7 @@ public class FirebaseBroadcastReceiver extends BroadcastReceiver {
                     actionFilter(action, context, jsonArray);
                 } else if (intent.getAction().equals(Constants.FCM_BROADCAST_PRODUCT_DES)) {
                     actionFilter(action, context, jsonArray);
-                } else if (intent.getAction().equals(Constants.FCM_BROADCAST_PRODUCT_CER)) {
+                } else if (intent.getAction().equals(Constants.FCM_BROADCAST_PRODUCT_GEN)) {
                     actionFilter(action, context, jsonArray);
                 } else if (intent.getAction().equals(Constants.FCM_BROADCAST_PROMOTION)) {
                     actionFilter(action, context, jsonArray);
