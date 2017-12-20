@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Parcel;
 import android.widget.ImageView;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import com.squareup.picasso.Picasso;
 
@@ -31,7 +32,9 @@ public class Product extends BaseResponse implements ListAdapter.ListAdapterItem
     @SerializedName("CONTACT")
     private Contact contact;
     @SerializedName("IMAGES")
-    protected List<Integer> images;
+    private List<Integer> images;
+    @SerializedName("TYPE")
+    private String type;
 
     public Product() {
         super();
@@ -45,6 +48,7 @@ public class Product extends BaseResponse implements ListAdapter.ListAdapterItem
         color = source.readString();
         contact = source.readParcelable(Contact.class.getClassLoader());
         images = (ArrayList<Integer>) source.readSerializable();
+        type = source.readString();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -73,6 +77,7 @@ public class Product extends BaseResponse implements ListAdapter.ListAdapterItem
         dest.writeString(color);
         dest.writeParcelable(contact, flags);
         dest.writeList(images);
+        dest.writeString(type);
     }
 
     public String getCode() {
@@ -123,6 +128,14 @@ public class Product extends BaseResponse implements ListAdapter.ListAdapterItem
         this.images = images;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     @Override
     public int hashCode() {
         return this.id.hashCode();
@@ -136,7 +149,8 @@ public class Product extends BaseResponse implements ListAdapter.ListAdapterItem
                 ", price='" + price + '\'' +
                 ", color='" + color + '\'' +
                 ", contact=" + contact +
-                ", images=" + images.toString() +
+                ", images=" + images +
+                ", type='" + type + '\'' +
                 '}';
     }
 
