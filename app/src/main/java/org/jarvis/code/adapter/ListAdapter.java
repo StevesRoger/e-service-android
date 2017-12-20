@@ -66,11 +66,10 @@ public class ListAdapter extends RecyclerView.Adapter {
             PromotionViewHolder promotionViewHolder = (PromotionViewHolder) holder;
             promotionViewHolder.setContext(context);
             promotionViewHolder.setItem(item);
-           item.viewImage(context,promotionViewHolder.getImageView());
+            item.viewImage(context, promotionViewHolder.getImageView());
         } else {
             ((LoadingViewHolder) holder).getProgressBar().setIndeterminate(true);
         }
-
     }
 
     @Override
@@ -90,14 +89,14 @@ public class ListAdapter extends RecyclerView.Adapter {
             return VIEW_LOADING;
     }
 
-    public void addAll(List items) {
+    public boolean addAll(List items) {
         list.addAll(items);
-        listCopy.addAll(items);
+        return listCopy.addAll(items);
     }
 
-    public void add(ListAdapterItem item) {
+    public boolean add(ListAdapterItem item) {
         list.add(item);
-        listCopy.add(item);
+        return listCopy.add(item);
     }
 
     public void add(int index, ListAdapterItem item) {
@@ -105,9 +104,9 @@ public class ListAdapter extends RecyclerView.Adapter {
         listCopy.add(index, item);
     }
 
-    public void remove(int index) {
+    public ListAdapterItem remove(int index) {
         list.remove(index);
-        listCopy.remove(index);
+        return listCopy.remove(index);
     }
 
     public void clear() {
@@ -138,7 +137,7 @@ public class ListAdapter extends RecyclerView.Adapter {
         return list.isEmpty();
     }
 
-    public void filter(String text) {
+    public void search(String text) {
         Loggy.i(ListAdapter.class, "Search product '" + text + "'");
         list.clear();
         if (!text.isEmpty()) {

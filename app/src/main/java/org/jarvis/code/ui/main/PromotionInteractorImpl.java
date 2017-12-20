@@ -1,10 +1,14 @@
-package org.jarvis.code.ui.product;
+package org.jarvis.code.ui.main;
 
 import android.content.Context;
+import android.widget.Toast;
 
-import org.jarvis.code.model.ResponseEntity;
 import org.jarvis.code.model.Promotion;
+import org.jarvis.code.model.ResponseEntity;
+import org.jarvis.code.util.Constants;
 import org.json.JSONArray;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -15,9 +19,9 @@ import retrofit2.Response;
 
 public class PromotionInteractorImpl implements PromotionInteractor<Promotion> {
 
-    private ProductPresenter presenter;
+    private MainPresenter<MainView> presenter;
 
-    public PromotionInteractorImpl(ProductPresenter presenter) {
+    public PromotionInteractorImpl(MainPresenter<MainView> presenter) {
         this.presenter = presenter;
     }
 
@@ -38,13 +42,17 @@ public class PromotionInteractorImpl implements PromotionInteractor<Promotion> {
 
     @Override
     public void onResponse(Call<ResponseEntity<Promotion>> call, Response<ResponseEntity<Promotion>> response) {
-        if (presenter != null && response.isSuccessful())
-            presenter.onLoadPromotionSucceed(response.body().getData());
+        if (response.code() == 200) {
+            List<Promotion> list = response.body().getData();
+            for (Promotion promotion : list) {
+                Constants.promotion.put(promotion.getId(), promotion);
+            }
+        }
     }
 
     @Override
     public void onFailure(Call<ResponseEntity<Promotion>> call, Throwable t) {
         if (presenter != null)
-            presenter.onLoadPromotionFailure(t.getMessage());
+            presenter.showMessage(t.getMessage(), Toast.LENGTH_SHORT);
     }
 }

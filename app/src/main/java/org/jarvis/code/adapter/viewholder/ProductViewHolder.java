@@ -10,7 +10,7 @@ import android.widget.TextView;
 import org.jarvis.code.R;
 import org.jarvis.code.adapter.ListAdapter;
 import org.jarvis.code.model.Product;
-import org.jarvis.code.ui.register.RegisterFragment;
+import org.jarvis.code.ui.customer.RegisterFragment;
 import org.jarvis.code.ui.widget.ColorView;
 import org.jarvis.code.ui.widget.DialogView;
 

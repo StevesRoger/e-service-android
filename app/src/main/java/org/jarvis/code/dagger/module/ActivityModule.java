@@ -71,12 +71,12 @@ public class ActivityModule {
         return new Validator(activity);
     }
 
-    @Provides
+ /*   @Provides
     @Named("promotion")
     @PerActivity
     FirebaseBroadcastReceiver provideBroadcastReceiverPromotion(ProductPresenterImpl productPresenter) {
         return new FirebaseBroadcastReceiver(productPresenter.getPromotionInteractor());
-    }
+    }*/
 
     @Provides
     @Named("titles")

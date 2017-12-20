@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
 import org.jarvis.code.model.Product;
-import org.jarvis.code.ui.register.RegisterFragment;
+import org.jarvis.code.ui.customer.RegisterFragment;
 import org.jarvis.code.util.Constants;
 
 import java.util.List;
@@ -58,7 +58,7 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        View view = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.image_view, container, false);
+        View view = ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.view_image, container, false);
 
         TextView register = (TextView) view.findViewById(R.id.registerText);
         register.setOnClickListener(this);

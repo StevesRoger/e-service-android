@@ -1,4 +1,4 @@
-package org.jarvis.code.ui.product;
+package org.jarvis.code.ui.main;
 
 import org.jarvis.code.ui.base.BaseInteractor;
 

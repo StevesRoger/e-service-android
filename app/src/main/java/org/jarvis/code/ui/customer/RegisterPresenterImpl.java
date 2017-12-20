@@ -1,4 +1,4 @@
-package org.jarvis.code.ui.register;
+package org.jarvis.code.ui.customer;
 
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;

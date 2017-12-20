@@ -3,7 +3,7 @@ package org.jarvis.code.service;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
-import org.jarvis.code.dagger.VPrintApplication;
+import org.jarvis.code.VPrintApplication;
 import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 

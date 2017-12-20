@@ -24,8 +24,6 @@ public interface ProductView extends BaseView, SwipeRefreshLayout.OnRefreshListe
 
     void loadMoreProductFailed(String message);
 
-    void loadPromotionSucceed(List<Promotion> promotions);
-
     void showProgress();
 
     void hideProgress();

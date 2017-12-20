@@ -24,14 +24,7 @@ public interface ProductPresenter<V extends BaseView> extends BasePresenter<V> {
 
     void onLoadProductFailure(String message);
 
-    void loadPromotion(int offset, int limit);
-
-    void onLoadPromotionSucceed(List<Promotion> promotions);
-
-    void onLoadPromotionFailure(String message);
-
     void refreshView();
 
     void updateProduct(Product product);
-
 }

@@ -1,4 +1,4 @@
-package org.jarvis.code.ui.register;
+package org.jarvis.code.ui.customer;
 
 import android.view.View;
 

@@ -31,7 +31,7 @@ public class ProductInteractorImpl extends RecyclerView.OnScrollListener impleme
 
     @Override
     public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
-        if (presenter != null && response.isSuccessful())
+        if (presenter != null && response.code() == 200)
             presenter.onLoadProductSuccess(response.body().getData());
     }
 
@@ -41,13 +41,14 @@ public class ProductInteractorImpl extends RecyclerView.OnScrollListener impleme
             presenter.onLoadProductFailure(t.getMessage());
     }
 
-    public void loaded() {
-        isLoading = false;
-    }
-
     @Override
     public void setLinearLayoutManager(LinearLayoutManager linearLayoutManager) {
         this.linearLayoutManager = linearLayoutManager;
+    }
+
+    @Override
+    public void loaded() {
+        isLoading = false;
     }
 
     @Override
@@ -62,14 +63,18 @@ public class ProductInteractorImpl extends RecyclerView.OnScrollListener impleme
             visibleItemCount = linearLayoutManager.getChildCount();
             totalItemCount = linearLayoutManager.getItemCount();
             pastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
+            Loggy.i(ProductInteractorImpl.class, "Scrolling up");
+            Loggy.i(ProductInteractorImpl.class, dx + " " + dy);
+            Loggy.i(ProductInteractorImpl.class, "visible item count:" + visibleItemCount);
+            Loggy.i(ProductInteractorImpl.class, "total item count:" + totalItemCount);
+            Loggy.i(ProductInteractorImpl.class, "pass visible item count:" + pastVisiblesItems);
             if (!isLoading && (visibleItemCount + pastVisiblesItems) >= totalItemCount) {
                 if (presenter != null) {
                     presenter.loadMoreProduct();
                     isLoading = true;
                 }
             }
-            Loggy.i(ProductInteractorImpl.class, "Scrolling up");
-            Loggy.i(ProductInteractorImpl.class, dx + " " + dy);
+
         } else {
             Loggy.i(ProductInteractorImpl.class, "Scrolling down");
             Loggy.i(ProductInteractorImpl.class, dx + " " + dy);

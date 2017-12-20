@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.jarvis.code.R;
-import org.jarvis.code.dagger.VPrintApplication;
+import org.jarvis.code.VPrintApplication;
 import org.jarvis.code.dagger.component.ActivityComponent;
 import org.jarvis.code.dagger.component.DaggerActivityComponent;
 import org.jarvis.code.dagger.module.ActivityModule;
@@ -108,10 +107,8 @@ public abstract class AbstractActivity extends AppCompatActivity implements Base
 
     @Override
     public boolean isNetworkAvailable() {
-        ConnectivityManager cm =
-                (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        final ConnectivityManager connectivityManager = ((ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE));
+        return connectivityManager.getActiveNetworkInfo() != null && connectivityManager.getActiveNetworkInfo().isConnected();
     }
 
     @Override

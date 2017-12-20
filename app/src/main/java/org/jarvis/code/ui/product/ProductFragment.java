@@ -20,9 +20,9 @@ import org.jarvis.code.model.Promotion;
 import org.jarvis.code.service.FirebaseBroadcastReceiver;
 import org.jarvis.code.ui.base.AbstractFragment;
 import org.jarvis.code.ui.main.MainView;
+import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -56,9 +56,8 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     private String type;
     private final int LIMIT = 5;
     private int offset = 1;
+    private int index = 0;
 
-    private int position = 5;
-    private int page = 1;
 
     public static ProductFragment newInstance(String type) {
         Bundle bundle = new Bundle();
@@ -77,11 +76,11 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.product_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_product, container, false);
         getActivityComponent().inject(this);
         setUnBinder(ButterKnife.bind(this, view));
         presenter.onAttach(this);
-        ((ProductInteractorImpl) presenter.getInteractor()).setLinearLayoutManager(linearLayoutManager);
+        ((ProductInteractor) presenter.getInteractor()).setLinearLayoutManager(linearLayoutManager);
         if (!isLoaded) {
             receiver = new FirebaseBroadcastReceiver(presenter.getInteractor());
             localBroadcastManager.registerReceiver(receiver, new IntentFilter("org.jarvis.code.broadcast_product_" + type.toLowerCase()));
@@ -127,23 +126,23 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         recyclerView.post(new Runnable() {
             public void run() {
                 adapter.notifyItemInserted(adapter.size() - 1);
-                presenter.onLoadMoreProduct(offset, LIMIT, type);
             }
         });
+        presenter.onLoadMoreProduct(offset, LIMIT, type);
     }
 
     @Override
     public void loadMoreProductSucceed(List<Product> products) {
-        adapter.remove(adapter.size() - 1);
+        adapter.remove( adapter.size() - 1);
         adapter.notifyItemRemoved(adapter.size());
         Loggy.i(ProductFragment.class, type + " On load more success");
         Loggy.i(ProductFragment.class, products.toString());
         if (!products.isEmpty()) {
             adapter.addAll(products);
-            presenter.loadPromotion(page, 1);
-            notifyDataSetChanged();
+            insertPromotion(adapter.size()-1);
             offset++;
-            ((ProductInteractorImpl) presenter.getInteractor()).loaded();
+            ((ProductInteractor) presenter.getInteractor()).loaded();
+            notifyDataSetChanged();
         }
     }
 
@@ -158,7 +157,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
 
     @Override
     public void search(String text) {
-        adapter.filter(text.toLowerCase());
+        adapter.search(text.toLowerCase());
     }
 
     @Override
@@ -174,29 +173,26 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     }
 
     @Override
-    public void loadPromotionSucceed(List<Promotion> promotions) {
-        if (promotions != null && !promotions.isEmpty()) {
-            adapter.add(promotions.get(0));
-            Loggy.i(ProductFragment.class, type + " promotion position:" + position);
-            position = (position + 5) + 1;
-            page = (position - 1) / 5;
-            notifyDataSetChanged();
-        }
-    }
-
-    @Override
     public void loadProductSucceed(List<Product> products) {
         Loggy.i(ProductFragment.class, products.toString());
         ((ProductInteractorImpl) presenter.getInteractor()).loaded();
         adapter.clear();
         adapter.addAll(products);
-        notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
         offset = 2;
-        position = 5;
-        page = 1;
-        if (adapter.size() == 5)
-            presenter.loadPromotion(page, 1);
+        insertPromotion(adapter.size() - 1);
+        ((ProductInteractor) presenter.getInteractor()).loaded();
+        notifyDataSetChanged();
+    }
+
+    private void insertPromotion(int position) {
+        if (adapter.size() >= 5 && !Constants.promotion.isEmpty()) {
+            Promotion promotion = Constants.promotion.valueAt(index);
+            if (promotion != null) {
+                adapter.add(position, promotion);
+                index++;
+            }
+        }
     }
 
     @Override

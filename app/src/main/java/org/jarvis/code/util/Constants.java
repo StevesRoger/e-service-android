@@ -3,6 +3,8 @@ package org.jarvis.code.util;
 import android.Manifest;
 import android.support.v4.util.ArrayMap;
 
+import org.jarvis.code.model.Promotion;
+
 /**
  * Created by KimChheng on 5/28/2017.
  */
@@ -14,7 +16,7 @@ public final class Constants {
     public static final String TAG = "=====>>> V-Printing:";
     public static final String FCM_BROADCAST_PRODUCT_WED = "org.jarvis.code.broadcast_product_wed";
     public static final String FCM_BROADCAST_PRODUCT_DES = "org.jarvis.code.broadcast_product_des";
-    public static final String FCM_BROADCAST_PRODUCT_GEN = "org.jarvis.code.broadcast_product_cer";
+    public static final String FCM_BROADCAST_PRODUCT_GEN = "org.jarvis.code.broadcast_product_gen";
     public static final String FCM_BROADCAST_PROMOTION = "org.jarvis.code.broadcast_promotion";
     public static final String FCM_BROADCAST_ADVERTISEMENT = "org.jarvis.code.broadcast_advertisement";
     public static final int REQUEST_PERMISSIONS_CODE = 200;
@@ -24,5 +26,6 @@ public final class Constants {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION};
 
-    public static final ArrayMap<Integer, Integer> advertisement = new ArrayMap<>();
+    public static final ArrayMap<Integer, Integer> advertisement = new ArrayMap();
+    public static final ArrayMap<Integer, Promotion> promotion = new ArrayMap();
 }

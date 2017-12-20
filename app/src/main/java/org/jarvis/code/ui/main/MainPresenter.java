@@ -15,5 +15,7 @@ public interface MainPresenter<V extends BaseView> extends BasePresenter<V> {
 
     void fetchAdvertisement();
 
+    void fetchPromotion();
+
     void onAnimateAD(List<Advertisement> ads);
 }

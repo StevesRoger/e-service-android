@@ -53,7 +53,7 @@ public class ImageCross extends FrameLayout implements View.OnClickListener {
         View customView = null;
 
         if (inflater != null)
-            customView = inflater.inflate(R.layout.image_upload, this);
+            customView = inflater.inflate(R.layout.view_image_upload, this);
 
         if (customView == null)
             return;

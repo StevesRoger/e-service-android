@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.model.Product;
-import org.jarvis.code.model.Promotion;
 import org.jarvis.code.model.ResponseEntity;
 import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.ui.base.BasePresenterImpl;
@@ -24,14 +23,10 @@ import retrofit2.Response;
 
 public class ProductPresenterImpl extends BasePresenterImpl<ProductView> implements ProductPresenter<ProductView> {
 
-    private PromotionInteractorImpl promotionInteractor;
-
     @Inject
     public ProductPresenterImpl(AppCompatActivity activity, @ActivityContext Context context, RequestClient requestClient) {
         super(activity, context, requestClient);
         this.interactor = new ProductInteractorImpl(this);
-        this.promotionInteractor = new PromotionInteractorImpl(this);
-
     }
 
     @Override
@@ -50,7 +45,7 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
         requestClient.fetchProducts(offset, limit, type).enqueue(new Callback<ResponseEntity<Product>>() {
             @Override
             public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
-                if (view != null && response.isSuccessful())
+                if (view != null && response.code() == 200)
                     view.loadMoreProductSucceed(response.body().getData());
             }
 
@@ -83,23 +78,6 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     }
 
     @Override
-    public void loadPromotion(int offset, int limit) {
-        requestClient.fetchPromotions(offset, limit).enqueue(promotionInteractor);
-    }
-
-    @Override
-    public void onLoadPromotionSucceed(List<Promotion> promotions) {
-        if (view != null)
-            view.loadPromotionSucceed(promotions);
-    }
-
-    @Override
-    public void onLoadPromotionFailure(String message) {
-        if (view != null)
-            view.showMessage(message, 0);
-    }
-
-    @Override
     public void refreshView() {
         if (view != null)
             view.notifyDataSetChanged();
@@ -109,9 +87,5 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     public void updateProduct(Product product) {
         if (view != null)
             view.updateProduct(product);
-    }
-
-    public PromotionInteractorImpl getPromotionInteractor() {
-        return promotionInteractor;
     }
 }

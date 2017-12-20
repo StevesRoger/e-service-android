@@ -1,4 +1,4 @@
-package org.jarvis.code.ui.register;
+package org.jarvis.code.ui.customer;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,7 +19,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -35,9 +34,7 @@ import org.jarvis.code.ui.base.AbstractFragment;
 import org.jarvis.code.ui.widget.ImageCross;
 import org.jarvis.code.ui.widget.JDatePicker;
 import org.jarvis.code.ui.widget.JTimePicker;
-import org.jarvis.code.util.Animator;
 import org.jarvis.code.util.ComponentFactory;
-import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.FileUtil;
 import org.jarvis.code.util.Loggy;
 import org.jarvis.code.util.Validator;
@@ -139,7 +136,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.register_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_register, container, false);
         getActivityComponent().inject(this);
         setUnBinder(ButterKnife.bind(this, view));
         presenter.onAttach(this);

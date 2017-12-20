@@ -1,7 +1,6 @@
 package org.jarvis.code.ui.main;
 
 import android.content.Context;
-import android.support.v4.util.ArrayMap;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -22,12 +21,10 @@ import retrofit2.Response;
 public class AdvertisementInteractorImpl implements AdvertisementInteractor<Advertisement> {
 
     private MainPresenter<MainView> presenter;
-    private ArrayMap<Integer, Integer> advertisement;
     private Gson gson;
 
     public AdvertisementInteractorImpl(MainPresenter presenter) {
         this.presenter = presenter;
-        this.advertisement = Constants.advertisement;
         this.gson = new Gson();
     }
 
@@ -48,7 +45,7 @@ public class AdvertisementInteractorImpl implements AdvertisementInteractor<Adve
     public void onNewItem(Context context, JSONArray jsonArray) throws Exception {
         for (int i = 0; i < jsonArray.length(); i++) {
             Advertisement ad = gson.fromJson(jsonArray.getString(i), Advertisement.class);
-            advertisement.put(ad.getId(), ad.getImage());
+            Constants.advertisement.put(ad.getId(), ad.getImage());
         }
     }
 
@@ -60,7 +57,7 @@ public class AdvertisementInteractorImpl implements AdvertisementInteractor<Adve
     @Override
     public void onDeleteItem(Context context, JSONArray jsonArray) throws Exception {
         for (int i = 0; i < jsonArray.length(); i++) {
-            advertisement.remove(jsonArray.getInt(i));
+            Constants.advertisement.remove(jsonArray.getInt(i));
         }
     }
 }

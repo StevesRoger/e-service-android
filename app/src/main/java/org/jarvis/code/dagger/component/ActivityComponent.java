@@ -5,7 +5,7 @@ import org.jarvis.code.dagger.module.ActivityModule;
 import org.jarvis.code.dagger.module.PresenterModule;
 import org.jarvis.code.ui.main.MainActivity;
 import org.jarvis.code.ui.product.ProductFragment;
-import org.jarvis.code.ui.register.RegisterFragment;
+import org.jarvis.code.ui.customer.RegisterFragment;
 import org.jarvis.code.ui.splash.SplashActivity;
 
 import dagger.Component;

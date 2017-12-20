@@ -1,11 +1,9 @@
-package org.jarvis.code.ui.register;
+package org.jarvis.code.ui.customer;
 
 import android.content.Context;
 
 import org.jarvis.code.model.ResponseEntity;
 import org.json.JSONArray;
-
-import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.Response;

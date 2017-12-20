@@ -1,9 +1,6 @@
 package org.jarvis.code.ui.main;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
 import org.jarvis.code.dagger.ActivityContext;
@@ -11,7 +8,9 @@ import org.jarvis.code.model.Advertisement;
 import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.ui.base.BasePresenterImpl;
 import org.jarvis.code.util.Constants;
+
 import java.util.List;
+
 import javax.inject.Inject;
 
 /**
@@ -20,15 +19,24 @@ import javax.inject.Inject;
 
 public class MainPresenterImpl extends BasePresenterImpl<MainView> implements MainPresenter<MainView> {
 
+
+    private PromotionInteractorImpl promotionInteractor;
+
     @Inject
     public MainPresenterImpl(AppCompatActivity activity, @ActivityContext Context context, RequestClient requestClient) {
         super(activity, context, requestClient);
         this.interactor = new AdvertisementInteractorImpl(this);
+        this.promotionInteractor = new PromotionInteractorImpl(this);
     }
 
     @Override
     public void fetchAdvertisement() {
         requestClient.fetchAdvertisement().enqueue(interactor);
+    }
+
+    @Override
+    public void fetchPromotion() {
+        requestClient.fetchPromotions().enqueue(promotionInteractor);
     }
 
     @Override
@@ -39,5 +47,4 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
             view.startAnimateAD();
         }
     }
-
 }

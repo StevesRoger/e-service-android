@@ -51,9 +51,10 @@ public class MainActivity extends AbstractActivity implements MainView {
         setUnBinder(ButterKnife.bind(this));
 
         presenter.onAttach(this);
-        if (isNetworkAvailable())
+        if (isNetworkAvailable()) {
             presenter.fetchAdvertisement();
-        else
+            presenter.fetchPromotion();
+        } else
             showMessage("No internet access", Toast.LENGTH_SHORT);
 
         tabAdapter.addFragment(ProductFragment.newInstance("GEN"));

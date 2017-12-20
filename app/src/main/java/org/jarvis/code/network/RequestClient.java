@@ -29,7 +29,7 @@ public interface RequestClient {
     Call<ResponseEntity<Map<String, Object>>> submitCustomer(@Part("json") RequestBody json, @Part MultipartBody.Part[] files);
 
     @POST("mobile/promotion/fetch")
-    Call<ResponseEntity<Promotion>> fetchPromotions(@Query("offset") int offset, @Query("limit") int limit);
+    Call<ResponseEntity<Promotion>> fetchPromotions();
 
     @POST("mobile/advertisement/fetch")
     Call<ResponseEntity<Advertisement>> fetchAdvertisement();

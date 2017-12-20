@@ -1,11 +1,9 @@
-package org.jarvis.code.ui.register;
+package org.jarvis.code.ui.customer;
 
 import org.jarvis.code.dagger.PerActivity;
 import org.jarvis.code.model.ResponseEntity;
 import org.jarvis.code.ui.base.BasePresenter;
 import org.jarvis.code.ui.base.BaseView;
-
-import java.util.Map;
 
 import retrofit2.Response;
 
