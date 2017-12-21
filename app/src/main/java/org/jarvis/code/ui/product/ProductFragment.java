@@ -114,7 +114,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
 
     @Override
     public void onRefresh() {
-        ((MainView) getBaseActivity()).refreshAD();
+        ((MainView) getBaseActivity()).refresh();
         presenter.loadProduct(LIMIT, type);
         progressBar.setVisibility(View.GONE);
     }
@@ -133,13 +133,14 @@ public class ProductFragment extends AbstractFragment implements ProductView {
 
     @Override
     public void loadMoreProductSucceed(List<Product> products) {
-        adapter.remove( adapter.size() - 1);
+        adapter.remove(adapter.size() - 1);
         adapter.notifyItemRemoved(adapter.size());
         Loggy.i(ProductFragment.class, type + " On load more success");
         Loggy.i(ProductFragment.class, products.toString());
         if (!products.isEmpty()) {
             adapter.addAll(products);
-            insertPromotion(adapter.size()-1);
+            if (products.size() == 5)
+                insertPromotion(adapter.size());
             offset++;
             ((ProductInteractor) presenter.getInteractor()).loaded();
             notifyDataSetChanged();
@@ -180,7 +181,8 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         adapter.addAll(products);
         swipeRefreshLayout.setRefreshing(false);
         offset = 2;
-        insertPromotion(adapter.size() - 1);
+        index = 0;
+        insertPromotion(adapter.size());
         ((ProductInteractor) presenter.getInteractor()).loaded();
         notifyDataSetChanged();
     }

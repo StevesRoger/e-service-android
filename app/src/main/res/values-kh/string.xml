@@ -36,7 +36,7 @@
     <string name="other">ផ្សេងៗ</string>
     <string name="wedding_date">ថ្ងៃរៀបអាពាហ៍ពិពាហ៍</string>
     <string name="wedding_date_khmer">ថ្ងៃចន្ទគតិ​ខ្មែរ</string>
-    <string name="wedding_address">អាសយដ្ឋាន</string>
+    <string name="wedding_address">អាស័យដ្ឋាន</string>
     <string name="village">ភូមិ</string>
     <string name="commune">ឃុំ</string>
     <string name="district">ស្រុក</string>
@@ -58,5 +58,24 @@
     <string name="something_went_wrong">មានកំហុសកើតឡើង!</string>
     <string name="some_error">កំហុសមួយចំនួនបានកើតឡើង!</string>
     <string name="connection_lost">ការភ្ជាប់អ៊ីនធឺណិតបានបាត់បង់!</string>
+    <!--Ceremony form-->
+    <string name="name_of_body">ឈ្មោះអ្នកស្លាប់</string>
+    <string name="name_of_starter">ឈ្មោះអ្នកផ្តើមបុណ្ប</string>
+    <string name="ceremony_step">កម្មវិធីបុណ្ប</string>
+    <string name="ceremony_place">ទីកន្លែងកម្មវិធីបុណ្ប</string>
+    <!--home party form-->
+    <string name="name_of_house_party">ឈ្មោះម្ចាស់ផ្ទះ</string>
+    <string name="name_of_husband">ប្តី</string>
+    <string name="name_of_wife">ប្រពន្ធ</string>
+    <string name="place">ទីកន្លែងកម្មវិធី</string>
+    <string name="time">ពេលវេលា</string>
+    <!--happy birth day form-->
+    <string name="name_of_child">ឈ្មោះកូន</string>
+    <string name="name_of_parent">ឈ្មោះអាណាព្យបាល</string>
+    <string name="name_of_father">ឈ្មោះឪពុក</string>
+    <string name="name_of_mother">ឈ្មោះម្តាយ</string>
+    <!--invoice-->
+    <string name="name_of_company">ឈ្មោះក្រុមហ៊ុន</string>
+    <string name="name_of_customer">ឈ្មោះអតិថិជន</string>
 
 </resources>

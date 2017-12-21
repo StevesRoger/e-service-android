@@ -10,6 +10,7 @@ import java.util.Map;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -28,10 +29,10 @@ public interface RequestClient {
     @POST("mobile/customer/submit")
     Call<ResponseEntity<Map<String, Object>>> submitCustomer(@Part("json") RequestBody json, @Part MultipartBody.Part[] files);
 
-    @POST("mobile/promotion/fetch")
+    @GET("mobile/promotion/fetch")
     Call<ResponseEntity<Promotion>> fetchPromotions();
 
-    @POST("mobile/advertisement/fetch")
+    @GET("mobile/advertisement/fetch")
     Call<ResponseEntity<Advertisement>> fetchAdvertisement();
 
 }

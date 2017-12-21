@@ -109,8 +109,9 @@ public class MainActivity extends AbstractActivity implements MainView {
     }
 
     @Override
-    public void refreshAD() {
+    public void refresh() {
         presenter.fetchAdvertisement();
+        presenter.fetchPromotion();
     }
 
     @Override

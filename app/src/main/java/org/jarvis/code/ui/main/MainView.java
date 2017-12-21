@@ -15,5 +15,5 @@ public interface MainView extends BaseView, ActivityCompat.OnRequestPermissionsR
 
     void startAnimateAD();
 
-    void refreshAD();
+    void refresh();
 }

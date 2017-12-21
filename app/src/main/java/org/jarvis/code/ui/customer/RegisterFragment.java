@@ -98,9 +98,9 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
     @BindView(R.id.colorSpinner)
     Spinner colorSpinner;
     @BindView(R.id.lblProductCode)
-    TextView txtProductCode;
+    TextView lblProductCode;
     @BindView(R.id.lblProductAmount)
-    TextView txtProductAmount;
+    TextView lblProductAmount;
 
     @Inject
     RegisterPresenter<RegisterView> presenter;
@@ -151,7 +151,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
         editTexts.get(editTexts.size() - 1).setOnFocusChangeListener(this);
         new JTimePicker(txtTimeEat, getContext());
         new JDatePicker(txtDate, getContext());
-        txtProductCode.setText(getResources().getString(R.string.code) + product.getCode());
+        lblProductCode.setText(getResources().getString(R.string.code) + product.getCode());
         colorSpinner.setAdapter(new ColorAdapter(getContext(), product.getColors()));
         setRequiredField();
     }
@@ -358,7 +358,7 @@ public class RegisterFragment extends AbstractFragment implements RegisterView {
                 //qty = Integer.parseInt(text.toString().trim());
                 //amount = qty * 7;
             }
-            txtProductAmount.setText(getString(R.string.price) + "$00");
+            lblProductAmount.setText(getString(R.string.price) + "$00");
         } catch (Exception e) {
             e.printStackTrace();
             showMessage("Invalid input!", Toast.LENGTH_SHORT);
