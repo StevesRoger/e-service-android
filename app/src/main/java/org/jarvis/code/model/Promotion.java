@@ -85,9 +85,9 @@ public class Promotion extends BaseResponse implements ListAdapter.ListAdapterIt
 
     @Override
     public void viewImage(Context context, ImageView imageView) {
-        if (images != null && images.size() > 1) {
+        if (images.size() > 1) {
             new Animator(imageView, images, context).animatePromotion(0, true);
-        } else if (!images.isEmpty()) {
+        } else {
             Picasso.with(context).load(imgUrl + images.get(0)).fit().centerCrop()
                     .placeholder(R.drawable.progress_animation)
                     .error(R.drawable.no_image_available)

@@ -182,17 +182,19 @@ public class ProductFragment extends AbstractFragment implements ProductView {
         swipeRefreshLayout.setRefreshing(false);
         offset = 2;
         index = 0;
-        insertPromotion(adapter.size());
+        if (products.size() == 5)
+            insertPromotion(adapter.size());
         ((ProductInteractor) presenter.getInteractor()).loaded();
         notifyDataSetChanged();
     }
 
     private void insertPromotion(int position) {
-        if (adapter.size() >= 5 && !Constants.promotion.isEmpty()) {
+        if (!Constants.promotion.isEmpty() && index < Constants.promotion.size() - 1) {
             Promotion promotion = Constants.promotion.valueAt(index);
             if (promotion != null) {
                 adapter.add(position, promotion);
-                index++;
+                if (index < Constants.promotion.size())
+                    index++;
             }
         }
     }

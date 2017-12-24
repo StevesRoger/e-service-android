@@ -45,7 +45,8 @@ public class PromotionInteractorImpl implements PromotionInteractor<Promotion> {
         if (response.code() == 200) {
             List<Promotion> list = response.body().getData();
             for (Promotion promotion : list) {
-                Constants.promotion.put(promotion.getId(), promotion);
+                if (!Constants.promotion.containsKey(promotion.getId()))
+                    Constants.promotion.put(promotion.getId(), promotion);
             }
         }
     }

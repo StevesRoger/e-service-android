@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Parcel;
 import android.widget.ImageView;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.gson.annotations.SerializedName;
 import com.squareup.picasso.Picasso;
 
@@ -193,12 +192,10 @@ public class Product extends BaseResponse implements ListAdapter.ListAdapterItem
 
     @Override
     public void viewImage(Context context, ImageView imageView) {
-        int index = 1;
-        if (images != null && !images.isEmpty())
-            index = images.get(0);
-        Picasso.with(context).load(imgUrl + index).fit().centerCrop()
-                .placeholder(R.drawable.progress_animation)
-                .error(R.drawable.no_image_available)
-                .into(imageView);
+        if (!images.isEmpty())
+            Picasso.with(context).load(imgUrl + images.get(0)).fit().centerCrop()
+                    .placeholder(R.drawable.progress_animation)
+                    .error(R.drawable.no_image_available)
+                    .into(imageView);
     }
 }

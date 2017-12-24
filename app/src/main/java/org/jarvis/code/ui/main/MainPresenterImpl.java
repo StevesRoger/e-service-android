@@ -42,8 +42,10 @@ public class MainPresenterImpl extends BasePresenterImpl<MainView> implements Ma
     @Override
     public void onAnimateAD(List<Advertisement> ads) {
         if (view != null && ads != null && !ads.isEmpty()) {
-            for (Advertisement ad : ads)
-                Constants.advertisement.put(ad.getId(), ad.getImage());
+            for (Advertisement ad : ads) {
+                if (!Constants.advertisement.containsKey(ad.getId()))
+                    Constants.advertisement.put(ad.getId(), ad.getImage());
+            }
             view.startAnimateAD();
         }
     }

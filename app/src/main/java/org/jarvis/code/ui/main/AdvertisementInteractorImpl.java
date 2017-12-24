@@ -30,7 +30,7 @@ public class AdvertisementInteractorImpl implements AdvertisementInteractor<Adve
 
     @Override
     public void onResponse(Call<ResponseEntity<Advertisement>> call, Response<ResponseEntity<Advertisement>> response) {
-        if (presenter != null && response.isSuccessful())
+        if (presenter != null && response.code() == 200)
             presenter.onAnimateAD(response.body().getData());
     }
 
