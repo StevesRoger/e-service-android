@@ -117,7 +117,7 @@ public class MainActivity extends AbstractActivity implements MainView {
     @Override
     public void startAnimateAD() {
         if (!isLoad && !Constants.advertisement.isEmpty()) {
-            new Animator(imageAd, Constants.advertisement, this).animateAD(0, true);
+            Animator.animateAD(imageAd, this, 0, Constants.advertisement, true);
             isLoad = true;
         }
     }
