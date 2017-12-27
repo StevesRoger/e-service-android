@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import org.jarvis.code.R;
-
 import java.util.Calendar;
 
 /**
@@ -55,17 +53,13 @@ public class JDatePicker implements View.OnTouchListener, DatePickerDialog.OnDat
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            switch (v.getId()) {
-                case R.id.txtDate:
-                    int year = calendar.get(Calendar.YEAR);
-                    int month = calendar.get(Calendar.MONTH);
-                    int day = calendar.get(Calendar.DAY_OF_MONTH);
-                    AlertDialog dialog = new DatePickerDialog(context, this, year, month, day);
-                    dialog.setCanceledOnTouchOutside(true);
-                    dialog.show();
-                    break;
-            }
+        if (event.getAction() == MotionEvent.ACTION_UP && v.getId() == txtDate.getId()) {
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
+            AlertDialog dialog = new DatePickerDialog(context, this, year, month, day);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
         }
         return false;
     }

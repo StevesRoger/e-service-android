@@ -94,4 +94,9 @@ public class Promotion extends BaseResponse implements ListAdapter.ListAdapterIt
                     .into(imageView);
         }
     }
+
+    @Override
+    public String getType() {
+        return "PROMOTION";
+    }
 }

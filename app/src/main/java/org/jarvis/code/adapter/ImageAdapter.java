@@ -18,7 +18,7 @@ import com.squareup.picasso.Picasso;
 
 import org.jarvis.code.R;
 import org.jarvis.code.model.Product;
-import org.jarvis.code.ui.customer.RegisterFragment;
+import org.jarvis.code.ui.customer.forms.WeddingForm;
 import org.jarvis.code.util.Constants;
 
 import java.util.List;
@@ -112,9 +112,8 @@ public class ImageAdapter extends PagerAdapter implements View.OnClickListener {
                             dialogFragment.dismiss();
                     }
                 }, 500);
-                RegisterFragment registerFragment = RegisterFragment.newInstance(product);
                 fragmentManager.beginTransaction()
-                        .replace(R.id.container, registerFragment)
+                        .replace(R.id.container, WeddingForm.newInstance(product))
                         .addToBackStack("registerFragment")
                         .commit();
                 break;

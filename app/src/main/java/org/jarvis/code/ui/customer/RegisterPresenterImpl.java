@@ -8,6 +8,7 @@ import org.jarvis.code.dagger.ActivityContext;
 import org.jarvis.code.model.ResponseEntity;
 import org.jarvis.code.network.RequestClient;
 import org.jarvis.code.ui.base.BasePresenterImpl;
+import org.jarvis.code.util.Constants;
 import org.jarvis.code.util.Loggy;
 
 import javax.inject.Inject;
@@ -30,12 +31,15 @@ public class RegisterPresenterImpl extends BasePresenterImpl<RegisterView> imple
     }
 
     @Override
-    public void submitCustomer() throws Exception {
+    public void submitCustomer(int which) throws Exception {
         view.validate();
         view.showProgressDialog();
         RequestBody requestJson = view.createCustomerJson();
         MultipartBody.Part[] requestFiles = view.requestFiles();
-        requestClient.submitCustomer(requestJson, requestFiles).enqueue(interactor);
+        if (which == Constants.CUSTOMER)
+            requestClient.submitCustomer(requestJson, requestFiles).enqueue(interactor);
+        else if (which == Constants.ENTITIES)
+            requestClient.submitEntities(requestJson, requestFiles).enqueue(interactor);
     }
 
     @Override

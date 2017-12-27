@@ -14,7 +14,7 @@ import butterknife.BindView;
  * Created by ki.kao on 12/4/2017.
  */
 
-public class PromotionViewHolder extends BaseViewHolder implements View.OnClickListener {
+public class PromotionViewHolder extends BaseViewHolder<Promotion> implements View.OnClickListener {
 
     @BindView(R.id.img_view_promotion)
     ImageView image;
@@ -30,10 +30,9 @@ public class PromotionViewHolder extends BaseViewHolder implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        Promotion promotion = (Promotion) item;
         String url = "http://www.google.com";
-        if (promotion != null && promotion.getLink() != null && !promotion.getLink().isEmpty()) {
-            url = promotion.getLink();
+        if (item != null && item.getLink() != null && !item.getLink().isEmpty()) {
+            url = item.getLink();
             if (!url.startsWith("http") || !url.startsWith("https"))
                 url = "http://" + url;
             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));

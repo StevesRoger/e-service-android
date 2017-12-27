@@ -127,6 +127,7 @@ public class Product extends BaseResponse implements ListAdapter.ListAdapterItem
         this.images = images;
     }
 
+    @Override
     public String getType() {
         return type;
     }

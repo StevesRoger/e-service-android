@@ -11,7 +11,7 @@ import okhttp3.RequestBody;
  * Created by ki.kao on 10/10/2017.
  */
 
-public interface RegisterView extends BaseView, View.OnFocusChangeListener {
+public interface RegisterView extends BaseView, View.OnFocusChangeListener,View.OnClickListener {
 
     void backToMainActivity();
 

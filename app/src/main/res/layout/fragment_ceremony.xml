@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <include layout="@layout/header_form"/>
+
+            <TextView
+                android:id="@+id/lblNameBody"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name_of_body" />
+
+            <EditText
+                android:id="@+id/txtNameBody"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="17"
+                android:hint="@string/name_of_body"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/lblNameStarter"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/name_of_starter" />
+
+            <EditText
+                android:id="@+id/txtNameStarter"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="17"
+                android:hint="@string/name_of_starter"
+                android:inputType="text" />
+
+
+            <TextView
+                android:id="@+id/lblCeremonyStep"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ceremony_step" />
+
+            <EditText
+                android:id="@+id/txtCeremonyStep"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="17"
+                android:hint="@string/ceremony_step"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/lblCeremonyPlace"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ceremony_place" />
+
+            <EditText
+                android:id="@+id/txtCeremonyPlace"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="17"
+                android:hint="@string/ceremony_place"
+                android:inputType="text" />
+
+            <include layout="@layout/footer_form"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

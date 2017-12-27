@@ -29,6 +29,10 @@ public interface RequestClient {
     @POST("mobile/customer/submit")
     Call<ResponseEntity<Map<String, Object>>> submitCustomer(@Part("json") RequestBody json, @Part MultipartBody.Part[] files);
 
+    @Multipart
+    @POST("mobile/entities/submit")
+    Call<ResponseEntity<Map<String, Object>>> submitEntities(@Part("json") RequestBody json, @Part MultipartBody.Part[] files);
+
     @GET("mobile/promotion/fetch")
     Call<ResponseEntity<Promotion>> fetchPromotions();
 

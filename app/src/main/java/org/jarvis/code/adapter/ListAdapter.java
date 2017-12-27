@@ -59,13 +59,13 @@ public class ListAdapter extends RecyclerView.Adapter {
             item = list.get(position);
             ProductViewHolder productViewHolder = (ProductViewHolder) holder;
             productViewHolder.setContext(context);
-            productViewHolder.setItem(item);
+            productViewHolder.setItem((Product) item);
             item.viewImage(context, productViewHolder.getImageView());
         } else if (holder instanceof PromotionViewHolder) {
             item = list.get(position);
             PromotionViewHolder promotionViewHolder = (PromotionViewHolder) holder;
             promotionViewHolder.setContext(context);
-            promotionViewHolder.setItem(item);
+            promotionViewHolder.setItem((Promotion) item);
             item.viewImage(context, promotionViewHolder.getImageView());
         } else {
             ((LoadingViewHolder) holder).getProgressBar().setIndeterminate(true);
@@ -161,5 +161,7 @@ public class ListAdapter extends RecyclerView.Adapter {
     public interface ListAdapterItem {
 
         void viewImage(Context context, ImageView imageView);
+
+        String getType();
     }
 }

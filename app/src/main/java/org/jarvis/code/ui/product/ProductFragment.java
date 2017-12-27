@@ -189,12 +189,11 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     }
 
     private void insertPromotion(int position) {
-        if (!Constants.promotion.isEmpty() && index < Constants.promotion.size() - 1) {
+        if (!Constants.promotion.isEmpty() && index <= Constants.promotion.size() - 1) {
             Promotion promotion = Constants.promotion.valueAt(index);
             if (promotion != null) {
                 adapter.add(position, promotion);
-                if (index < Constants.promotion.size())
-                    index++;
+                index++;
             }
         }
     }

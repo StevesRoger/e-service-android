@@ -1,82 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorButtonNormal"
     android:fitsSystemWindows="false"
+    android:orientation="vertical"
     tools:context=".ui.main.MainActivity">
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/img_ad"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/advertisement_height"
+        android:adjustViewBounds="true"
+        android:background="@drawable/advertisement_background"
+        android:src="@drawable/no_ad_available" />
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatImageView
-            android:id="@+id/img_ad"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/advertisement_height"
-            android:adjustViewBounds="true"
-            android:background="@drawable/advertisement_background"
-            android:src="@drawable/no_ad_available" />
-
-            <FrameLayout
-                android:id="@+id/container"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:background="@color/colorAccent"
+                android:orientation="horizontal">
 
-                <LinearLayout
+                <ImageView
+                    android:id="@+id/imgVPrinting"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:contentDescription="@string/app_name"
+                    android:src="@drawable/ic_v_printing" />
+
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    app:tabBackground="@drawable/tab_color_selector"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="@android:color/holo_red_dark"
+                    app:tabIndicatorHeight="3dp"
+                    app:tabSelectedTextColor="@color/colorWhite"
+                    app:tabTextColor="@color/colorWhite" />
+                <!--app:tabMode="fixed"-->
+                <!--app:tabMode="scrollable"-->
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@color/colorAccent"
-                        android:orientation="horizontal">
+            </LinearLayout>
 
-                        <ImageView
-                            android:id="@+id/imgVPrinting"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:layout_marginLeft="2dp"
-                            android:layout_marginRight="2dp"
-                            android:src="@drawable/ic_v_printing"
-                            android:contentDescription="@string/app_name"/>
+            <android.support.v7.widget.SearchView
+                android:id="@+id/search_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/search_bar_height"
+                android:background="@drawable/search_view" />
 
-                        <android.support.design.widget.TabLayout
-                            android:id="@+id/tab_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            app:tabBackground="@drawable/tab_color_selector"
-                            app:tabGravity="fill"
-                            app:tabIndicatorColor="@android:color/holo_red_dark"
-                            app:tabIndicatorHeight="3dp"
-                            app:tabSelectedTextColor="@color/colorWhite"
-                            app:tabTextColor="@color/colorWhite"/>
-                            <!--app:tabMode="fixed"-->
-                        <!--app:tabMode="scrollable"-->
-
-                    </LinearLayout>
-
-                    <android.support.v7.widget.SearchView
-                        android:id="@+id/search_view"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/search_bar_height"
-                        android:background="@drawable/search_view" />
-
-                    <android.support.v4.view.ViewPager
-                        android:id="@+id/tab_pager"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-                </LinearLayout>
-
-            </FrameLayout>
+            <android.support.v4.view.ViewPager
+                android:id="@+id/tab_pager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </LinearLayout>
 
-</FrameLayout>
+    </FrameLayout>
+
+</LinearLayout>

@@ -66,11 +66,6 @@ public class ActivityModule {
         return new TabAdapter(fragmentManager, titles);
     }
 
-    @Provides
-    Validator provideValidator() {
-        return new Validator(activity);
-    }
-
  /*   @Provides
     @Named("promotion")
     @PerActivity

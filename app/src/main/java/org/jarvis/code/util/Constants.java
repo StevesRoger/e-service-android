@@ -28,4 +28,7 @@ public final class Constants {
 
     public static final ArrayMap<Integer, Integer> advertisement = new ArrayMap();
     public static final ArrayMap<Integer, Promotion> promotion = new ArrayMap();
+
+    public static final int CUSTOMER = 0;
+    public static final int ENTITIES = 1;
 }

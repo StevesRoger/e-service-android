@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TimePicker;
 
-import org.jarvis.code.R;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -57,16 +55,12 @@ public class JTimePicker implements View.OnTouchListener, TimePickerDialog.OnTim
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_UP) {
-            switch (v.getId()) {
-                case R.id.txtTimeEat:
-                    int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                    int minute = calendar.get(Calendar.MINUTE);
-                    AlertDialog dialog = new TimePickerDialog(context, AlertDialog.THEME_HOLO_LIGHT, this, hour, minute, false);
-                    dialog.setCanceledOnTouchOutside(true);
-                    dialog.show();
-                    break;
-            }
+        if (event.getAction() == MotionEvent.ACTION_UP && v.getId() == txtTime.getId()) {
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+            AlertDialog dialog = new TimePickerDialog(context, AlertDialog.THEME_HOLO_LIGHT, this, hour, minute, false);
+            dialog.setCanceledOnTouchOutside(true);
+            dialog.show();
         }
         return false;
     }

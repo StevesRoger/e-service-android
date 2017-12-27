@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <include layout="@layout/header_form"/>
+
+            <TextView
+                android:id="@+id/lblGroomName"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/groom_name" />
+
+            <EditText
+                android:id="@+id/txtGroomName"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="17"
+                android:hint="@string/groom_name"
+                android:inputType="text" />
+
+
+            <TextView
+                android:id="@+id/lblDadGroomName"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dad_groom_name" />
+
+            <EditText
+                android:id="@+id/txtDadGroomName"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="17"
+                android:hint="@string/dad_groom_name"
+                android:inputType="text" />
+
+
+            <TextView
+                android:id="@+id/lblMomGroomName"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mom_groom_name" />
+
+            <EditText
+                android:id="@+id/txtMomGroomName"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="17"
+                android:hint="@string/mom_groom_name"
+                android:inputType="text" />
+
+
+            <TextView
+                android:id="@+id/lblBrideName"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bride_name" />
+
+            <EditText
+                android:id="@+id/txtBrideName"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="17"
+                android:hint="@string/bride_name"
+                android:inputType="text" />
+
+
+            <TextView
+                android:id="@+id/lblDadBrideName"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/dad_bride_name" />
+
+            <EditText
+                android:id="@+id/txtDadBrideName"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="17"
+                android:hint="@string/dad_bride_name"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/lblMomBrideName"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mom_bride_name" />
+
+            <EditText
+                android:id="@+id/txtMomBrideName"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="17"
+                android:hint="@string/mom_bride_name"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/lblWeddingDate"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wedding_date" />
+
+            <EditText
+                android:id="@+id/txtDate"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:ems="17"
+                android:hint="@string/date_format"
+                android:inputType="text" />
+
+            <!--<ImageButton
+                android:id="@+id/imgDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/txtDate"
+                android:layout_toRightOf="@+id/txtDate"
+                android:background="@null"
+                android:src="@drawable/ic_date" />-->
+
+            <TextView
+                android:id="@+id/lblWeddingDateKh"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wedding_date_khmer" />
+
+            <EditText
+                android:id="@+id/txtDateKh"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:ems="17"
+                android:hint="@string/date_format_kh"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/lblTimeEat"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/time_eat" />
+
+            <EditText
+                android:id="@+id/txtTimeEat"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:ems="17"
+                android:hint="@string/time_eat"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/lblPlaceEat"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/place_eat" />
+
+            <EditText
+                android:id="@+id/txtPlaceEat"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:ems="17"
+                android:hint="@string/place_eat"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/lblAddress"
+                style="@style/LabelStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/wedding_address" />
+
+            <EditText
+                android:id="@+id/txtAddress"
+                style="@style/EditTextStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:hint="@string/address"
+                android:inputType="text" />
+
+            <include layout="@layout/footer_form"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

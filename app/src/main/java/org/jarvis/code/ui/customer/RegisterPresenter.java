@@ -13,7 +13,7 @@ import retrofit2.Response;
 @PerActivity
 public interface RegisterPresenter<V extends BaseView> extends BasePresenter<V> {
 
-    void submitCustomer() throws Exception;
+    void submitCustomer(int which) throws Exception;
 
     void onSubmitCustomerSucceed(Response<ResponseEntity<String>> response);
 

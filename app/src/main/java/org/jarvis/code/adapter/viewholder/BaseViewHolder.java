@@ -12,10 +12,10 @@ import butterknife.ButterKnife;
  * Created by ki.kao on 12/4/2017.
  */
 
-public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
+public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
 
     protected Context context;
-    protected ListAdapter.ListAdapterItem item;
+    protected T item;
 
     public BaseViewHolder(View itemView) {
         super(itemView);
@@ -26,7 +26,7 @@ public abstract class BaseViewHolder extends RecyclerView.ViewHolder {
         this.context = context;
     }
 
-    public void setItem(ListAdapter.ListAdapterItem item) {
+    public void setItem(T item) {
         this.item = item;
     }
 }
