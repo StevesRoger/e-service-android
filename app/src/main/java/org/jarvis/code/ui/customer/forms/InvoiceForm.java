@@ -28,36 +28,33 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 
 /**
- * Created by KimChheng on 12/27/2017.
+ * Created by KimChheng on 12/31/2017.
  */
 
-public class HomPartyForm extends RegisterFragment {
+public class InvoiceForm extends RegisterFragment {
 
-    @BindView(R.id.txtOwner)
-    EditText txtOwner;
-    @BindView(R.id.txtPlace)
-    EditText txtPlace;
-    @BindView(R.id.txtTime)
+    EditText txtCompanyName;
+    EditText txtCustomerName;
+    EditText txtAddress;
     EditText txtTime;
 
     @Inject
     RegisterPresenter<RegisterView> presenter;
 
-    public HomPartyForm() {
+    public InvoiceForm() {
         super();
     }
 
-    public static HomPartyForm newInstance(Product product) {
+    public static InvoiceForm newInstance(Product product) {
         Bundle bundle = new Bundle();
         bundle.putParcelable("product", product);
-        HomPartyForm fragment = new HomPartyForm();
+        InvoiceForm fragment = new InvoiceForm();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -65,7 +62,7 @@ public class HomPartyForm extends RegisterFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home_party, container, false);
+        View view = inflater.inflate(R.layout.fragment_invoice, container, false);
         getActivityComponent().inject(this);
         setUnBinder(ButterKnife.bind(this, view));
         presenter.onAttach(this);
@@ -85,23 +82,12 @@ public class HomPartyForm extends RegisterFragment {
     }
 
     @Override
-    public void submitCustomer() {
-        try {
-            presenter.submitCustomer(Constants.ENTITIES);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Loggy.e(RegisterFragment.class, e.getMessage());
-            showSweetAlert(SweetAlertDialog.ERROR_TYPE, e.getMessage().toString().trim(), validator.getMessage());
-            validator.clear();
-        }
-    }
-
-    @Override
     public RequestBody createCustomerJson() {
         Entities entities = new Entities();
         entities.setType(product.getType());
-        entities.putValue("OWNER", txtOwner.getText().toString().trim());
-        entities.putValue("PLACE", txtPlace.getText().toString().trim());
+        entities.putValue("COMPANY_NAME", txtCompanyName.getText().toString().trim());
+        entities.putValue("CUSTOMER_NAME", txtCustomerName.getText().toString().trim());
+        entities.putValue("ADDRESS", txtAddress.getText().toString().trim());
         entities.putValue("TIME", txtTime.getText().toString().trim());
         entities.putValue("PRO_ID", product.getId());
         entities.putValue("QTY", new Integer(txtProductQty.getText().toString().trim()));
@@ -113,13 +99,13 @@ public class HomPartyForm extends RegisterFragment {
         String json = new Gson().toJson(entities);
         Loggy.i(RegisterPresenterImpl.class, json);
         return RequestBody.create(MediaType.parse("text/plain"), json);
-
     }
 
     @Override
     public void validate() throws Exception {
-        validator.requiredTextField(txtOwner);
-        validator.isEmptyTextField(txtPlace);
+        validator.requiredTextField(txtCompanyName);
+        validator.requiredTextField(txtCustomerName);
+        validator.isEmptyTextField(txtAddress);
         validator.isEmptyTextField(txtTime);
         validator.isEmptyTextField(txtPhone);
         if (!validator.isValid())
@@ -129,11 +115,24 @@ public class HomPartyForm extends RegisterFragment {
     @Override
     public void setRequiredField() {
         Map<Integer, TextView> controls = new HashMap<>();
-        controls.put(R.string.name_of_house_party, factory.build(TextView.class, R.id.lblOwner));
-        controls.put(R.string.place, factory.build(TextView.class, R.id.lblPlace));
+        controls.put(R.string.name_of_company, factory.build(TextView.class, R.id.lblCompany));
+        controls.put(R.string.name_of_customer, factory.build(TextView.class, R.id.lblCustomer));
+        controls.put(R.string.wedding_address, factory.build(TextView.class, R.id.lblAddress));
         controls.put(R.string.time, factory.build(TextView.class, R.id.lblTime));
         controls.put(R.string.phone, factory.build(TextView.class, R.id.lblPhone));
         validator.setRequired(controls);
+    }
+
+    @Override
+    public void submitCustomer() {
+        try {
+            presenter.submitCustomer(Constants.ENTITIES);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Loggy.e(RegisterFragment.class, e.getMessage());
+            showSweetAlert(SweetAlertDialog.ERROR_TYPE, e.getMessage().toString().trim(), validator.getMessage());
+            validator.clear();
+        }
     }
 
     @Override

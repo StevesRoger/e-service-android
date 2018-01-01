@@ -31,8 +31,12 @@ public class ProductInteractorImpl extends RecyclerView.OnScrollListener impleme
 
     @Override
     public void onResponse(Call<ResponseEntity<Product>> call, Response<ResponseEntity<Product>> response) {
-        if (presenter != null && response.code() == 200)
-            presenter.onLoadProductSuccess(response.body().getData());
+        if (presenter != null) {
+            if (response.code() == 200)
+                presenter.onLoadProductSuccess(response.body().getData());
+            else
+                presenter.onLoadProductFailure("fetch product error");
+        }
     }
 
     @Override

@@ -28,7 +28,7 @@ public interface ProductView extends BaseView, SwipeRefreshLayout.OnRefreshListe
 
     void hideProgress();
 
-    void showErrorMessage(String message);
+    void displayErrorMessage(String message);
 
     void noProductAvailable();
 

@@ -1,7 +1,6 @@
 package org.jarvis.code.ui.product;
 
 import android.content.IntentFilter;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -10,8 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jarvis.code.R;
 import org.jarvis.code.adapter.ListAdapter;
@@ -29,6 +29,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by ki.kao on 9/1/2017.
@@ -42,8 +43,8 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
-    @BindView(R.id.txt_message)
-    TextView lblMessage;
+    @BindView(R.id.tap_retry)
+    ImageButton retryImage;
     @Inject
     LinearLayoutManager linearLayoutManager;
     @Inject
@@ -151,7 +152,7 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     public void loadMoreProductFailed(String message) {
         Loggy.e(ProductFragment.class, type + " On load more failure");
         Loggy.e(ProductFragment.class, message);
-        showMessage(message, 0);
+        alertMessage(message, 0);
         adapter.remove(adapter.size() - 1);
         adapter.notifyItemRemoved(adapter.size());
     }
@@ -201,41 +202,36 @@ public class ProductFragment extends AbstractFragment implements ProductView {
     @Override
     public void loadProductFailed(String message) {
         Loggy.e(ProductFragment.class, message);
-        showErrorMessage(message);
+        displayErrorMessage(message);
         swipeRefreshLayout.setRefreshing(false);
-        showMessage(message, 0);
     }
 
     @Override
     public void showProgress() {
         progressBar.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
-        lblMessage.setVisibility(View.GONE);
+        retryImage.setVisibility(View.GONE);
     }
 
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
-        lblMessage.setVisibility(View.GONE);
+        retryImage.setVisibility(View.GONE);
     }
 
     @Override
-    public void showErrorMessage(String message) {
+    public void displayErrorMessage(String message) {
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
-        lblMessage.setText(message);
-        lblMessage.setTextColor(Color.parseColor("#f80606"));
-        lblMessage.setVisibility(View.VISIBLE);
+        retryImage.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void noProductAvailable() {
         progressBar.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
-        lblMessage.setText("There is no product available on server!");
-        lblMessage.setTextColor(Color.parseColor("#141313"));
-        lblMessage.setVisibility(View.VISIBLE);
+        alertMessage("There is no product available on server!", Toast.LENGTH_SHORT);
     }
 
     @Override

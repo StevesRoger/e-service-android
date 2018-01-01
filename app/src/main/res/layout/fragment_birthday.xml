@@ -24,7 +24,7 @@
                 android:text="@string/name_of_child" />
 
             <EditText
-                android:id="@+id/txtNameBody"
+                android:id="@+id/txtChild"
                 style="@style/EditTextStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

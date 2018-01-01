@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import org.jarvis.code.R;
 import org.jarvis.code.model.Product;
-import org.jarvis.code.ui.customer.RegisterFragment;
+import org.jarvis.code.ui.customer.forms.BirthdayForm;
+import org.jarvis.code.ui.customer.forms.CeremonyForm;
 import org.jarvis.code.ui.customer.forms.HomPartyForm;
+import org.jarvis.code.ui.customer.forms.InvoiceForm;
 import org.jarvis.code.ui.customer.forms.WeddingForm;
 import org.jarvis.code.ui.widget.ColorView;
 import org.jarvis.code.ui.widget.DialogView;
@@ -55,13 +57,16 @@ public class ProductViewHolder extends BaseViewHolder<Product> implements View.O
                     startForm(fragmentManager, "wedding", WeddingForm.newInstance(item));
                     break;
                 case "CER":
+                    startForm(fragmentManager, "ceremony", CeremonyForm.newInstance(item));
                     break;
                 case "HOM":
                     startForm(fragmentManager, "home party", HomPartyForm.newInstance(item));
                     break;
                 case "HBD":
+                    startForm(fragmentManager, "birthday", BirthdayForm.newInstance(item));
                     break;
                 case "INV":
+                    startForm(fragmentManager, "invoice", InvoiceForm.newInstance(item));
                     break;
             }
 

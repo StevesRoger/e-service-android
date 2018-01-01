@@ -98,7 +98,7 @@ public abstract class RegisterFragment extends AbstractFragment implements Regis
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.imgMap:
-                showMessage("Sorry for this feature will release on next version.", Toast.LENGTH_SHORT);
+                alertMessage("Sorry for this feature will release on next version.", Toast.LENGTH_SHORT);
                 break;
             case R.id.imgChoose:
                 browseImage();
@@ -217,7 +217,7 @@ public abstract class RegisterFragment extends AbstractFragment implements Regis
             lblProductAmount.setText(getString(R.string.price) + "$00");
         } catch (Exception e) {
             e.printStackTrace();
-            showMessage("Invalid input!", Toast.LENGTH_SHORT);
+            alertMessage("Invalid input!", Toast.LENGTH_SHORT);
             txtProductQty.setText("");
         }
     }*/

@@ -33,9 +33,9 @@ public class RegisterPresenterImpl extends BasePresenterImpl<RegisterView> imple
     @Override
     public void submitCustomer(int which) throws Exception {
         view.validate();
-        view.showProgressDialog();
         RequestBody requestJson = view.createCustomerJson();
         MultipartBody.Part[] requestFiles = view.requestFiles();
+        view.showProgressDialog();
         if (which == Constants.CUSTOMER)
             requestClient.submitCustomer(requestJson, requestFiles).enqueue(interactor);
         else if (which == Constants.ENTITIES)

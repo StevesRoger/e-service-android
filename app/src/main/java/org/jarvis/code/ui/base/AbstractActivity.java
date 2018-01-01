@@ -122,7 +122,7 @@ public abstract class AbstractActivity extends AppCompatActivity implements Base
     }
 
     @Override
-    public void showMessage(String message, int duration) {
+    public void alertMessage(String message, int duration) {
         if (message != null) {
             Toast.makeText(this, message, duration).show();
         } else {

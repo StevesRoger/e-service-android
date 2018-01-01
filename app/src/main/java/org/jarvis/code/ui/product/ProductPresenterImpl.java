@@ -60,14 +60,11 @@ public class ProductPresenterImpl extends BasePresenterImpl<ProductView> impleme
     @Override
     public void onLoadProductSuccess(List<Product> products) {
         if (view != null) {
-            if (products != null) {
-                if (!products.isEmpty()) {
-                    view.loadProductSucceed(products);
-                    view.hideProgress();
-                } else
-                    view.noProductAvailable();
+            if (!products.isEmpty()) {
+                view.loadProductSucceed(products);
+                view.hideProgress();
             } else
-                view.showErrorMessage("load more product error");
+                view.noProductAvailable();
         }
     }
 

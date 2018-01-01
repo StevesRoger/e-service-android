@@ -73,9 +73,9 @@ public abstract class AbstractFragment extends Fragment implements BaseView {
     }
 
     @Override
-    public void showMessage(String message, int duration) {
+    public void alertMessage(String message, int duration) {
         if (activity != null)
-            activity.showMessage(message, duration);
+            activity.alertMessage(message, duration);
     }
 
     @Override

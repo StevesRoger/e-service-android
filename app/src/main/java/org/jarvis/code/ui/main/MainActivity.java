@@ -55,7 +55,7 @@ public class MainActivity extends AbstractActivity implements MainView {
             presenter.fetchAdvertisement();
             presenter.fetchPromotion();
         } else
-            showMessage("No internet access", Toast.LENGTH_SHORT);
+            alertMessage("No internet access", Toast.LENGTH_SHORT);
 
         tabAdapter.addFragment(ProductFragment.newInstance("GEN"));
         tabAdapter.addFragment(ProductFragment.newInstance("WED"));

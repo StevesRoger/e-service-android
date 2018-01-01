@@ -1,11 +1,11 @@
 package org.jarvis.code.ui.main;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import org.jarvis.code.model.Promotion;
 import org.jarvis.code.model.ResponseEntity;
 import org.jarvis.code.util.Constants;
+import org.jarvis.code.util.Loggy;
 import org.json.JSONArray;
 
 import java.util.List;
@@ -53,7 +53,6 @@ public class PromotionInteractorImpl implements PromotionInteractor<Promotion> {
 
     @Override
     public void onFailure(Call<ResponseEntity<Promotion>> call, Throwable t) {
-        if (presenter != null)
-            presenter.showMessage(t.getMessage(), Toast.LENGTH_SHORT);
+        Loggy.i(PromotionInteractorImpl.class, t.getMessage());
     }
 }

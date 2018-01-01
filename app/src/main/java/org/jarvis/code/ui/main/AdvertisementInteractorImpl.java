@@ -37,8 +37,6 @@ public class AdvertisementInteractorImpl implements AdvertisementInteractor<Adve
     @Override
     public void onFailure(Call<ResponseEntity<Advertisement>> call, Throwable t) {
         Loggy.e(AdvertisementInteractorImpl.class, t.getMessage());
-        if (presenter != null)
-            presenter.showMessage(t.getMessage(), Toast.LENGTH_SHORT);
     }
 
     @Override

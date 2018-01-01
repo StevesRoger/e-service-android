@@ -56,7 +56,7 @@ public class BasePresenterImpl<V extends BaseView> implements BasePresenter<V> {
     @Override
     public void showMessage(String message, int duration) {
         if (view != null)
-            view.showMessage(message, duration);
+            view.alertMessage(message, duration);
 
     }
 
