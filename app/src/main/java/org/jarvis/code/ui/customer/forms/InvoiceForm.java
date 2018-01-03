@@ -28,6 +28,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.MediaType;
@@ -39,9 +40,13 @@ import okhttp3.RequestBody;
 
 public class InvoiceForm extends RegisterFragment {
 
+    @BindView(R.id.txtCompany)
     EditText txtCompanyName;
+    @BindView(R.id.txtCustomer)
     EditText txtCustomerName;
+    @BindView(R.id.txtAddress)
     EditText txtAddress;
+    @BindView(R.id.txtTime)
     EditText txtTime;
 
     @Inject
