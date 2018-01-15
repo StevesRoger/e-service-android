@@ -10,116 +10,78 @@
         android:layout_height="wrap_content"
         card_view:cardUseCompatPadding="true">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/img_view_product"
                 android:layout_width="@dimen/item_promotion_width"
                 android:layout_height="@dimen/item_promotion_height"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_margin="5dp"
                 android:src="@mipmap/ic_launcher" />
 
-            <TableLayout
-                android:id="@+id/text_panel"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/img_view_product">
+                android:orientation="vertical">
 
-                <TableRow
+                <TextView
+                    android:id="@+id/lblCode"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="1dp">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:text="@string/code"
+                    android:textColor="@android:color/black" />
 
-                    <TextView
-                        android:id="@+id/lblCode"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/code"
-                        android:textColor="@android:color/black" />
-                </TableRow>
-
-                <TableRow
+                <org.jarvis.code.ui.widget.ColorView
+                    android:id="@+id/colorView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="1dp">
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_margin="1dp"
+                    android:orientation="horizontal"
+                    custom:text="@string/color"
+                    custom:view_color_height="@dimen/view_color_height"
+                    custom:view_color_width="@dimen/view_color_width" />
 
-                    <org.jarvis.code.ui.widget.ColorView
-                        android:id="@+id/colorView"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:orientation="horizontal"
-                        custom:text="@string/color"
-                        custom:view_color_height="@dimen/view_color_height"
-                        custom:view_color_width="@dimen/view_color_width" />
-
-                </TableRow>
-
-                <TableRow
+                <TextView
+                    android:id="@+id/lblSize"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="1dp">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:text="@string/size"
+                    android:textColor="@android:color/black" />
 
-                    <TextView
-                        android:id="@+id/lblSize"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/size"
-                        android:textColor="@android:color/black" />
-                </TableRow>
-
-                <TableRow
+                <TextView
+                    android:id="@+id/lblPrice"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="1dp">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:text="@string/price_between"
+                    android:textColor="@android:color/black" />
 
-                    <TextView
-                        android:id="@+id/lblPrice"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/price_between"
-                        android:textColor="@android:color/black" />
-
-                </TableRow>
-
-                <TableRow
+                <TextView
+                    android:id="@+id/lblContact"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="1dp">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="1dp"
+                    android:text="@string/contact"
+                    android:textColor="@android:color/black" />
 
-                    <TextView
-                        android:id="@+id/lblContact"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:text="@string/contact"
-                        android:textColor="@android:color/black" />
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btn_register"
+                    android:layout_width="@dimen/button_register_width"
+                    android:layout_height="@dimen/button_register_height"
+                    android:background="@color/colorAccent"
+                    android:text="@string/register"
+                    android:textColor="@color/colorWhite"
+                    android:textStyle="bold" />
 
-                </TableRow>
+            </LinearLayout>
 
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginBottom="4dp"
-                    android:padding="1dp">
-
-                    <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/btn_register"
-                        android:layout_width="@dimen/button_register_width"
-                        android:layout_height="@dimen/button_register_height"
-                        android:background="@color/colorAccent"
-                        android:text="@string/register"
-                        android:textColor="@color/colorWhite"
-                        android:textStyle="bold" />
-
-                </TableRow>
-
-            </TableLayout>
-
-        </RelativeLayout>
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 

@@ -3,6 +3,7 @@ package org.jarvis.code.ui.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -59,12 +60,13 @@ public class ColorView extends LinearLayout {
             container.removeAllViews();
         for (String str : values) {
             int color = Color.parseColor(str);
-            View view = new View(getContext());
+            CircleView view = new CircleView(getContext());
             LayoutParams params = new LayoutParams(colorWidth, colorHeight);
             params.setMargins(10, 0, 0, 0);
             view.setLayoutParams(params);
-            view.setBackgroundColor(color);
+            view.setColor(color);
             container.addView(view);
         }
     }
+
 }

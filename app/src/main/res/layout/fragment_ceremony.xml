@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:ems="17"
                 android:hint="@string/ceremony_place"
-                android:inputType="text" />
+                android:inputType="text|textMultiLine" />
 
             <include layout="@layout/footer_form"/>
 

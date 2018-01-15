@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:ems="17"
                 android:hint="@string/wedding_address"
-                android:inputType="text" />
+                android:inputType="text|textMultiLine" />
 
             <TextView
                 android:id="@+id/lblTime"

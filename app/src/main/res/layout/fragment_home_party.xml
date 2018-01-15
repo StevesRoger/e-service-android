@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:ems="17"
                 android:hint="@string/place"
-                android:inputType="text" />
+                android:inputType="text|textMultiLine" />
 
 
             <TextView
