@@ -1,5 +1,7 @@
 package org.jarvis.code.ui.main;
 
+import android.support.v4.app.Fragment;
+
 import org.jarvis.code.dagger.PerActivity;
 import org.jarvis.code.model.Advertisement;
 import org.jarvis.code.ui.base.BasePresenter;
@@ -18,4 +20,6 @@ public interface MainPresenter<V extends BaseView> extends BasePresenter<V> {
     void fetchPromotion();
 
     void onAnimateAD(List<Advertisement> ads);
+
+    Fragment getCurrentFragment(int index);
 }

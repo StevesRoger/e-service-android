@@ -2,8 +2,8 @@
 <resources>
 
     <!--product image-->
-    <dimen name="product_image_width">130dp</dimen>
-    <dimen name="product_image_height">300dp</dimen>
+    <dimen name="product_image_width">117dp</dimen>
+    <dimen name="product_image_height">117dp</dimen>
 
     <!--product button register-->
     <dimen name="button_register_width">170dp</dimen>
@@ -12,6 +12,4 @@
     <!--product image margin-->
     <dimen name="product_image_margin">5dp</dimen>
 
-    <dimen name="spiner_color_width">80dp</dimen>
-    <dimen name="spiner_color_height">15dp</dimen>
 </resources>

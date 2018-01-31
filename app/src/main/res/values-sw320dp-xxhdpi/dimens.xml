@@ -2,12 +2,12 @@
 <resources>
 
     <!--product image-->
-    <dimen name="product_image_width">130dp</dimen>
-    <dimen name="product_image_height">300dp</dimen>
+    <dimen name="product_image_width">125dp</dimen>
+    <dimen name="product_image_height">123dp</dimen>
 
     <!--product button register-->
     <dimen name="button_register_width">170dp</dimen>
-    <dimen name="button_register_height">30dp</dimen>
+    <dimen name="button_register_height">31dp</dimen>
 
     <!--product image margin-->
     <dimen name="product_image_margin">5dp</dimen>

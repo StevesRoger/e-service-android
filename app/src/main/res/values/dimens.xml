@@ -1,9 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--
+    320dp: a typical phone screen (240x320 ldpi, 320x480 mdpi, 480x800 hdpi, etc).
+    480dp: a tweener tablet like the Streak (480x800 mdpi).
+    600dp: a 7” tablet (600x1024 mdpi).
+    720dp: a 10” tablet (720x1280 mdpi, 800x1280 mdpi, etc).
+    -->
+
+    <!--product image-->
+    <dimen name="product_image_width">128dp</dimen>
+    <dimen name="product_image_height">128dp</dimen>
+
+    <!--product button register-->
+    <dimen name="button_register_width">170dp</dimen>
+    <dimen name="button_register_height">30dp</dimen>
+
+    <!--product image margin-->
+    <dimen name="product_image_margin">5dp</dimen>
+
     <dimen name="item_promotion_width">145dp</dimen>
     <dimen name="item_promotion_height">130dp</dimen>
-    <dimen name="button_register_width">170dp</dimen>
-    <dimen name="button_register_height">32dp</dimen>
+
     <dimen name="image_view_height">250dp</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>

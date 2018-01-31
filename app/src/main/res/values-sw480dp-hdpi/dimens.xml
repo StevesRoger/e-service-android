@@ -3,7 +3,7 @@
 
     <!--product image-->
     <dimen name="product_image_width">130dp</dimen>
-    <dimen name="product_image_height">300dp</dimen>
+    <dimen name="product_image_height">500dp</dimen>
 
     <!--product button register-->
     <dimen name="button_register_width">170dp</dimen>

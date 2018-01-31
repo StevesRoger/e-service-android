@@ -90,14 +90,14 @@ public class MainActivity extends AbstractActivity implements MainView {
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        ProductFragment fragment = (ProductFragment) tabAdapter.getItem(viewPager.getCurrentItem());
+        ProductFragment fragment = (ProductFragment) presenter.getCurrentFragment(viewPager.getCurrentItem());
         fragment.search(query);
         return true;
     }
 
     @Override
     public boolean onQueryTextChange(String newText) {
-        ProductFragment fragment = (ProductFragment) tabAdapter.getItem(viewPager.getCurrentItem());
+        ProductFragment fragment = (ProductFragment) presenter.getCurrentFragment(viewPager.getCurrentItem());
         fragment.search(newText);
         return true;
     }
